@@ -9,7 +9,7 @@ interface ToolLayoutProps {
 }
 
 export default function ToolLayout({ children, title, description, toolId }: ToolLayoutProps) {
-  const seoContent = TOOLS_SEO_CONTENT[toolId] || TOOLS_SEO_CONTENT['encryption-tools']; // Fallback
+  const seoContent = TOOLS_SEO_CONTENT[toolId] || ''; 
 
   return (
     <div className="space-y-12">

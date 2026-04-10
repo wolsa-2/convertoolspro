@@ -23,4 +23,55 @@
   .animate-marquee-right {
     animation: marquee-right linear infinite;
   }
+
+  /* SEO Content Styling */
+  .seo-content h2 {
+    @apply text-2xl font-black text-[#1A1A3A] mt-12 mb-6;
+  }
+
+  .seo-content p {
+    @apply text-slate-600 leading-relaxed mb-6;
+  }
+
+  .seo-content ol, .seo-content ul {
+    @apply space-y-4 mb-8;
+  }
+
+  .seo-content ol {
+    @apply list-decimal pl-6;
+  }
+
+  .seo-content ul {
+    @apply list-disc pl-6;
+  }
+
+  .seo-content li {
+    @apply text-slate-600;
+  }
+
+  .seo-content strong {
+    @apply font-bold text-[#1A1A3A];
+  }
+
+  .seo-content code {
+    @apply bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 font-mono text-sm;
+  }
+
+  /* FAQ Styling */
+  .faq-item {
+    @apply bg-[#F8F9FF] p-6 rounded-2xl border border-slate-100 mb-4 transition-all hover:border-indigo-100 hover:shadow-sm;
+  }
+
+  .faq-item h3 {
+    @apply text-lg font-bold text-[#1A1A3A] mb-2 flex items-center gap-2;
+  }
+
+  .faq-item h3::before {
+    content: "Q:";
+    @apply text-indigo-600 font-black;
+  }
+
+  .faq-item p {
+    @apply text-slate-500 text-sm leading-relaxed mb-0;
+  }
 }

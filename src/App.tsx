@@ -125,11 +125,18 @@ export default function App() {
         );
     }
 
+    const isUnderDevelopment = !activeTool || ![
+      'character-counter', 'password-generator', 'base64-codec', 'json-formatter', 
+      'qr-generator', 'case-converter', 'hash-generator', 'bionic-reading', 
+      'webcam-test', 'image-placeholder', 'image-to-base64', 'pdf-metadata', 
+      'jpg-to-pdf', 'tweet-generator', 'html-entities'
+    ].includes(activeTool.id);
+
     return (
       <ToolLayout title={activeTool.name} description={activeTool.description} toolId={activeTool.id}>
-        <AdUnit slot="tool-top" className="mb-8" />
+        {!isUnderDevelopment && <AdUnit slot="tool-top" className="mb-8" />}
         {component}
-        <AdUnit slot="tool-bottom" className="mt-12" />
+        {!isUnderDevelopment && <AdUnit slot="tool-bottom" className="mt-12" />}
       </ToolLayout>
     );
   };
@@ -148,15 +155,39 @@ export default function App() {
         );
       case 'contact':
         return (
-          <div className="max-w-3xl mx-auto space-y-8 py-12">
-            <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
-            <p className="text-slate-600 leading-relaxed">
-              Have a suggestion for a new tool? Found a bug that needs fixing? Or just want to say hi? 
-              We'd love to hear from you. Our team is dedicated to making Allinone.tools the best utility hub on the web.
-            </p>
-            <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
-              <p className="text-lg font-bold text-[#1A1A3A]">Email us at:</p>
-              <a href="mailto:b605649@gmail.com" className="text-2xl font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
+          <div className="max-w-3xl mx-auto space-y-12 py-12">
+            <div className="space-y-4">
+              <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
+              <p className="text-slate-600 leading-relaxed text-lg">
+                We value your feedback and are always looking for ways to improve Allinone.tools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+                  <Mail size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-[#1A1A3A]">Email Support</h3>
+                <p className="text-sm text-slate-500">For general inquiries and technical support, reach out to us via email.</p>
+                <a href="mailto:b605649@gmail.com" className="block text-lg font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
+              </div>
+
+              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+                  <Github size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
+                <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
+                <button className="text-lg font-black text-emerald-600 hover:underline">View on GitHub</button>
+              </div>
+            </div>
+
+            <div className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100 space-y-4">
+              <h3 className="text-xl font-bold text-[#1A1A3A]">Response Time</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Our team is based in India (IST). We typically respond to all inquiries within 24-48 hours. If you're suggesting a new tool, please provide as much detail as possible about the functionality you'd like to see.
+              </p>
             </div>
           </div>
         );
@@ -250,6 +281,71 @@ export default function App() {
                 </div>
               </div>
             ))}
+
+            {/* High Value Publisher Content Section */}
+            <div className="max-w-5xl mx-auto space-y-16 py-20 border-t border-slate-100">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div className="space-y-6">
+                  <h2 className="text-4xl font-black text-[#1A1A3A] leading-tight">
+                    Why Choose <span className="text-indigo-600">Allinone.tools</span> for Your Daily Workflow?
+                  </h2>
+                  <p className="text-slate-600 leading-relaxed">
+                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Allinone.tools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0">
+                        <Shield size={20} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#1A1A3A]">Privacy-First Architecture</h4>
+                        <p className="text-sm text-slate-500">Most of our tools process data locally in your browser. Your sensitive information never leaves your device.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
+                        <Zap size={20} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#1A1A3A]">Zero Latency Performance</h4>
+                        <p className="text-sm text-slate-500">By leveraging client-side processing, we eliminate server round-trips, giving you instant results every time.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-2xl space-y-6">
+                  <h3 className="text-2xl font-black text-[#1A1A3A]">Our Commitment to Quality</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    We believe that free tools shouldn't mean low quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for security and performance, ensuring that you can rely on Allinone.tools for your most critical professional tasks.
+                  </p>
+                  <ul className="space-y-3">
+                    {['100% Free to Use', 'No Registration Required', 'Open Source Spirit', 'Regularly Updated'].map((item) => (
+                      <li key={item} className="flex items-center gap-3 text-sm font-bold text-slate-700">
+                        <div className="w-5 h-5 bg-indigo-600 rounded-full flex items-center justify-center text-white">
+                          <Zap size={10} fill="currentColor" />
+                        </div>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-[#1A1A3A] rounded-[3rem] p-12 md:p-20 text-center space-y-8 text-white">
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight">Ready to Streamline Your Work?</h2>
+                <p className="text-indigo-200 max-w-2xl mx-auto text-lg">
+                  Join thousands of developers and designers who use Allinone.tools every day to build a faster, more secure internet.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="px-8 py-4 bg-white text-[#1A1A3A] rounded-2xl font-black hover:bg-indigo-50 transition-all shadow-xl">
+                    Explore All Tools
+                  </button>
+                  <button onClick={() => navigateTo('blog')} className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black hover:bg-indigo-500 transition-all border border-indigo-400 shadow-xl">
+                    Read Our Blog
+                  </button>
+                </div>
+              </div>
+            </div>
           </motion.div>
         );
     }
