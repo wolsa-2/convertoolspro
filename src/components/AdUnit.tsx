@@ -19,7 +19,7 @@ const AdUnit: React.FC<AdUnitProps> = ({ slot, className }) => {
     // Always use the small 320x50 Banner (e69bf1cf764c9bc9b3a83d81eb681dad)
     const optionsScript = document.createElement('script');
     optionsScript.innerHTML = `
-      atOptions = {
+      window.atOptions = {
         'key' : 'e69bf1cf764c9bc9b3a83d81eb681dad',
         'format' : 'iframe',
         'height' : 50,
@@ -33,16 +33,15 @@ const AdUnit: React.FC<AdUnitProps> = ({ slot, className }) => {
     containerRef.current.appendChild(script);
 
     return () => {
-      // Clean up isn't always possible with ad scripts, but we clear the container
       if (containerRef.current) containerRef.current.innerHTML = '';
     };
   }, [slot]);
 
   return (
-    <div className={`ad-wrapper flex flex-col items-center justify-center min-h-[50px] overflow-hidden ${className}`}>
+    <div className={`ad-wrapper flex flex-col items-center justify-center min-h-[55px] min-w-[320px] overflow-hidden ${className}`}>
       <div 
         ref={containerRef} 
-        className="flex items-center justify-center w-full min-h-[50px]"
+        className="flex items-center justify-center w-[320px] h-[50px] mx-auto overflow-hidden"
       />
     </div>
   );

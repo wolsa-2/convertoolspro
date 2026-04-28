@@ -408,14 +408,16 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* Persistent Top Banner Ad */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <AdUnit slot="top-banner" className="my-0" />
+        </div>
+      </div>
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {renderPage()}
       </main>
-
-      {/* Sticky Bottom Ad */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-t border-slate-100 flex justify-center py-2 md:py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-        <AdUnit slot="sticky-footer" className="my-0 w-auto" />
-      </div>
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-100 py-16 mt-20">
