@@ -1,31 +1,49 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface AdUnitProps {
-  slot?: string;
-  format?: 'auto' | 'fluid' | 'rectangle';
+  slot?: 'tool-top' | 'tool-bottom' | 'home-top' | string;
   className?: string;
-  style?: React.CSSProperties;
 }
 
-const AdUnit: React.FC<AdUnitProps> = ({ slot, format = 'auto', className, style }) => {
+const AdUnit: React.FC<AdUnitProps> = ({ slot, className }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Clear existing content to prevent duplicates during React re-renders
+    containerRef.current.innerHTML = '';
+
+    const script = document.createElement('script');
+    
+    // Always use the small 320x50 Banner (e69bf1cf764c9bc9b3a83d81eb681dad)
+    const optionsScript = document.createElement('script');
+    optionsScript.innerHTML = `
+      atOptions = {
+        'key' : 'e69bf1cf764c9bc9b3a83d81eb681dad',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    `;
+    containerRef.current.appendChild(optionsScript);
+
+    script.src = 'https://www.highperformanceformat.com/e69bf1cf764c9bc9b3a83d81eb681dad/invoke.js';
+    containerRef.current.appendChild(script);
+
+    return () => {
+      // Clean up isn't always possible with ad scripts, but we clear the container
+      if (containerRef.current) containerRef.current.innerHTML = '';
+    };
+  }, [slot]);
+
   return (
-    <div className={`ad-container my-8 flex flex-col items-center justify-center bg-slate-50 border border-dashed border-slate-200 rounded-2xl overflow-hidden min-h-[100px] ${className}`} style={style}>
-      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Advertisement</div>
-      {/* 
-          In a real AdSense implementation, you would use the following:
-          <ins className="adsbygoogle"
-               style={{ display: 'block' }}
-               data-ad-client="ca-pub-6718154089288859"
-               data-ad-slot={slot}
-               data-ad-format={format}
-               data-full-width-responsive="true"></ins>
-          <script>
-               (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-      */}
-      <div className="w-full h-full flex items-center justify-center text-slate-300 italic text-sm">
-        AdSense Ad Space
-      </div>
+    <div className={`ad-wrapper flex flex-col items-center justify-center min-h-[50px] overflow-hidden ${className}`}>
+      <div 
+        ref={containerRef} 
+        className="flex items-center justify-center w-full min-h-[50px]"
+      />
     </div>
   );
 };

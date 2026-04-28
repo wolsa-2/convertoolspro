@@ -125,18 +125,9 @@ export default function App() {
         );
     }
 
-    const isUnderDevelopment = !activeTool || ![
-      'character-counter', 'password-generator', 'base64-codec', 'json-formatter', 
-      'qr-generator', 'case-converter', 'hash-generator', 'bionic-reading', 
-      'webcam-test', 'image-placeholder', 'image-to-base64', 'pdf-metadata', 
-      'jpg-to-pdf', 'tweet-generator', 'html-entities'
-    ].includes(activeTool.id);
-
     return (
       <ToolLayout title={activeTool.name} description={activeTool.description} toolId={activeTool.id}>
-        {!isUnderDevelopment && <AdUnit slot="tool-top" className="mb-8" />}
         {component}
-        {!isUnderDevelopment && <AdUnit slot="tool-bottom" className="mt-12" />}
       </ToolLayout>
     );
   };
@@ -217,8 +208,6 @@ export default function App() {
               <h1 className="text-5xl font-black text-[#1A1A3A] tracking-tight">All Tools</h1>
               <p className="text-slate-500 font-medium">Free online tools for everyone. No sign-up required.</p>
             </div>
-
-            <AdUnit slot="home-top" className="max-w-5xl mx-auto" />
 
             {/* Marquee Section */}
             <div className="space-y-8">
@@ -422,6 +411,11 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {renderPage()}
       </main>
+
+      {/* Sticky Bottom Ad */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-t border-slate-100 flex justify-center py-2 md:py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <AdUnit slot="sticky-footer" className="my-0 w-auto" />
+      </div>
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-100 py-16 mt-20">
