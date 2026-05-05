@@ -49,12 +49,12 @@ import JpgToPdf from './components/tools/JpgToPdf';
 import TweetGenerator from './components/tools/TweetGenerator';
 import HtmlEntities from './components/tools/HtmlEntities';
 
-// Layout & Pages
-import ToolLayout from './components/ToolLayout';
-import Blog from './components/Blog';
+const Blog = React.lazy(() => import('./components/Blog'));
+const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 import { Marquee } from './components/Marquee';
+import { Suspense } from 'react';
 
-type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms';
+type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | '404';
 
 export default function App() {
   const [activeTool, setActiveTool] = useState<Tool | null>(null);
@@ -132,6 +132,18 @@ export default function App() {
   };
 
   const renderPage = () => {
+    return (
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      }>
+        {renderPageContent()}
+      </Suspense>
+    );
+  };
+
+  const renderPageContent = () => {
     if (activeTool) return renderTool();
 
     switch (currentPage) {
@@ -193,6 +205,29 @@ export default function App() {
           <div className="max-w-4xl mx-auto space-y-8 py-12">
             <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.terms }} />
+          </div>
+        );
+      case '404':
+        return (
+          <div className="min-h-[50vh] flex flex-col items-center justify-center text-center space-y-8 py-20">
+            <div className="relative">
+              <h1 className="text-[12rem] font-black text-slate-100 leading-none">404</h1>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-32 h-32 bg-indigo-600 rounded-[2.5rem] rotate-12 flex items-center justify-center text-white shadow-2xl">
+                  <Zap size={64} fill="currentColor" />
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4 max-w-md mx-auto">
+              <h2 className="text-4xl font-black text-[#1A1A3A]">Oops! Page Not Found</h2>
+              <p className="text-slate-500 font-medium"> The tool or page you are looking for doesn't exist or has been moved to a new location.</p>
+              <button 
+                onClick={() => navigateTo('home')}
+                className="mt-8 px-10 py-4 bg-indigo-600 text-white rounded-[2rem] font-black hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-100 inline-block"
+              >
+                Back to Home
+              </button>
+            </div>
           </div>
         );
       default:
