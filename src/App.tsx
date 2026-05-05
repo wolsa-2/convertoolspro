@@ -4,7 +4,6 @@ import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { STATIC_PAGES_CONTENT } from './content';
-import AdUnit from './components/AdUnit';
 
 const StructuredData = () => {
   const schema = {
@@ -407,13 +406,6 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Persistent Top Banner Ad */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <div className="bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-          <AdUnit slot="top-banner" className="my-0" />
-        </div>
-      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {renderPage()}
