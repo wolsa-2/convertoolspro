@@ -32,22 +32,22 @@ const StructuredData = () => {
   );
 };
 
-// Tool Components
-import CharacterCounter from './components/tools/CharacterCounter';
-import PasswordGenerator from './components/tools/PasswordGenerator';
-import Base64Codec from './components/tools/Base64Codec';
-import JsonFormatter from './components/tools/JsonFormatter';
-import QrGenerator from './components/tools/QrGenerator';
-import CaseConverter from './components/tools/CaseConverter';
-import HashGenerator from './components/tools/HashGenerator';
-import BionicReading from './components/tools/BionicReading';
-import WebcamTest from './components/tools/WebcamTest';
-import ImagePlaceholder from './components/tools/ImagePlaceholder';
-import ImageToBase64 from './components/tools/ImageToBase64';
-import PdfMetadata from './components/tools/PdfMetadata';
-import JpgToPdf from './components/tools/JpgToPdf';
-import TweetGenerator from './components/tools/TweetGenerator';
-import HtmlEntities from './components/tools/HtmlEntities';
+// Tool Components (Lazy Loaded)
+const CharacterCounter = React.lazy(() => import('./components/tools/CharacterCounter'));
+const PasswordGenerator = React.lazy(() => import('./components/tools/PasswordGenerator'));
+const Base64Codec = React.lazy(() => import('./components/tools/Base64Codec'));
+const JsonFormatter = React.lazy(() => import('./components/tools/JsonFormatter'));
+const QrGenerator = React.lazy(() => import('./components/tools/QrGenerator'));
+const CaseConverter = React.lazy(() => import('./components/tools/CaseConverter'));
+const HashGenerator = React.lazy(() => import('./components/tools/HashGenerator'));
+const BionicReading = React.lazy(() => import('./components/tools/BionicReading'));
+const WebcamTest = React.lazy(() => import('./components/tools/WebcamTest'));
+const ImagePlaceholder = React.lazy(() => import('./components/tools/ImagePlaceholder'));
+const ImageToBase64 = React.lazy(() => import('./components/tools/ImageToBase64'));
+const PdfMetadata = React.lazy(() => import('./components/tools/PdfMetadata'));
+const JpgToPdf = React.lazy(() => import('./components/tools/JpgToPdf'));
+const TweetGenerator = React.lazy(() => import('./components/tools/TweetGenerator'));
+const HtmlEntities = React.lazy(() => import('./components/tools/HtmlEntities'));
 
 const Blog = React.lazy(() => import('./components/Blog'));
 const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
@@ -115,13 +115,8 @@ export default function App() {
       case 'tweet-generator': component = <TweetGenerator />; break;
       case 'html-entities': component = <HtmlEntities />; break;
       default:
-        component = (
-          <div className="flex flex-col items-center justify-center h-64 text-center">
-            <div className="p-4 bg-amber-50 text-amber-600 rounded-lg border border-amber-100 mb-4">
-              This tool is currently under development.
-            </div>
-          </div>
-        );
+        navigateTo('404');
+        return null;
     }
 
     return (
