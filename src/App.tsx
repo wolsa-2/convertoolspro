@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -269,11 +269,11 @@ export default function App() {
           >
             {/* Hero Section with H1 */}
             <div className="text-center space-y-4">
-              <h1 className="text-5xl font-black text-[#1A1A3A] tracking-tight">
-                All-in-One Free Online Utility Tools & Developer Generators
+              <h1 className="text-4xl md:text-6xl font-black text-[#1A1A3A] tracking-tighter leading-tight max-w-4xl mx-auto">
+                Free Online Utility Tools for Developers & Designers
               </h1>
-              <p className="text-slate-500 font-medium max-w-2xl mx-auto">
-                Professional-grade free online utility tools for developers and designers. Use our Text Converter, Image Placeholder generator, and secure developer utilities. No sign-up required.
+              <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto px-4">
+                Boost your productivity with our suite of 100% free online utility tools. From text conversion to image generation, everything is secure and local-first.
               </p>
             </div>
 
@@ -351,46 +351,47 @@ export default function App() {
             ))}
 
             {/* High Value Publisher Content Section */}
-            <div className="max-w-5xl mx-auto space-y-16 py-20 border-t border-slate-100">
+            <div className="max-w-5xl mx-auto space-y-24 py-20 border-t border-slate-100">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                <div className="space-y-6">
+                <div className="space-y-6 text-left">
                   <h2 className="text-4xl font-black text-[#1A1A3A] leading-tight">
                     Why Choose <span className="text-indigo-600">Allinone.tools</span> for Your Daily Workflow?
                   </h2>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed text-lg">
                     In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Allinone.tools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
                   </p>
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div className="flex gap-4">
-                      <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0">
-                        <Shield size={20} />
+                      <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+                        <Shield size={24} />
                       </div>
-                      <div>
-                        <h4 className="font-bold text-[#1A1A3A]">Privacy-First Architecture</h4>
-                        <p className="text-sm text-slate-500">Most of our tools process data locally in your browser. Your sensitive information never leaves your device.</p>
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-xl text-[#1A1A3A]">Privacy-First Architecture</h4>
+                        <p className="text-slate-500 leading-relaxed">Unlike other platforms that upload your files to remote servers for processing, our tools are designed to work locally in your browser. This means your text, images, and sensitive data never leave your device, ensuring total privacy and security.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
-                      <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
-                        <Zap size={20} />
+                      <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0 shadow-sm">
+                        <Zap size={24} />
                       </div>
-                      <div>
-                        <h4 className="font-bold text-[#1A1A3A]">Zero Latency Performance</h4>
-                        <p className="text-sm text-slate-500">By leveraging client-side processing, we eliminate server round-trips, giving you instant results every time.</p>
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-xl text-[#1A1A3A]">Zero Latency Performance</h4>
+                        <p className="text-slate-500 leading-relaxed">By leveraging powerful client-side processing, we eliminate the need for server round-trips. This delivers instantaneous results, whether you are generating a QR code or converting a large block of text. Efficiency is our top priority.</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-2xl space-y-6">
-                  <h3 className="text-2xl font-black text-[#1A1A3A]">Our Commitment to Quality</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    We believe that free tools shouldn't mean low quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for security and performance, ensuring that you can rely on Allinone.tools for your most critical professional tasks.
+                <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-2xl space-y-8 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
+                  <h3 className="text-3xl font-black text-[#1A1A3A] relative">Our Commitment to Excellence</h3>
+                  <p className="text-slate-600 leading-relaxed relative">
+                    We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Allinone.tools for even your most critical professional projects.
                   </p>
-                  <ul className="space-y-3">
-                    {['100% Free to Use', 'No Registration Required', 'Open Source Spirit', 'Regularly Updated'].map((item) => (
-                      <li key={item} className="flex items-center gap-3 text-sm font-bold text-slate-700">
-                        <div className="w-5 h-5 bg-indigo-600 rounded-full flex items-center justify-center text-white">
-                          <Zap size={10} fill="currentColor" />
+                  <ul className="space-y-4 relative">
+                    {['100% Free to Use Forever', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
+                      <li key={item} className="flex items-center gap-4 font-bold text-slate-700">
+                        <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                          <Zap size={12} fill="currentColor" />
                         </div>
                         {item}
                       </li>
@@ -399,17 +400,54 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="bg-[#1A1A3A] rounded-[3rem] p-12 md:p-20 text-center space-y-8 text-white">
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight">Ready to Streamline Your Work?</h2>
-                <p className="text-indigo-200 max-w-2xl mx-auto text-lg">
-                  Join thousands of developers and designers who use Allinone.tools every day to build a faster, more secure internet.
-                </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="px-8 py-4 bg-white text-[#1A1A3A] rounded-2xl font-black hover:bg-indigo-50 transition-all shadow-xl">
+              {/* FAQ Section */}
+              <div className="space-y-12">
+                <div className="text-center space-y-4">
+                  <h2 className="text-4xl font-black text-[#1A1A3A] tracking-tight">Frequently Asked Questions</h2>
+                  <p className="text-slate-500 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A]">Are the tools really free?</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Yes, absolutely. Allinone.tools is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
+                    </p>
+                  </div>
+                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A]">Is my data safe with Allinone.tools?</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Privacy is our core value. Most of our tools, including the Text Converter and JSON Formatter, run entirely in your browser. This means your data is processed locally and is never sent to our servers.
+                    </p>
+                  </div>
+                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A]">Do I need to create an account?</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      No. We respect your time and privacy. You can use any tool on our platform instantly without the need for registration, email verification, or login. Efficiency is just one click away.
+                    </p>
+                  </div>
+                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A]">How can I suggest a new tool?</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      We love hearing from our community! If there is a tool you need that we don't have yet, please use our Contact Us page to send your suggestion. We regularly update the platform with new requested features.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-[#1A1A3A] rounded-[4rem] p-12 md:p-24 text-center space-y-10 text-white relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent)] pointer-events-none"></div>
+                <div className="space-y-4 relative">
+                  <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
+                  <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
+                    Join thousands of developers, designers, and digital professionals who use Allinone.tools every day to automate repetitive tasks and focus on what matters.
+                  </p>
+                </div>
+                <div className="flex flex-wrap justify-center gap-6 relative">
+                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="px-10 py-5 bg-white text-[#1A1A3A] rounded-2xl font-black hover:bg-indigo-50 transition-all shadow-2xl hover:scale-105 active:scale-95 duration-200">
                     Explore All Tools
                   </button>
-                  <button onClick={() => navigateTo('blog')} className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black hover:bg-indigo-500 transition-all border border-indigo-400 shadow-xl">
-                    Read Our Blog
+                  <button onClick={() => navigateTo('blog')} className="px-10 py-5 bg-indigo-600 text-white rounded-2xl font-black hover:bg-indigo-500 transition-all border border-indigo-400/30 shadow-2xl hover:scale-105 active:scale-95 duration-200">
+                    Read Our SEO Blog
                   </button>
                 </div>
               </div>
@@ -509,9 +547,21 @@ export default function App() {
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
               </p>
               <div className="flex gap-4">
-                <button className="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" aria-label="Github">
                   <Github size={20} />
-                </button>
+                </a>
+                <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" aria-label="Facebook">
+                  <Facebook size={20} />
+                </a>
+                <a href="https://www.instagram.com/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-all" aria-label="Instagram">
+                  <Instagram size={20} />
+                </a>
+                <a href="https://www.linkedin.com/company/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all" aria-label="LinkedIn">
+                  <Linkedin size={20} />
+                </a>
+                <a href="https://www.youtube.com/@online2pdf_official" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" aria-label="YouTube">
+                  <Youtube size={20} />
+                </a>
               </div>
             </div>
             
