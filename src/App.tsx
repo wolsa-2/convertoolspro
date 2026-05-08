@@ -120,7 +120,12 @@ export default function App() {
     }
 
     return (
-      <ToolLayout title={activeTool.name} description={activeTool.description} toolId={activeTool.id}>
+      <ToolLayout 
+        title={activeTool.name} 
+        description={activeTool.description} 
+        toolId={activeTool.id}
+        onToolNavigate={(tool) => setActiveTool(tool)}
+      >
         {component}
       </ToolLayout>
     );
@@ -204,24 +209,54 @@ export default function App() {
         );
       case '404':
         return (
-          <div className="min-h-[50vh] flex flex-col items-center justify-center text-center space-y-8 py-20">
+          <div className="min-h-[70vh] flex flex-col items-center justify-center text-center space-y-12 py-20 px-4">
             <div className="relative">
-              <h1 className="text-[12rem] font-black text-slate-100 leading-none">404</h1>
+              <h1 className="text-[10rem] md:text-[15rem] font-black text-slate-50 leading-none select-none">404</h1>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 bg-indigo-600 rounded-[2.5rem] rotate-12 flex items-center justify-center text-white shadow-2xl">
+                <motion.div 
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 12 }}
+                  className="w-24 h-24 md:w-40 md:h-40 bg-indigo-600 rounded-[2.5rem] flex items-center justify-center text-white shadow-2xl"
+                >
                   <Zap size={64} fill="currentColor" />
-                </div>
+                </motion.div>
               </div>
             </div>
-            <div className="space-y-4 max-w-md mx-auto">
-              <h2 className="text-4xl font-black text-[#1A1A3A]">Oops! Page Not Found</h2>
-              <p className="text-slate-500 font-medium"> The tool or page you are looking for doesn't exist or has been moved to a new location.</p>
-              <button 
-                onClick={() => navigateTo('home')}
-                className="mt-8 px-10 py-4 bg-indigo-600 text-white rounded-[2rem] font-black hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-100 inline-block"
-              >
-                Back to Home
-              </button>
+            <div className="space-y-6 max-w-2xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-black text-[#1A1A3A] tracking-tight">Lost in the Digital Void?</h2>
+              <p className="text-slate-500 font-medium text-lg leading-relaxed">
+                The page you're looking for has vanished into thin air. Don't worry, we've got plenty of other tools to help you get back on track.
+              </p>
+              
+              <div className="pt-8">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6">Popular Destination</h3>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {TOOLS.slice(0, 4).map(tool => (
+                    <button 
+                      key={tool.id}
+                      onClick={() => setActiveTool(tool)}
+                      className="px-6 py-3 bg-white border border-slate-100 rounded-2xl font-bold text-slate-600 hover:border-indigo-200 hover:text-indigo-600 hover:bg-indigo-50 transition-all shadow-sm"
+                    >
+                      {tool.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                  onClick={() => navigateTo('home')}
+                  className="px-10 py-4 bg-[#1A1A3A] text-white rounded-[2rem] font-black hover:bg-[#2A2A5A] transition-all shadow-xl inline-block"
+                >
+                  Return to Dashboard
+                </button>
+                <button 
+                  onClick={() => navigateTo('blog')}
+                  className="px-10 py-4 bg-white border-2 border-slate-100 text-[#1A1A3A] rounded-[2rem] font-black hover:bg-slate-50 transition-all inline-block"
+                >
+                  Read Recent Blogs
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -234,8 +269,8 @@ export default function App() {
           >
             {/* Hero */}
             <div className="text-center space-y-4">
-              <h1 className="text-5xl font-black text-[#1A1A3A] tracking-tight">All Tools</h1>
-              <p className="text-slate-500 font-medium">Free online tools for everyone. No sign-up required.</p>
+              <h1 className="text-5xl font-black text-[#1A1A3A] tracking-tight">Free Online Text, Image & Developer Tool Generator</h1>
+              <p className="text-slate-500 font-medium">Professional-grade All-in-One tools for developers and designers. Fast, secure, and 100% free.</p>
             </div>
 
             {/* Marquee Section */}

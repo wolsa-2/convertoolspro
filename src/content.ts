@@ -481,6 +481,224 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
   `
 };
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export const TOOLS_FAQ: Record<string, FAQItem[]> = {
+  "character-counter": [
+    {
+      question: "Does this tool count spaces?",
+      answer: "Yes, our tool provides a total character count that includes spaces, as this is the standard requirement for most social media and SEO platforms."
+    },
+    {
+      question: "Is my text saved on your servers?",
+      answer: "No. All processing happens locally in your browser. Your text never leaves your device and is not stored or shared."
+    },
+    {
+      question: "Is there a limit to the text length?",
+      answer: "We support texts up to several megabytes in size. For extremely long documents, your browser performance may be affected, but there is no hard numerical limit."
+    }
+  ],
+  "password-generator": [
+    {
+      question: "Are the generated passwords truly random?",
+      answer: "Yes, we use the browser's built-in cryptographic API (window.crypto.getRandomValues) to ensure high-quality, unpredictable randomness."
+    },
+    {
+      question: "Can you see the passwords I generate?",
+      answer: "No. The generation happens entirely on your local machine. We have no backend access to your generated strings."
+    },
+    {
+      question: "What is the recommended password length?",
+      answer: "For most accounts, we recommend at least 16 characters including uppercase, lowercase, numbers, and symbols for robust security."
+    }
+  ],
+  "base64-codec": [
+    {
+      question: "Is Base64 a form of encryption?",
+      answer: "No. Base64 is an encoding scheme used to represent binary data in text format. It provides no security and is easily reversible."
+    },
+    {
+      question: "Can I encode images here?",
+      answer: "This tool is for text. For images, please use our 'Image to Base64' tool in the sidebar or category list."
+    },
+    {
+      question: "Are there any character limits?",
+      answer: "You can process large amounts of text, but extremely large strings (over 50MB) may cause browser stutter during processing."
+    }
+  ],
+  "json-formatter": [
+    {
+      question: "Does this tool validate my JSON?",
+      answer: "Yes, if your JSON is malformed, the tool will highlight the error and help you fix syntax issues."
+    },
+    {
+      question: "Is there a limit to the JSON size?",
+      answer: "We can handle standard configuration and API response files up to several MBs with high speed and reliability."
+    },
+    {
+      question: "What is the difference between Beautify and Minify?",
+      answer: "Beautify adds whitespace and indentation for human readability. Minify removes all extra spaces to reduce file size for production."
+    }
+  ],
+  "qr-generator": [
+    {
+      question: "Do these QR codes expire?",
+      answer: "No. These are static QR codes. As long as the content (URLs or text) remains valid, the QR code will work forever."
+    },
+    {
+      question: "Can I customize the colors?",
+      answer: "Currently, we offer standard black-and-white codes to ensure maximum compatibility across all decoding hardware."
+    },
+    {
+      question: "Does it support high error correction?",
+      answer: "Yes, our generator includes standard error correction levels to ensure the code remains scannable even if slightly damaged or obscured."
+    }
+  ],
+  "case-converter": [
+    {
+      question: "Does it support multi-line text?",
+      answer: "Yes, the converter works perfectly with multiple paragraphs and preserves your line breaks."
+    },
+    {
+      question: "What is Title Case?",
+      answer: "Title Case capitalizes the first letter of each significant word, which is standard for book and article titles."
+    },
+    {
+      question: "Are developer cases like camelCase supported?",
+      answer: "Yes, we support camelCase, snake_case, PascalCase, and kebab-case for modern coding requirements."
+    }
+  ],
+  "hash-generator": [
+    {
+      question: "Can I reverse a hash?",
+      answer: "No. Hashing is a one-way cryptographic process. You cannot 'decrypt' a hash back into its original text."
+    },
+    {
+      question: "Which algorithm should I use?",
+      answer: "For standard security, SHA-256 is recommended. MD5 and SHA-1 are considered weak and should only be used for checksums."
+    },
+    {
+      question: "Is hashing the same as encoding?",
+      answer: "No. Encoding (like Base64) is reversible. Hashing (like SHA-256) is designed to be irreversible and unique to the input."
+    }
+  ],
+  "bionic-reading": [
+    {
+      question: "Does it work for all languages?",
+      answer: "It works best for Latin-based languages like English, Spanish, and French where word boundaries are clearly defined by spaces."
+    },
+    {
+      question: "Can I export the formatted text?",
+      answer: "Yes, you can copy the output. However, the bolding effect depends on whether the destination app supports HTML or rich text."
+    },
+    {
+      question: "Does this really help with speed?",
+      answer: "Many users report faster reading and better focus as the brain recognizes words more quickly using the fixation points."
+    }
+  ],
+  "webcam-test": [
+    {
+      question: "Do you record my video or audio?",
+      answer: "Never. The video stream is processed 100% locally in your browser and is never transmitted to any external server."
+    },
+    {
+      question: "Why isn't my camera showing up?",
+      answer: "Ensure you've granted browser permissions and that no other app (like Zoom or Teams) is currently occupying the camera."
+    },
+    {
+      question: "Can I check my microphone here?",
+      answer: "Yes, the tool includes a volume meter to verify audio input levels along with the visual video feed check."
+    }
+  ],
+  "image-placeholder": [
+    {
+      question: "Can I use the URL directly in my HTML?",
+      answer: "Yes! Our tool provides a dynamic URL that you can use in your <img> tags for rapid development and testing."
+    },
+    {
+      question: "Is this tool free for commercial use?",
+      answer: "Absolutely. All images generated can be used in personal, educational, and commercial projects without attribution."
+    },
+    {
+      question: "What image formats are supported?",
+      answer: "The dynamic URL generator primarily outputs SVG or standard web-compatible bitmap formats based on the configuration."
+    }
+  ],
+  "image-to-base64": [
+    {
+      question: "Does Base64 increase file size?",
+      answer: "Yes, Base64 encoding typically increases data size by about 33%. It is best for small icons or critical CSS assets."
+    },
+    {
+      question: "Are my images uploaded to any server?",
+      answer: "No. The conversion happens strictly in your browser using local resources. Your privacy is fully maintained."
+    },
+    {
+      question: "Which formats are supported?",
+      answer: "We support JPG, PNG, WEBP, and GIF formats for conversion to Base64 data strings."
+    }
+  ],
+  "pdf-metadata": [
+    {
+      question: "Is my PDF data safe?",
+      answer: "Yes. All metadata editing happens locally in your browser. Your PDF files are never uploaded to our servers."
+    },
+    {
+      question: "Can I remove all metadata?",
+      answer: "Yes, you can clear all fields (Author, Title, Creator) to effectively sanitize a document before sharing it."
+    },
+    {
+      question: "Will this affect the PDF content?",
+      answer: "No, this tool only modifies the descriptive metadata tags and does not alter the actual visual content or text of the document."
+    }
+  ],
+  "jpg-to-pdf": [
+    {
+      question: "Is there a limit to the number of images?",
+      answer: "There is no hard limit, though processing hundreds of high-res images at once may require more system RAM."
+    },
+    {
+      question: "Can I reorder images?",
+      answer: "Yes, you can use the Up/Down controls to arrange the images in the exact order you want them to appear in the PDF."
+    },
+    {
+      question: "Are my photos private?",
+      answer: "Yes. The conversion is done entirely client-side. We do not store or see any of your images."
+    }
+  ],
+  "tweet-generator": [
+    {
+      question: "Is this for real tweeting?",
+      answer: "No. This tool generates a realistic image mockup. It does not post anything to X (formerly Twitter)."
+    },
+    {
+      question: "How do I download the tweet?",
+      answer: "Once you've customized your tweet, click the download button to save the result as a high-quality PNG image."
+    },
+    {
+      question: "Can I use external profile pictures?",
+      answer: "Yes, you can upload any image to serve as the profile picture for your generated tweet mockup."
+    }
+  ],
+  "html-entities": [
+    {
+      question: "What is horizontal encoding?",
+      answer: "Encoding converts reserved characters like '<' into safe entities like '&lt;' so browsers render them correctly as text."
+    },
+    {
+      question: "Does it support all HTML5 entities?",
+      answer: "Yes, we support a comprehensive set of standard and extended HTML5 entities including mathematical symbols and accents."
+    },
+    {
+      question: "Why use entities instead of raw text?",
+      answer: "Entities prevent browsers from interpreting characters as code, protecting your site from layout breaks and XSS vulnerabilities."
+    }
+  ]
+};
+
 export const STATIC_PAGES_CONTENT = {
   privacy: `
     <h1>Privacy Policy</h1>
