@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -267,10 +267,14 @@ export default function App() {
             animate={{ opacity: 1 }}
             className="space-y-20"
           >
-            {/* Hero */}
+            {/* Hero Section with H1 */}
             <div className="text-center space-y-4">
-              <h1 className="text-5xl font-black text-[#1A1A3A] tracking-tight">Free Online Text, Image & Developer Tool Generator</h1>
-              <p className="text-slate-500 font-medium">Professional-grade All-in-One tools for developers and designers. Fast, secure, and 100% free.</p>
+              <h1 className="text-5xl font-black text-[#1A1A3A] tracking-tight">
+                All-in-One Free Online Utility Tools & Developer Generators
+              </h1>
+              <p className="text-slate-500 font-medium max-w-2xl mx-auto">
+                Professional-grade free online utility tools for developers and designers. Use our Text Converter, Image Placeholder generator, and secure developer utilities. No sign-up required.
+              </p>
             </div>
 
             {/* Marquee Section */}
@@ -302,31 +306,42 @@ export default function App() {
 
             {/* Categorized Grid */}
             {Object.entries(toolsByCategory).map(([category, tools]) => (
-              <div key={category} className="space-y-8">
-                <div className="text-center space-y-2">
+              <div key={category} className="space-y-12">
+                <div className="text-center space-y-3">
                   <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">{category}</span>
-                  <h2 className="text-3xl font-black text-[#1A1A3A]">{category} Tools</h2>
-                  <p className="text-slate-400 text-sm">All the {category.toLowerCase()} tools that you need in the same website.</p>
+                  <h2 className="text-3xl font-black text-[#1A1A3A]">
+                    {category === 'Image' && 'High-Quality Image & Design Utilities'}
+                    {category === 'PDF' && 'Advanced PDF Metadata & Management'}
+                    {category === 'Social Media' && 'Social Media Content Generators'}
+                    {category === 'Text & Lists' && 'Professional Text Tools & Converters'}
+                    {category === 'Encryption' && 'Secure Encryption & Hashing Utilities'}
+                    {category === 'Web' && 'Web Developer & Coding Utilities'}
+                    {category === 'Others' && 'General Utility Tools'}
+                  </h2>
+                  <p className="text-slate-400 text-base max-w-2xl mx-auto">
+                    {category === 'Text & Lists' && 'Optimize your content with our free online text converter and analysis tools.'}
+                    {category === 'Image' && 'Create assets and convert formats using our free image placeholder and encoder tools.'}
+                    {category === 'Web' && 'Format, beautify, and handle entities with our reliable web developer utilities.'}
+                    {!['Text & Lists', 'Image', 'Web'].includes(category) && `Access our comprehensive collection of free online ${category.toLowerCase()} tools.`}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                   {tools.map((tool) => (
                     <motion.div
                       key={tool.id}
-                      whileHover={{ y: -4 }}
+                      whileHover={{ y: -8 }}
                       onClick={() => setActiveTool(tool)}
-                      className="group bg-white p-8 rounded-[2rem] border border-slate-50 shadow-sm hover:shadow-2xl hover:border-indigo-50 transition-all cursor-pointer flex items-start gap-6"
+                      className="group bg-white p-10 rounded-[3rem] border border-slate-50 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 cursor-pointer flex items-start gap-8"
                     >
-                      <div className="w-14 h-14 bg-[#F8F9FF] rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-inner">
-                        <tool.icon size={28} />
+                      <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                        <tool.icon size={30} />
                       </div>
-                      <div className="flex-1 space-y-1">
-                        <h3 className="text-xl font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors">{tool.name}</h3>
-                        <p className="text-slate-400 text-sm leading-relaxed">{tool.description}</p>
-                        <div className="pt-2">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-300 group-hover:text-indigo-300 transition-colors">
-                            {tool.category}
-                          </span>
+                      <div className="flex-1 space-y-2">
+                        <h3 className="text-2xl font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors tracking-tight">{tool.name}</h3>
+                        <p className="text-slate-500 font-medium leading-relaxed">{tool.description}</p>
+                        <div className="pt-4 flex items-center text-xs font-black text-indigo-600 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
+                          Select Tool <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </motion.div>
@@ -503,18 +518,30 @@ export default function App() {
             <div>
               <h4 className="font-bold text-slate-900 mb-6">Quick Links</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => navigateTo('home')} className="text-slate-500 hover:text-indigo-600 transition-colors">Home</button></li>
-                <li><button onClick={() => navigateTo('blog')} className="text-slate-500 hover:text-indigo-600 transition-colors">Blog</button></li>
+                <li><button onClick={() => navigateTo('home')} className="text-slate-500 hover:text-indigo-600 transition-colors">Home Dashboard</button></li>
+                <li><button onClick={() => navigateTo('blog')} className="text-slate-500 hover:text-indigo-600 transition-colors">SEO & Tools Blog</button></li>
                 <li><button onClick={() => navigateTo('about')} className="text-slate-500 hover:text-indigo-600 transition-colors">About Us</button></li>
-                <li><button onClick={() => navigateTo('contact')} className="text-slate-500 hover:text-indigo-600 transition-colors">Contact Us</button></li>
+                <li><button onClick={() => navigateTo('contact')} className="text-slate-500 hover:text-indigo-600 transition-colors">Contact Support</button></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Legal</h4>
+              <h4 className="font-bold text-slate-900 mb-6">Popular Tools</h4>
+              <ul className="space-y-4 text-slate-500">
+                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'case-converter')!)} className="hover:text-indigo-600 transition-colors">Case Converter</button></li>
+                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'image-placeholder')!)} className="hover:text-indigo-600 transition-colors">Image Placeholder</button></li>
+                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'pdf-metadata')!)} className="hover:text-indigo-600 transition-colors">PDF Editor</button></li>
+                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'json-formatter')!)} className="hover:text-indigo-600 transition-colors">JSON Formatter</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-slate-900 mb-6">Legal & Resources</h4>
               <ul className="space-y-4 text-slate-500">
                 <li><button onClick={() => navigateTo('privacy')} className="hover:text-indigo-600 transition-colors">Privacy Policy</button></li>
                 <li><button onClick={() => navigateTo('terms')} className="hover:text-indigo-600 transition-colors">Terms of Service</button></li>
+                <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">Web Documentation</a></li>
+                <li><a href="https://www.w3.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">W3C Standards</a></li>
               </ul>
             </div>
           </div>
