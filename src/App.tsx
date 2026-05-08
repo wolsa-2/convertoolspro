@@ -450,6 +450,7 @@ export default function App() {
                   <p className="text-slate-500 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* ... Existing FAQ items ... */}
                   <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
                     <h3 className="text-xl font-bold text-[#1A1A3A]">Are the tools really free?</h3>
                     <p className="text-slate-600 text-sm leading-relaxed">
@@ -473,6 +474,56 @@ export default function App() {
                     <p className="text-slate-600 text-sm leading-relaxed">
                       We love hearing from our community! If there is a tool you need that we don't have yet, please use our Contact Us page to send your suggestion. We regularly update the platform with new requested features.
                     </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* YouTube Tutorial Hook Section */}
+              <div className="max-w-6xl mx-auto space-y-12 py-16">
+                <div className="text-center space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black text-[#1A1A3A] tracking-tight">Master Our Tools with Video Guides</h2>
+                  <p className="text-slate-500 max-w-3xl mx-auto text-lg leading-relaxed">
+                    Visual learner? Watch our comprehensive video tutorials to master PDF conversion, image editing, and developer utilities in record time.
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+                  {[
+                    { id: '5XU6bWNUtXE', title: 'Complete Tools Overview' },
+                    { id: 'qKWTQB4Ir_Y', title: 'PDF & File Management Guide' },
+                    { id: 'ZxnjsvW563g', title: 'Advanced Developer Utilities' }
+                  ].map((video, idx) => (
+                    <div key={idx} className="relative group p-3 bg-white rounded-[2.5rem] border border-slate-100 shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                      <div className="aspect-video w-full rounded-[1.8rem] overflow-hidden bg-slate-100 mb-4">
+                        <iframe 
+                          className="w-full h-full"
+                          src={`https://www.youtube.com/embed/${video.id}`} 
+                          title={`${video.title} - Allinone.tools Tutorial`}
+                          frameBorder="0" 
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                          referrerPolicy="strict-origin-when-cross-origin" 
+                          allowFullScreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                      <div className="px-4 pb-4">
+                        <h3 className="text-lg font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors uppercase tracking-tight">
+                          {video.title}
+                        </h3>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex justify-center flex-wrap gap-6 pt-4">
+                  <div className="flex items-center gap-3 px-8 py-4 bg-indigo-50 text-indigo-700 rounded-full font-black text-xs uppercase tracking-widest shadow-sm">
+                    <Zap size={18} fill="currentColor" className="text-indigo-500" /> Fast & Instant
+                  </div>
+                  <div className="flex items-center gap-3 px-8 py-4 bg-emerald-50 text-emerald-700 rounded-full font-black text-xs uppercase tracking-widest shadow-sm">
+                    <Shield size={18} fill="currentColor" className="text-emerald-500" /> Secure Processing
+                  </div>
+                  <div className="flex items-center gap-3 px-8 py-4 bg-pink-50 text-pink-700 rounded-full font-black text-xs uppercase tracking-widest shadow-sm">
+                    <Heart size={18} fill="currentColor" className="text-pink-500" /> 100% Free Forever
                   </div>
                 </div>
               </div>
