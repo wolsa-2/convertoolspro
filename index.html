@@ -13,20 +13,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net">
+    
     <link rel="canonical" href="https://allinone.tools/" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="alternate" hreflang="en" href="https://allinone.tools/" />
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6718154089288859"
-     crossorigin="anonymous"></script>
+    <!-- Google AdSense (Asynchronous) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6718154089288859" crossorigin="anonymous"></script>
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16905142948"></script>
+    <!-- Delay non-critical GTM scripts for better Largest Contentful Paint (LCP) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-16905142948');
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var gtScript = document.createElement('script');
+          gtScript.async = true;
+          gtScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-16905142948';
+          document.head.appendChild(gtScript);
+          
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-16905142948');
+        }, 2500); 
+      });
     </script>
     
     <!-- Open Graph / Facebook -->
