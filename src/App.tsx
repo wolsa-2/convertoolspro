@@ -341,7 +341,7 @@ export default function App() {
                         <h3 className="text-2xl font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors tracking-tight">{tool.name}</h3>
                         <p className="text-slate-500 font-medium leading-relaxed">{tool.description}</p>
                         <div className="pt-4 flex items-center text-xs font-black text-indigo-600 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
-                          Select Tool <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                           Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </motion.div>
@@ -349,6 +349,49 @@ export default function App() {
                 </div>
               </div>
             ))}
+
+            {/* Breadcrumb Schema for SEO */}
+            <script type="application/ld+json">
+              {JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://allinone.tools/"
+                }, {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": activeTool ? activeTool.name : "Utilities",
+                  "item": activeTool ? `https://allinone.tools/?tool=${activeTool.id}` : "https://allinone.tools/"
+                }]
+              })}
+            </script>
+
+            {/* Featured Articles Mini-Section */}
+            <div className="max-w-6xl mx-auto py-20 border-t border-slate-100">
+               <div className="text-center space-y-4 mb-12">
+                  <h2 className="text-4xl font-black text-[#1A1A3A] tracking-tight">Latest from our SEO Blog</h2>
+                  <p className="text-slate-500 max-w-2xl mx-auto">Stay ahead with digital marketing trends, developer tips, and utility guides.</p>
+               </div>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    { title: 'The Ultimate Guide to Core Web Vitals', desc: 'Learn how to optimize your website for Googles vital speed metrics.', date: 'May 2026' },
+                    { title: 'Why Privacy-First Tools are the Future', desc: 'Discover why local processing is becoming the standard for professional utilities.', date: 'April 2026' },
+                    { title: 'Mastering PDF Management Online', desc: 'Tips and tricks for editing PDF metadata safely without tracking.', date: 'March 2026' }
+                  ].map((article, i) => (
+                    <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-slate-50 hover:border-indigo-100 transition-all cursor-pointer group shadow-sm hover:shadow-xl">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500">{article.date}</span>
+                      <h3 className="text-xl font-bold text-[#1A1A3A] mt-2 mb-3 group-hover:text-indigo-600 transition-colors">{article.title}</h3>
+                      <p className="text-slate-500 text-sm leading-relaxed mb-6">{article.desc}</p>
+                      <button onClick={() => navigateTo('blog')} className="text-xs font-black text-indigo-600 uppercase tracking-widest flex items-center">
+                        Read Story <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
+                  ))}
+               </div>
+            </div>
 
             {/* High Value Publisher Content Section */}
             <div className="max-w-5xl mx-auto space-y-24 py-20 border-t border-slate-100">
