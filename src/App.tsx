@@ -559,8 +559,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
-              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
-                <Zap size={28} fill="currentColor" />
+              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
+                <img 
+                  src="/vite.svg" 
+                  alt="Allinone.tools Logo" 
+                  className="w-8 h-8"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <span className="text-2xl font-black tracking-tight text-[#1A1A3A]">Allinone.tools</span>
             </div>
@@ -662,28 +667,29 @@ export default function App() {
             <div>
               <h4 className="font-bold text-slate-900 mb-6">Quick Links</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => navigateTo('home')} className="text-slate-500 hover:text-indigo-600 transition-colors">Home Dashboard</button></li>
-                <li><button onClick={() => navigateTo('blog')} className="text-slate-500 hover:text-indigo-600 transition-colors">SEO & Tools Blog</button></li>
-                <li><button onClick={() => navigateTo('about')} className="text-slate-500 hover:text-indigo-600 transition-colors">About Us</button></li>
-                <li><button onClick={() => navigateTo('contact')} className="text-slate-500 hover:text-indigo-600 transition-colors">Contact Support</button></li>
+                <li><a href="/" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">Home Dashboard</a></li>
+                <li><a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">SEO & Tools Blog</a></li>
+                <li><a href="/about" onClick={(e) => { e.preventDefault(); navigateTo('about'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">About Us</a></li>
+                <li><a href="/contact" onClick={(e) => { e.preventDefault(); navigateTo('contact'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">Contact Support</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-bold text-slate-900 mb-6">Popular Tools</h4>
               <ul className="space-y-4 text-slate-500">
-                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'case-converter')!)} className="hover:text-indigo-600 transition-colors">Case Converter</button></li>
-                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'image-placeholder')!)} className="hover:text-indigo-600 transition-colors">Image Placeholder</button></li>
-                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'pdf-metadata')!)} className="hover:text-indigo-600 transition-colors">PDF Editor</button></li>
-                <li><button onClick={() => setActiveTool(TOOLS.find(t => t.id === 'json-formatter')!)} className="hover:text-indigo-600 transition-colors">JSON Formatter</button></li>
+                <li><a href="/?tool=case-converter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
+                <li><a href="/?tool=image-placeholder" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
+                <li><a href="/?tool=pdf-metadata" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
+                <li><a href="/?tool=json-formatter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-bold text-slate-900 mb-6">Legal & Resources</h4>
               <ul className="space-y-4 text-slate-500">
-                <li><button onClick={() => navigateTo('privacy')} className="hover:text-indigo-600 transition-colors">Privacy Policy</button></li>
-                <li><button onClick={() => navigateTo('terms')} className="hover:text-indigo-600 transition-colors">Terms of Service</button></li>
+                <li><a href="/privacy" onClick={(e) => { e.preventDefault(); navigateTo('privacy'); }} className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms" onClick={(e) => { e.preventDefault(); navigateTo('terms'); }} className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
+                <li><a href="/sitemap.xml" target="_blank" className="hover:text-emerald-600 transition-colors">XML Sitemap</a></li>
                 <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">Web Documentation</a></li>
                 <li><a href="https://www.w3.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">W3C Standards</a></li>
               </ul>
