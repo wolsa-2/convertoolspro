@@ -46,6 +46,8 @@ const ImagePlaceholder = React.lazy(() => import('./components/tools/ImagePlaceh
 const ImageToBase64 = React.lazy(() => import('./components/tools/ImageToBase64'));
 const PdfMetadata = React.lazy(() => import('./components/tools/PdfMetadata'));
 const JpgToPdf = React.lazy(() => import('./components/tools/JpgToPdf'));
+const PdfToolsOverview = React.lazy(() => import('./components/tools/PdfToolsOverview'));
+const SimplePdfTool = React.lazy(() => import('./components/tools/SimplePdfTool'));
 const TweetGenerator = React.lazy(() => import('./components/tools/TweetGenerator'));
 const HtmlEntities = React.lazy(() => import('./components/tools/HtmlEntities'));
 
@@ -112,6 +114,24 @@ export default function App() {
       case 'image-to-base64': component = <ImageToBase64 />; break;
       case 'pdf-metadata': component = <PdfMetadata />; break;
       case 'jpg-to-pdf': component = <JpgToPdf />; break;
+      case 'pdf-to-word':
+      case 'pdf-to-excel':
+      case 'pdf-to-ppt':
+      case 'pdf-to-jpg':
+      case 'pdf-to-text':
+      case 'word-to-pdf':
+      case 'excel-to-pdf':
+      case 'ppt-to-pdf':
+      case 'edit-pdf':
+      case 'merge-pdf':
+      case 'split-pdf':
+      case 'compress-pdf':
+      case 'rotate-pdf':
+      case 'unlock-pdf':
+      case 'protect-pdf':
+      case 'watermark-pdf':
+        component = <SimplePdfTool toolId={activeTool.id} />;
+        break;
       case 'tweet-generator': component = <TweetGenerator />; break;
       case 'html-entities': component = <HtmlEntities />; break;
       default:
@@ -311,42 +331,42 @@ export default function App() {
                   <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">{category}</span>
                   <h2 className="text-3xl font-black text-[#1A1A3A]">
                     {category === 'Image' && 'High-Quality Image & Design Utilities'}
-                    {category === 'PDF' && 'Advanced PDF Metadata & Management'}
+                    {category === 'PDF' && 'Advanced PDF Management & Conversion'}
                     {category === 'Social Media' && 'Social Media Content Generators'}
                     {category === 'Text & Lists' && 'Professional Text Tools & Converters'}
                     {category === 'Encryption' && 'Secure Encryption & Hashing Utilities'}
                     {category === 'Web' && 'Web Developer & Coding Utilities'}
                     {category === 'Others' && 'General Utility Tools'}
                   </h2>
-                  <p className="text-slate-400 text-base max-w-2xl mx-auto">
-                    {category === 'Text & Lists' && 'Optimize your content with our free online text converter and analysis tools.'}
-                    {category === 'Image' && 'Create assets and convert formats using our free image placeholder and encoder tools.'}
-                    {category === 'Web' && 'Format, beautify, and handle entities with our reliable web developer utilities.'}
-                    {!['Text & Lists', 'Image', 'Web'].includes(category) && `Access our comprehensive collection of free online ${category.toLowerCase()} tools.`}
-                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                  {tools.map((tool) => (
-                    <motion.div
-                      key={tool.id}
-                      whileHover={{ y: -8 }}
-                      onClick={() => setActiveTool(tool)}
-                      className="group bg-white p-10 rounded-[3rem] border border-slate-50 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 cursor-pointer flex items-start gap-8"
-                    >
-                      <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                        <tool.icon size={30} />
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <h3 className="text-2xl font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors tracking-tight">{tool.name}</h3>
-                        <p className="text-slate-500 font-medium leading-relaxed">{tool.description}</p>
-                        <div className="pt-4 flex items-center text-xs font-black text-indigo-600 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
-                           Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                {category === 'PDF' && searchQuery === '' ? (
+                  <div className="max-w-6xl mx-auto px-4">
+                    <PdfToolsOverview onToolSelect={(tool) => setActiveTool(tool)} />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    {tools.map((tool) => (
+                      <motion.div
+                        key={tool.id}
+                        whileHover={{ y: -8 }}
+                        onClick={() => setActiveTool(tool)}
+                        className="group bg-white p-10 rounded-[3rem] border border-slate-50 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 cursor-pointer flex items-start gap-8"
+                      >
+                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                          <tool.icon size={30} />
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                        <div className="flex-1 space-y-2">
+                          <h3 className="text-2xl font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors tracking-tight">{tool.name}</h3>
+                          <p className="text-slate-500 font-medium leading-relaxed">{tool.description}</p>
+                          <div className="pt-4 flex items-center text-xs font-black text-indigo-600 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
+                             Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
 

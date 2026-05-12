@@ -18,7 +18,17 @@ import {
   RefreshCw,
   CaseSensitive,
   Binary,
-  Key
+  Key,
+  FileDown,
+  FileUp,
+  FileEdit,
+  Scissors,
+  Layers,
+  FilePlus,
+  RotateCw,
+  Unlock,
+  Settings,
+  Image as ImageIconIcon,
 } from 'lucide-react';
 
 export type Category = 'Image' | 'PDF' | 'Social Media' | 'Text & Lists' | 'Encryption' | 'Web' | 'Others';
@@ -38,8 +48,26 @@ export const TOOLS: Tool[] = [
   { id: 'image-to-base64', name: 'Image to BASE64', description: 'Convert an image to Base64 format online.', category: 'Image', icon: ImageIcon },
   
   // PDF Tools
-  { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View and edit PDF metadata online.', category: 'PDF', icon: FileText },
-  { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert multiple JPG images into a single PDF document.', category: 'PDF', icon: FileArchive },
+  { id: 'pdf-to-word', name: 'PDF to Word', description: 'Convert PDF documents to editable Microsoft Word files.', category: 'PDF', icon: FileDown },
+  { id: 'pdf-to-excel', name: 'PDF to Excel', description: 'Convert PDF tables into Excel spreadsheets.', category: 'PDF', icon: FileDown },
+  { id: 'pdf-to-ppt', name: 'PDF to PPT', description: 'Convert PDF presentations to PowerPoint slides.', category: 'PDF', icon: FileDown },
+  { id: 'pdf-to-jpg', name: 'PDF to JPG', description: 'Extract images or convert pages to JPG format.', category: 'PDF', icon: ImageIcon },
+  { id: 'pdf-to-text', name: 'PDF to Text', description: 'Extract text from PDF documents.', category: 'PDF', icon: FileText },
+  
+  { id: 'word-to-pdf', name: 'Word to PDF', description: 'Convert Microsoft Word documents to PDF.', category: 'PDF', icon: FileUp },
+  { id: 'excel-to-pdf', name: 'Excel to PDF', description: 'Convert Excel spreadsheets to PDF.', category: 'PDF', icon: FileUp },
+  { id: 'ppt-to-pdf', name: 'PPT to PDF', description: 'Convert PowerPoint presentations to PDF.', category: 'PDF', icon: FileUp },
+  { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert multiple images into a single PDF.', category: 'PDF', icon: FileUp },
+
+  { id: 'edit-pdf', name: 'Edit PDF', description: 'Add text, shapes, and signatures to your PDF.', category: 'PDF', icon: FileEdit },
+  { id: 'merge-pdf', name: 'Merge PDF', description: 'Combine multiple PDF files into one document.', category: 'PDF', icon: Layers },
+  { id: 'split-pdf', name: 'Split PDF', description: 'Separate one PDF file into multiple documents.', category: 'PDF', icon: Scissors },
+  { id: 'compress-pdf', name: 'Compress PDF', description: 'Reduce the file size of your PDF document.', category: 'PDF', icon: FileArchive },
+  { id: 'rotate-pdf', name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF.', category: 'PDF', icon: RotateCw },
+  { id: 'unlock-pdf', name: 'Unlock PDF', description: 'Remove password protection from your PDF.', category: 'PDF', icon: Unlock },
+  { id: 'protect-pdf', name: 'Protect PDF', description: 'Add a password and encrypt your PDF file.', category: 'PDF', icon: Lock },
+  { id: 'watermark-pdf', name: 'Watermark PDF', description: 'Add image or text watermark to your PDF.', category: 'PDF', icon: ImageIcon },
+  { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View and edit PDF metadata online.', category: 'PDF', icon: Settings },
   
   // Social Media Tools
   { id: 'tweet-generator', name: 'Tweet Generator', description: 'Generate realistic fake tweets for memes.', category: 'Social Media', icon: Share2 },
