@@ -35,7 +35,7 @@ const AdSenseUnit: React.FC<AdSenseUnitProps> = ({
 
   return (
     <div className={`adsense-container overflow-hidden my-8 flex flex-col items-center justify-center min-h-[50px] ${className}`}>
-      <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2">Advertisement</div>
+      <div className="text-[10px] font-bold text-slate-300 dark:text-slate-600 uppercase tracking-widest mb-2">Advertisement</div>
       <ins 
         className="adsbygoogle"
         style={{ display: 'block', minWidth: '250px' }}

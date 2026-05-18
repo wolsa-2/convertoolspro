@@ -61,7 +61,7 @@ export default function PdfToolsOverview({ onToolSelect }: PdfToolsOverviewProps
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-16">
         {CATEGORIZED_PDF_TOOLS.map((category) => (
           <div key={category.title} className="space-y-6">
-            <h3 className="text-xl font-black text-slate-800 border-b border-slate-100 pb-4 flex items-center gap-3">
+            <h3 className="text-xl font-black text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-4 flex items-center gap-3">
               <div className="w-2 h-8 bg-indigo-600 rounded-full"></div>
               {category.title}
             </h3>
@@ -73,12 +73,12 @@ export default function PdfToolsOverview({ onToolSelect }: PdfToolsOverviewProps
                   <button
                     key={toolId}
                     onClick={() => onToolSelect(tool)}
-                    className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-indigo-50/50 transition-all group text-left border border-transparent hover:border-slate-50"
+                    className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-indigo-50/50 transition-all group text-left border border-transparent hover:border-slate-50 dark:hover:border-slate-700"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                       <tool.icon size={20} />
                     </div>
-                    <span className="font-bold text-slate-600 group-hover:text-indigo-600 transition-colors">
+                    <span className="font-bold text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {tool.name}
                     </span>
                   </button>

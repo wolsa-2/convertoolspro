@@ -763,5 +763,26 @@ export const STATIC_PAGES_CONTENT = {
     
     <h2>The Creator</h2>
     <p>Shivam Kumar built Allinone.tools from the ground up, focusing on clean design, intuitive user experience, and robust technical logic. As a developer himself, Shivam understands the frustrations of modern web development and is committed to expanding the platform with new tools and high-quality content that adds real value to the global community. We are constantly listening to user feedback and adding new features to make Allinone.tools the ultimate utility hub.</p>
+  `,
+  disclaimer: `
+    <h1>Disclaimer</h1>
+    <p>Last Updated: March 7, 2026</p>
+    <p>The information and tools provided by Allinone.tools are for general informational and utility purposes only. All information on the site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information or tool on the site.</p>
+    
+    <h2>No Professional Advice</h2>
+    <p>The tools provided on Allinone.tools do not constitute professional advice (such as legal, financial, or technical advice). Use of any tools or information is solely at your own risk. You should consult with the appropriate professionals before taking any actions based on the information provided on our website.</p>
+    
+    <h2>External Links Disclaimer</h2>
+    <p>The site may contain links to other websites or content belonging to or originating from third parties. Such external links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability or completeness by us. We do not warrant, endorse, guarantee, or assume responsibility for the accuracy or reliability of any information offered by third-party websites linked through the site.</p>
+    
+    <h2>Errors and Omissions Disclaimer</h2>
+    <p>While we have made every attempt to ensure that the information contained in this site has been obtained from reliable sources, Allinone.tools is not responsible for any errors or omissions, or for the results obtained from the use of this information.</p>
+    
+    <h2>No Responsibility Disclaimer</h2>
+    <p>The information on the site is provided with the understanding that the site is not herein engaged in rendering legal, accounting, tax, or other professional advice and services. As such, it should not be used as a substitute for consultation with professional accounting, tax, legal or other competent advisers.</p>
+    
+    <h2>"Use at Your Own Risk" Disclaimer</h2>
+    <p>All tools and information in the site are provided "as is", with no guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty of any kind, express or implied, including, but not limited to warranties of performance, merchantability and fitness for a particular purpose.</p>
+    <p>In no event will Allinone.tools, its related partnerships or corporations, or the partners, agents or employees thereof be liable to you or anyone else for any decision made or action taken in reliance on the information or tools provided by the site or for any consequential, special or similar damages, even if advised of the possibility of such damages.</p>
   `
 };

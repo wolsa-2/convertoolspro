@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { STATIC_PAGES_CONTENT } from './content';
+import { AdUnit } from './components/AdUnit';
 
 const StructuredData = () => {
   const schema = {
@@ -56,16 +57,29 @@ const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
 
-type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | '404';
+type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | '404';
 
 export default function App() {
   const [activeTool, setActiveTool] = useState<Tool | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
     return !localStorage.getItem('cookie-consent');
   });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     // Scroll to top on page change
@@ -223,8 +237,15 @@ export default function App() {
       case 'terms':
         return (
           <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.terms }} />
+          </div>
+        );
+      case 'disclaimer':
+        return (
+          <div className="max-w-4xl mx-auto space-y-8 py-12">
+            <div className="prose prose-indigo prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6" 
+                 dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.disclaimer }} />
           </div>
         );
       case '404':
@@ -289,10 +310,10 @@ export default function App() {
           >
             {/* Hero Section with H1 */}
             <div className="text-center space-y-4">
-              <h1 className="text-4xl md:text-6xl font-black text-[#1A1A3A] tracking-tighter leading-tight max-w-4xl mx-auto">
+              <h1 className="text-4xl md:text-6xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-4xl mx-auto">
                 Free Online Utility Tools for Developers & Designers
               </h1>
-              <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto px-4">
+              <p className="text-slate-500 dark:text-slate-400 font-medium text-lg max-w-2xl mx-auto px-4">
                 Boost your productivity with our suite of 100% free online utility tools. From text conversion to image generation, everything is secure and local-first.
               </p>
             </div>
@@ -301,7 +322,7 @@ export default function App() {
             <div className="space-y-8">
               <div className="text-center space-y-2">
                 <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">Quick Access</span>
-                <h2 className="text-2xl font-black text-[#1A1A3A]">Featured Tools</h2>
+                <h2 className="text-2xl font-black text-[#1A1A3A] dark:text-white">Featured Tools</h2>
               </div>
               <div className="space-y-4">
                 <Marquee 
@@ -329,7 +350,7 @@ export default function App() {
               <div key={category} className="space-y-12">
                 <div className="text-center space-y-3">
                   <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">{category}</span>
-                  <h2 className="text-3xl font-black text-[#1A1A3A]">
+                  <h2 className="text-3xl font-black text-[#1A1A3A] dark:text-white">
                     {category === 'Image' && 'High-Quality Image & Design Utilities'}
                     {category === 'PDF' && 'Advanced PDF Management & Conversion'}
                     {category === 'Social Media' && 'Social Media Content Generators'}
@@ -351,15 +372,15 @@ export default function App() {
                         key={tool.id}
                         whileHover={{ y: -8 }}
                         onClick={() => setActiveTool(tool)}
-                        className="group bg-white p-10 rounded-[3rem] border border-slate-50 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 cursor-pointer flex items-start gap-8"
+                        className="group bg-white dark:bg-slate-900 p-10 rounded-[3rem] border border-slate-50 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-indigo-100 dark:hover:border-indigo-900 transition-all duration-500 cursor-pointer flex items-start gap-8"
                       >
-                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
                           <tool.icon size={30} />
                         </div>
                         <div className="flex-1 space-y-2">
-                          <h3 className="text-2xl font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors tracking-tight">{tool.name}</h3>
-                          <p className="text-slate-500 font-medium leading-relaxed">{tool.description}</p>
-                          <div className="pt-4 flex items-center text-xs font-black text-indigo-600 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
+                          <h3 className="text-2xl font-black text-[#1A1A3A] dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">{tool.name}</h3>
+                          <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
+                          <div className="pt-4 flex items-center text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
                              Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>
@@ -390,10 +411,10 @@ export default function App() {
             </script>
 
             {/* Featured Articles Mini-Section */}
-            <div className="max-w-6xl mx-auto py-20 border-t border-slate-100">
+            <div className="max-w-6xl mx-auto py-20 border-t border-slate-100 dark:border-slate-800">
                <div className="text-center space-y-4 mb-12">
-                  <h2 className="text-4xl font-black text-[#1A1A3A] tracking-tight">Latest from our SEO Blog</h2>
-                  <p className="text-slate-500 max-w-2xl mx-auto">Stay ahead with digital marketing trends, developer tips, and utility guides.</p>
+                  <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Latest from our SEO Blog</h2>
+                  <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Stay ahead with digital marketing trends, developer tips, and utility guides.</p>
                </div>
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
@@ -401,10 +422,10 @@ export default function App() {
                     { title: 'Why Privacy-First Tools are the Future', desc: 'Discover why local processing is becoming the standard for professional utilities.', date: 'April 2026' },
                     { title: 'Mastering PDF Management Online', desc: 'Tips and tricks for editing PDF metadata safely without tracking.', date: 'March 2026' }
                   ].map((article, i) => (
-                    <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-slate-50 hover:border-indigo-100 transition-all cursor-pointer group shadow-sm hover:shadow-xl">
+                    <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 hover:border-indigo-100 dark:hover:border-indigo-900 transition-all cursor-pointer group shadow-sm hover:shadow-xl">
                       <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500">{article.date}</span>
-                      <h3 className="text-xl font-bold text-[#1A1A3A] mt-2 mb-3 group-hover:text-indigo-600 transition-colors">{article.title}</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed mb-6">{article.desc}</p>
+                      <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white mt-2 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{article.title}</h3>
+                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">{article.desc}</p>
                       <button onClick={() => navigateTo('blog')} className="text-xs font-black text-indigo-600 uppercase tracking-widest flex items-center">
                         Read Story <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
                       </button>
@@ -414,45 +435,45 @@ export default function App() {
             </div>
 
             {/* High Value Publisher Content Section */}
-            <div className="max-w-5xl mx-auto space-y-24 py-20 border-t border-slate-100">
+            <div className="max-w-5xl mx-auto space-y-24 py-20 border-t border-slate-100 dark:border-slate-800">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-6 text-left">
-                  <h2 className="text-4xl font-black text-[#1A1A3A] leading-tight">
+                  <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white leading-tight">
                     Why Choose <span className="text-indigo-600">Allinone.tools</span> for Your Daily Workflow?
                   </h2>
-                  <p className="text-slate-600 leading-relaxed text-lg">
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
                     In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Allinone.tools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
                   </p>
                   <div className="space-y-6">
                     <div className="flex gap-4">
-                      <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+                      <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0 shadow-sm">
                         <Shield size={24} />
                       </div>
                       <div className="space-y-1">
-                        <h4 className="font-bold text-xl text-[#1A1A3A]">Privacy-First Architecture</h4>
-                        <p className="text-slate-500 leading-relaxed">Unlike other platforms that upload your files to remote servers for processing, our tools are designed to work locally in your browser. This means your text, images, and sensitive data never leave your device, ensuring total privacy and security.</p>
+                        <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Privacy-First Architecture</h4>
+                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">Unlike other platforms that upload your files to remote servers for processing, our tools are designed to work locally in your browser. This means your text, images, and sensitive data never leave your device, ensuring total privacy and security.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
-                      <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0 shadow-sm">
+                      <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 shadow-sm">
                         <Zap size={24} />
                       </div>
                       <div className="space-y-1">
-                        <h4 className="font-bold text-xl text-[#1A1A3A]">Zero Latency Performance</h4>
-                        <p className="text-slate-500 leading-relaxed">By leveraging powerful client-side processing, we eliminate the need for server round-trips. This delivers instantaneous results, whether you are generating a QR code or converting a large block of text. Efficiency is our top priority.</p>
+                        <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Zero Latency Performance</h4>
+                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">By leveraging powerful client-side processing, we eliminate the need for server round-trips. This delivers instantaneous results, whether you are generating a QR code or converting a large block of text. Efficiency is our top priority.</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-2xl space-y-8 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
-                  <h3 className="text-3xl font-black text-[#1A1A3A] relative">Our Commitment to Excellence</h3>
-                  <p className="text-slate-600 leading-relaxed relative">
+                <div className="bg-white dark:bg-slate-900 p-12 rounded-[3rem] border border-slate-100 dark:border-slate-800 shadow-2xl space-y-8 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
+                  <h3 className="text-3xl font-black text-[#1A1A3A] dark:text-white relative">Our Commitment to Excellence</h3>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed relative">
                     We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Allinone.tools for even your most critical professional projects.
                   </p>
                   <ul className="space-y-4 relative">
                     {['100% Free to Use Forever', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
-                      <li key={item} className="flex items-center gap-4 font-bold text-slate-700">
+                      <li key={item} className="flex items-center gap-4 font-bold text-slate-700 dark:text-slate-300">
                         <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-100">
                           <Zap size={12} fill="currentColor" />
                         </div>
@@ -466,32 +487,32 @@ export default function App() {
               {/* FAQ Section */}
               <div className="space-y-12">
                 <div className="text-center space-y-4">
-                  <h2 className="text-4xl font-black text-[#1A1A3A] tracking-tight">Frequently Asked Questions</h2>
-                  <p className="text-slate-500 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
+                  <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Frequently Asked Questions</h2>
+                  <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* ... Existing FAQ items ... */}
-                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A]">Are the tools really free?</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
+                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       Yes, absolutely. Allinone.tools is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
                     </p>
                   </div>
-                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A]">Is my data safe with Allinone.tools?</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
+                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with Allinone.tools?</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       Privacy is our core value. Most of our tools, including the Text Converter and JSON Formatter, run entirely in your browser. This means your data is processed locally and is never sent to our servers.
                     </p>
                   </div>
-                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A]">Do I need to create an account?</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
+                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Do I need to create an account?</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       No. We respect your time and privacy. You can use any tool on our platform instantly without the need for registration, email verification, or login. Efficiency is just one click away.
                     </p>
                   </div>
-                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-50 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A]">How can I suggest a new tool?</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
+                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">How can I suggest a new tool?</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       We love hearing from our community! If there is a tool you need that we don't have yet, please use our Contact Us page to send your suggestion. We regularly update the platform with new requested features.
                     </p>
                   </div>
@@ -501,8 +522,8 @@ export default function App() {
               {/* YouTube Tutorial Hook Section */}
               <div className="max-w-6xl mx-auto space-y-12 py-16">
                 <div className="text-center space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black text-[#1A1A3A] tracking-tight">Master Our Tools with Video Guides</h2>
-                  <p className="text-slate-500 max-w-3xl mx-auto text-lg leading-relaxed">
+                  <h2 className="text-4xl md:text-5xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Master Our Tools with Video Guides</h2>
+                  <p className="text-slate-500 dark:text-slate-400 max-w-3xl mx-auto text-lg leading-relaxed">
                     Visual learner? Watch our comprehensive video tutorials to master PDF conversion, image editing, and developer utilities in record time.
                   </p>
                 </div>
@@ -513,7 +534,7 @@ export default function App() {
                     { id: 'qKWTQB4Ir_Y', title: 'PDF & File Management Guide' },
                     { id: 'ZxnjsvW563g', title: 'Advanced Developer Utilities' }
                   ].map((video, idx) => (
-                    <div key={idx} className="relative group p-3 bg-white rounded-[2.5rem] border border-slate-100 shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                    <div key={idx} className="relative group p-3 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                       <div className="aspect-video w-full rounded-[1.8rem] overflow-hidden bg-slate-100 mb-4">
                         <iframe 
                           className="w-full h-full"
@@ -572,10 +593,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FF] text-[#1A1A3A] font-sans selection:bg-indigo-100 selection:text-indigo-700">
+    <div className="min-h-screen bg-[#F8F9FF] dark:bg-slate-950 text-[#1A1A3A] dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-700">
       <StructuredData />
       {/* Navigation */}
-      <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
+      <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
@@ -587,16 +608,16 @@ export default function App() {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A]">Allinone.tools</span>
+              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Allinone.tools</span>
             </div>
 
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-12">
+            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
               <div className="relative w-full">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text"
-                  placeholder="Search for a tool..."
-                  className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm"
+                  placeholder="Search 100+ tools..."
+                  className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -607,6 +628,12 @@ export default function App() {
             </div>
 
             <div className="hidden md:flex items-center gap-6">
+              <button 
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="p-2.5 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-indigo-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-sm"
+              >
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
               <button onClick={() => navigateTo('home')} className={cn("text-sm font-bold transition-colors", currentPage === 'home' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>Home</button>
               <button onClick={() => navigateTo('blog')} className={cn("text-sm font-bold transition-colors", currentPage === 'blog' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>Blog</button>
               <button onClick={() => navigateTo('about')} className={cn("text-sm font-bold transition-colors", currentPage === 'about' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>About</button>
@@ -632,13 +659,13 @@ export default function App() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white border-b border-slate-200 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
+            className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
           >
             <div className="flex flex-col gap-2">
-              <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Home</button>
-              <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Blog</button>
-              <button onClick={() => navigateTo('about')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">About</button>
-              <button onClick={() => navigateTo('contact')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Contact</button>
+              <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Home</button>
+              <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
+              <button onClick={() => navigateTo('about')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">About</button>
+              <button onClick={() => navigateTo('contact')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Contact</button>
             </div>
           </motion.div>
         )}
@@ -649,7 +676,8 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-100 py-16 mt-20">
+      <AdUnit slot="footer-top" className="max-w-7xl mx-auto px-4" />
+      <footer className="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-16 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-2 space-y-6">
@@ -657,46 +685,46 @@ export default function App() {
                 <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
                   <Zap size={18} fill="currentColor" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-slate-900">Allinone.tools</span>
+                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Allinone.tools</span>
               </div>
-              <p className="text-slate-500 max-w-sm">
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm">
                 Allinone.tools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
               </p>
               <div className="flex gap-4">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" aria-label="Github">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
                   <Github size={20} />
                 </a>
-                <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" aria-label="Facebook">
+                <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="Facebook">
                   <Facebook size={20} />
                 </a>
-                <a href="https://www.instagram.com/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-all" aria-label="Instagram">
+                <a href="https://www.instagram.com/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900 transition-all" aria-label="Instagram">
                   <Instagram size={20} />
                 </a>
-                <a href="https://www.linkedin.com/company/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="LinkedIn">
                   <Linkedin size={20} />
                 </a>
-                <a href="https://www.youtube.com/@online2pdf_official" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" aria-label="YouTube">
+                <a href="https://www.youtube.com/@online2pdf_official" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900 transition-all" aria-label="YouTube">
                   <Youtube size={20} />
                 </a>
               </div>
             </div>
             
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Quick Links</h4>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Quick Links</h4>
               <ul className="space-y-4">
-                <li><a href="/" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">Home Dashboard</a></li>
-                <li><a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">SEO & Tools Blog</a></li>
-                <li><a href="/about" onClick={(e) => { e.preventDefault(); navigateTo('about'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">About Us</a></li>
-                <li><a href="/contact" onClick={(e) => { e.preventDefault(); navigateTo('contact'); }} className="text-slate-500 hover:text-indigo-600 transition-colors">Contact Support</a></li>
+                <li><a href="/" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">Home Dashboard</a></li>
+                <li><a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">SEO & Tools Blog</a></li>
+                <li><a href="/about" onClick={(e) => { e.preventDefault(); navigateTo('about'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">About Us</a></li>
+                <li><a href="/contact" onClick={(e) => { e.preventDefault(); navigateTo('contact'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">Contact Support</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Popular Tools</h4>
-              <ul className="space-y-4 text-slate-500">
+              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h4>
+              <ul className="space-y-4 text-slate-500 dark:text-slate-400">
                 <li><a href="/?tool=case-converter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
                 <li><a href="/?tool=image-placeholder" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
                 <li><a href="/?tool=pdf-metadata" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
@@ -705,10 +733,11 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Legal & Resources</h4>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Legal & Resources</h4>
               <ul className="space-y-4 text-slate-500">
                 <li><a href="/privacy" onClick={(e) => { e.preventDefault(); navigateTo('privacy'); }} className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" onClick={(e) => { e.preventDefault(); navigateTo('terms'); }} className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
+                <li><a href="/disclaimer" onClick={(e) => { e.preventDefault(); navigateTo('disclaimer'); }} className="hover:text-indigo-600 transition-colors">Disclaimer</a></li>
                 <li><a href="/sitemap.xml" target="_blank" className="hover:text-emerald-600 transition-colors">XML Sitemap</a></li>
                 <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">Web Documentation</a></li>
                 <li><a href="https://www.w3.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">W3C Standards</a></li>
@@ -716,7 +745,7 @@ export default function App() {
             </div>
           </div>
           
-          <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-400 text-sm">
               © 2026 Allinone.tools. All rights reserved.
             </p>
@@ -734,15 +763,15 @@ export default function App() {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white border border-slate-100 shadow-2xl rounded-3xl p-6 z-[60] space-y-4"
+            className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl rounded-3xl p-6 z-[60] space-y-4"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0">
+              <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
                 <Shield size={20} />
               </div>
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-900">Cookie Policy</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <h4 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                   We use cookies to enhance your experience and serve personalized ads via Google AdSense. By using our site, you agree to our use of cookies.
                 </p>
               </div>
@@ -750,13 +779,13 @@ export default function App() {
             <div className="flex gap-3">
               <button 
                 onClick={acceptCookies}
-                className="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all"
+                className="flex-1 py-3 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all font-sans"
               >
                 Accept All
               </button>
               <button 
                 onClick={() => navigateTo('privacy')}
-                className="flex-1 py-2.5 bg-slate-50 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-100 transition-all"
+                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
               >
                 Learn More
               </button>
