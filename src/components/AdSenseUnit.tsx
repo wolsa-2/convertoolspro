@@ -39,7 +39,7 @@ const AdSenseUnit: React.FC<AdSenseUnitProps> = ({
       <ins 
         className="adsbygoogle"
         style={{ display: 'block', minWidth: '250px' }}
-        data-ad-client="ca-pub-6718154089288859"
+        data-ad-client="ca-pub-1527585635151141"
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? "true" : "false"}
