@@ -85,17 +85,31 @@ export default function App() {
     // Scroll to top on page change
     window.scrollTo(0, 0);
 
-    // Dynamic Title Update
+    // Dynamic Title & Canonical Update
+    let title = 'Allinone.tools | Free Online Utility Hub & Privacy-First Tools';
+    let canonical = 'https://allinone.tools/';
+
     if (activeTool) {
-      document.title = `${activeTool.name} | Allinone.tools`;
+      title = `${activeTool.name} | Allinone.tools`;
+      canonical = `https://allinone.tools/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
-      document.title = 'SEO & Productivity Blog | Allinone.tools';
+      title = 'SEO & Productivity Blog | Allinone.tools';
+      canonical = 'https://allinone.tools/blog';
     } else if (currentPage !== 'home') {
-      const title = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
-      document.title = `${title} | Allinone.tools`;
-    } else {
-      document.title = 'Allinone.tools | Free Online Utility Hub & Privacy-First Tools';
+      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Allinone.tools`;
+      canonical = `https://allinone.tools/${currentPage}`;
     }
+
+    document.title = title;
+    
+    // Update or create canonical tag
+    let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      document.head.appendChild(link);
+    }
+    link.setAttribute('href', canonical);
   }, [currentPage, activeTool]);
 
   const acceptCookies = () => {
@@ -260,7 +274,9 @@ export default function App() {
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.disclaimer }} />
           </div>
         );
-      case '404':
+      case 'home':
+        return renderHome();
+      default:
         return (
           <div className="min-h-[70vh] flex flex-col items-center justify-center text-center space-y-12 py-20 px-4">
             <div className="relative">
@@ -282,45 +298,26 @@ export default function App() {
               </p>
               
               <div className="pt-8">
-                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6">Popular Destination</h3>
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 font-sans">Popular Destination</h3>
                 <div className="flex flex-wrap justify-center gap-4">
-                  {TOOLS.slice(0, 4).map(tool => (
-                    <button 
-                      key={tool.id}
-                      onClick={() => setActiveTool(tool)}
-                      className="px-6 py-3 bg-white border border-slate-100 rounded-2xl font-bold text-slate-600 hover:border-indigo-200 hover:text-indigo-600 hover:bg-indigo-50 transition-all shadow-sm"
-                    >
-                      {tool.name}
-                    </button>
-                  ))}
+                  <button onClick={() => setCurrentPage('home')} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100">Home Hub</button>
+                  <button onClick={() => setCurrentPage('blog')} className="px-6 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm">Visit Blog</button>
                 </div>
-              </div>
-
-              <div className="pt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                <button 
-                  onClick={() => navigateTo('home')}
-                  className="px-10 py-4 bg-[#1A1A3A] text-white rounded-[2rem] font-black hover:bg-[#2A2A5A] transition-all shadow-xl inline-block"
-                >
-                  Return to Dashboard
-                </button>
-                <button 
-                  onClick={() => navigateTo('blog')}
-                  className="px-10 py-4 bg-white border-2 border-slate-100 text-[#1A1A3A] rounded-[2rem] font-black hover:bg-slate-50 transition-all inline-block"
-                >
-                  Read Recent Blogs
-                </button>
               </div>
             </div>
           </div>
         );
-      default:
-        return (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-20"
-          >
-            {/* Hero Section with H1 */}
+    }
+  };
+
+  const renderHome = () => {
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-20"
+      >
+        {/* Hero Section with H1 */}
             <div className="text-center space-y-4">
               <h1 className="text-4xl md:text-6xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-4xl mx-auto">
                 Free Online Utility Tools for Developers & Designers
@@ -602,8 +599,7 @@ export default function App() {
               </div>
             </div>
           </motion.div>
-        );
-    }
+    );
   };
 
   return (
