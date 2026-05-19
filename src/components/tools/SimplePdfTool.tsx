@@ -46,7 +46,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('merged_allinone.pdf');
+        setDownloadName('merged_convertools.pdf');
         setProcessed(true);
       } else if (toolId === 'rotate-pdf' && files.length > 0) {
         const bytes = await files[0].arrayBuffer();
@@ -60,7 +60,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('rotated_allinone.pdf');
+        setDownloadName('rotated_convertools.pdf');
         setProcessed(true);
       } else if (toolId === 'protect-pdf' && files.length > 0) {
         if (!password) {
@@ -74,7 +74,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('protected_allinone.pdf');
+        setDownloadName('protected_convertools.pdf');
         setProcessed(true);
       } else if (toolId === 'split-pdf' && files.length > 0) {
         const bytes = await files[0].arrayBuffer();
@@ -103,7 +103,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('compressed_allinone.pdf');
+        setDownloadName('compressed_convertools.pdf');
         setProcessed(true);
       } else if (toolId === 'unlock-pdf' && files.length > 0) {
         // Unlock simulation: stripping metadata/encryption if possible via re-save
@@ -114,7 +114,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
           const blob = new Blob([pdfBytes], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
           setDownloadUrl(url);
-          setDownloadName('unlocked_allinone.pdf');
+          setDownloadName('unlocked_convertools.pdf');
           setProcessed(true);
         } catch (e) {
           alert('This PDF is heavily encrypted. For security reasons, browser-based unlocking is limited. Please ensure you have the original owner permissions.');
@@ -126,7 +126,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const pdf = await PDFDocument.load(bytes);
         const pages = pdf.getPages();
         pages.forEach(page => {
-           page.drawText('Allinone.tools', {
+           page.drawText('Convertools', {
              x: 50,
              y: 50,
              size: 30,
@@ -137,7 +137,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('watermarked_allinone.pdf');
+        setDownloadName('watermarked_convertools.pdf');
         setProcessed(true);
       } else {
         setProcessed(true);

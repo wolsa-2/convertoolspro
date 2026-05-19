@@ -54,7 +54,7 @@ export default function Blog() {
     <div className="space-y-12">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-black text-[#1A1A3A]">Our Blog</h1>
-        <p className="text-slate-500">Insights, tutorials, and updates from the Allinone.tools team.</p>
+        <p className="text-slate-500">Insights, tutorials, and updates from the Convertools team.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

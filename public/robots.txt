@@ -5,4 +5,4 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /temp/
 
-Sitemap: https://allinone.tools/sitemap.xml
+Sitemap: https://convertools.app/sitemap.xml

@@ -1,4 +1,4 @@
-# Allinone.tools - Production & Monetization Guide
+# Convertools - Production & Monetization Guide
 
 This guide provides the necessary steps to deploy, optimize, and monetize your professional tools website.
 
@@ -42,7 +42,7 @@ This guide provides the necessary steps to deploy, optimize, and monetize your p
 
 1.  Purchase a domain (e.g., from Namecheap or Google Domains).
 2.  In Vercel Project Settings, go to **Domains**.
-3.  Add your domain (e.g., `allinone.tools`).
+3.  Add your domain (e.g., `convertools.app`).
 4.  Follow the DNS instructions provided by Vercel (typically adding an `A` record and a `CNAME` record).
 
 ## 6. Performance Optimization Tips

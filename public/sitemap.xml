@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://allinone.tools/</loc>
+    <loc>https://convertools.app/</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/blog</loc>
+    <loc>https://convertools.app/blog</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/about</loc>
+    <loc>https://convertools.app/about</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/contact</loc>
+    <loc>https://convertools.app/contact</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/privacy</loc>
+    <loc>https://convertools.app/privacy</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/terms</loc>
+    <loc>https://convertools.app/terms</loc>
     <lastmod>2026-05-19</lastmod>
     <priority>0.3</priority>
   </url>
   <!-- Main Tools -->
   <url>
-    <loc>https://allinone.tools/tool/case-converter</loc>
+    <loc>https://convertools.app/tool/case-converter</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/tool/qr-generator</loc>
+    <loc>https://convertools.app/tool/qr-generator</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/tool/jpg-to-pdf</loc>
+    <loc>https://convertools.app/tool/jpg-to-pdf</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/tool/json-formatter</loc>
+    <loc>https://convertools.app/tool/json-formatter</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://allinone.tools/tool/password-generator</loc>
+    <loc>https://convertools.app/tool/password-generator</loc>
     <priority>0.7</priority>
   </url>
 </urlset>

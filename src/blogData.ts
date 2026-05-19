@@ -16,7 +16,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 1,
     title: "The Evolution of Developer Productivity Tools in 2026",
     date: "March 6, 2026",
-    author: "Allinone Team",
+    author: "Convertools Team",
     category: "Productivity",
     metaDescription: "Explore how developer productivity tools have evolved in 2026. Learn about AI integration, local-first processing, and the rise of unified utility hubs.",
     keywords: ["developer tools", "productivity", "software development", "utility hub", "2026 trends"],
@@ -27,10 +27,10 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>As we navigate through 2026, the definition of a "productive developer" has undergone a radical transformation. Gone are the days when productivity was measured solely by lines of code or the number of tickets closed. Today, productivity is defined by the efficiency of the workflow, the quality of the output, and the security of the data being handled.</p>
 
       <h2>The Rise of Unified Utility Hubs</h2>
-      <p>One of the most significant trends in 2026 is the consolidation of fragmented utilities into unified hubs. Platforms like <strong>Allinone.tools</strong> have solved this problem by providing a comprehensive suite of utilities in a single, cohesive interface.</p>
+      <p>One of the most significant trends in 2026 is the consolidation of fragmented utilities into unified hubs. Platforms like <strong>Convertools</strong> have solved this problem by providing a comprehensive suite of utilities in a single, cohesive interface.</p>
       
       <h2>Privacy-First: The Shift to Local Processing</h2>
-      <p>In 2026, data privacy is no longer an afterthought. The new standard is local-first processing. Tools like those found on <strong>Allinone.tools</strong> leverage modern browser capabilities to perform complex operations directly on the user's machine, ensuring sensitive data never leaves the device.</p>
+      <p>In 2026, data privacy is no longer an afterthought. The new standard is local-first processing. Tools like those found on <strong>Convertools</strong> leverage modern browser capabilities to perform complex operations directly on the user's machine, ensuring sensitive data never leaves the device.</p>
     `
   },
   {
@@ -51,7 +51,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>For years, the standard for online utilities was simple: you upload your file, the server processes it, and you download the result. While convenient, this model has a fatal flaw: your data is out of your control the moment you hit "upload."</p>
 
       <h2>How Local-First Tools Work</h2>
-      <p>Local-first tools use WebAssembly, JavaScript, and Client-side APIs to perform tasks that previously required a server. When you use tools on <strong>Allinone.tools</strong>, the logic runs entirely on your CPU.</p>
+      <p>Local-first tools use WebAssembly, JavaScript, and Client-side APIs to perform tasks that previously required a server. When you use tools on <strong>Convertools</strong>, the logic runs entirely on your CPU.</p>
     `
   },
   {
@@ -111,7 +111,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>If you thought QR codes were a passing fad, think again. In 2026, QR codes are more prevalent than ever. From contactless menus to secure two-factor authentication, they are the universal bridge.</p>
 
       <h2>Creative Use Cases in 2026</h2>
-      <p>Interactive packaging, smart business cards, and direct payments are just the beginning. At <strong>Allinone.tools</strong>, our QR Code Generator helps you create high-quality, scannable codes for any use case in seconds.</p>
+      <p>Interactive packaging, smart business cards, and direct payments are just the beginning. At <strong>Convertools</strong>, our QR Code Generator helps you create high-quality, scannable codes for any use case in seconds.</p>
 
       <h2>Best Practices for Scanning</h2>
       <p>Contrast is key—always use a dark code on a light background. Ensure the size is appropriate for the scanning distance, and always test before publishing your codes.</p>
@@ -207,13 +207,13 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "February 25, 2026",
     author: "Tech Lead",
     category: "Productivity",
-    metaDescription: "Discover why a unified utility hub is essential for modern web development. Learn how Allinone.tools can streamline your workflow in 2026.",
+    metaDescription: "Discover why a unified utility hub is essential for modern web development. Learn how Convertools can streamline your workflow in 2026.",
     keywords: ["developer tools", "online utilities", "workflow optimization", "web development", "productivity hub"],
     excerpt: "In 2026, the best developers aren't just the ones who write the best code—they're the ones with the best tools. Here's why you need a utility hub.",
     image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80",
     content: `
       <h1>Why Every Web Developer Needs a Swiss Army Knife of Online Utilities</h1>
-      <p>The life of a developer is a juggling act. Fragments tools spread across dozens of bookmarks lead to context switching and fatigue. A unified command center like <strong>Allinone.tools</strong> centralizes your essential utilities.</p>
+      <p>The life of a developer is a juggling act. Fragments tools spread across dozens of bookmarks lead to context switching and fatigue. A unified command center like <strong>Convertools</strong> centralizes your essential utilities.</p>
 
       <h2>The Advantage of Unified Workflow</h2>
       <p>Building muscle memory for a single interface makes you faster. Whether it's formatting JSON, generating QR codes, or optimizing images, having them all in one place allows you to stay in the flow longer.</p>

@@ -10,8 +10,8 @@ const StructuredData = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Allinone.tools",
-    "url": "https://allinone.tools/",
+    "name": "Convertools",
+    "url": "https://convertools.app/",
     "description": "Free online utility tools for developers and designers.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Any",
@@ -86,22 +86,22 @@ export default function App() {
     window.scrollTo(0, 0);
 
     // Dynamic Title, Description & Social Meta Updates
-    let title = 'Allinone.tools | Free Online Utility Hub & Privacy-First Tools';
+    let title = 'Convertools | Free Online Utility Hub & Privacy-First Tools';
     let description = 'Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing with no sign-up required.';
-    let canonical = 'https://allinone.tools/';
+    let canonical = 'https://convertools.app/';
 
     if (activeTool) {
-      title = `${activeTool.name} | Allinone.tools`;
+      title = `${activeTool.name} | Convertools`;
       description = `Use our free, local-first ${activeTool.name} tool. ${activeTool.description} Secure and private utility for professional use.`;
-      canonical = `https://allinone.tools/tool/${activeTool.id}`;
+      canonical = `https://convertools.app/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
-      title = 'SEO & Productivity Blog | Allinone.tools';
-      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with Allinone.tools core guides.';
-      canonical = 'https://allinone.tools/blog';
+      title = 'SEO & Productivity Blog | Convertools';
+      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with Convertools core guides.';
+      canonical = 'https://convertools.app/blog';
     } else if (currentPage !== 'home') {
-      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Allinone.tools`;
-      description = `Learn more about Allinone.tools ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
-      canonical = `https://allinone.tools/${currentPage}`;
+      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Convertools`;
+      description = `Learn more about Convertools ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
+      canonical = `https://convertools.app/${currentPage}`;
     }
 
     // Apply basic metadata
@@ -125,7 +125,7 @@ export default function App() {
     if (twitterDesc) twitterDesc.setAttribute('content', description);
     
     // Fix Issue 2: Branded OG Image
-    const brandedImage = 'https://allinone.tools/og-image.png';
+    const brandedImage = 'https://convertools.app/og-image.png';
     if (ogImage) ogImage.setAttribute('content', brandedImage);
     if (twitterImage) twitterImage.setAttribute('content', brandedImage);
 
@@ -248,7 +248,7 @@ export default function App() {
             <div className="space-y-4">
               <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
               <p className="text-slate-600 leading-relaxed text-lg">
-                We value your feedback and are always looking for ways to improve Allinone.tools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
+                We value your feedback and are always looking for ways to improve Convertools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
               </p>
             </div>
 
@@ -436,12 +436,12 @@ export default function App() {
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": "https://allinone.tools/"
+                  "item": "https://convertools.app/"
                 }, {
                   "@type": "ListItem",
                   "position": 2,
                   "name": activeTool ? activeTool.name : "Utilities",
-                  "item": activeTool ? `https://allinone.tools/?tool=${activeTool.id}` : "https://allinone.tools/"
+                  "item": activeTool ? `https://convertools.app/?tool=${activeTool.id}` : "https://convertools.app/"
                 }]
               })}
             </script>
@@ -475,10 +475,10 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-6 text-left">
                   <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white leading-tight">
-                    Why Choose <span className="text-indigo-600">Allinone.tools</span> for Your Daily Workflow?
+                    Why Choose <span className="text-indigo-600">Convertools</span> for Your Daily Workflow?
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
-                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Allinone.tools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
+                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Convertools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
                   </p>
                   <div className="space-y-6">
                     <div className="flex gap-4">
@@ -505,7 +505,7 @@ export default function App() {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
                   <h3 className="text-3xl font-black text-[#1A1A3A] dark:text-white relative">Our Commitment to Excellence</h3>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed relative">
-                    We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Allinone.tools for even your most critical professional projects.
+                    We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Convertools for even your most critical professional projects.
                   </p>
                   <ul className="space-y-4 relative">
                     {['100% Free to Use Forever', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
@@ -531,11 +531,11 @@ export default function App() {
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
                     <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Yes, absolutely. Allinone.tools is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
+                      Yes, absolutely. Convertools is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
                     </p>
                   </div>
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with Allinone.tools?</h3>
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with Convertools?</h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       Privacy is our core value. Most of our tools, including the Text Converter and JSON Formatter, run entirely in your browser. This means your data is processed locally and is never sent to our servers.
                     </p>
@@ -575,7 +575,7 @@ export default function App() {
                         <iframe 
                           className="w-full h-full"
                           src={`https://www.youtube.com/embed/${video.id}`} 
-                          title={`${video.title} - Allinone.tools Tutorial`}
+                          title={`${video.title} - Convertools Tutorial`}
                           width="560"
                           height="315"
                           frameBorder="0" 
@@ -612,7 +612,7 @@ export default function App() {
                 <div className="space-y-4 relative">
                   <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
                   <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Join thousands of developers, designers, and digital professionals who use Allinone.tools every day to automate repetitive tasks and focus on what matters.
+                    Join thousands of developers, designers, and digital professionals who use Convertools every day to automate repetitive tasks and focus on what matters.
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 relative">
@@ -640,14 +640,14 @@ export default function App() {
               <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
                 <img 
                   src="/vite.svg" 
-                  alt="Allinone.tools Logo" 
+                  alt="Convertools Logo" 
                   width="32"
                   height="32"
                   className="w-8 h-8"
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Allinone.tools</span>
+              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Convertools</span>
             </div>
 
             <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
@@ -724,10 +724,10 @@ export default function App() {
                 <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
                   <Zap size={18} fill="currentColor" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Allinone.tools</span>
+                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Convertools</span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm">
-                Allinone.tools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
+                Convertools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
@@ -786,7 +786,7 @@ export default function App() {
           
           <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-400 text-sm">
-              © 2026 Allinone.tools. All rights reserved.
+              © 2026 Convertools. All rights reserved.
             </p>
             <div className="flex items-center gap-1 text-slate-400 text-sm">
               Made with <Heart size={14} className="text-rose-500 fill-rose-500" /> for the community.
