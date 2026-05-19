@@ -22,13 +22,11 @@ import {
   FileDown,
   FileUp,
   FileEdit,
-  Scissors,
   Layers,
   FilePlus,
   RotateCw,
   Unlock,
   Settings,
-  Image as ImageIconIcon,
 } from 'lucide-react';
 
 export type Category = 'Image' | 'PDF' | 'Social Media' | 'Text & Lists' | 'Encryption' | 'Web' | 'Others';

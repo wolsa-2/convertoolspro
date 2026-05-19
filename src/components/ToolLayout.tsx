@@ -1,4 +1,5 @@
 import React from 'react';
+import { Share2 } from 'lucide-react';
 import { TOOLS_SEO_CONTENT, TOOLS_FAQ } from '../content';
 import { TOOLS, Tool } from '../constants';
 import AdSenseUnit from './AdSenseUnit';
@@ -25,10 +26,28 @@ export default function ToolLayout({ children, title, description, toolId, onToo
         <div className="lg:col-span-3 space-y-12">
           
           <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 bg-[#F8F9FF] dark:bg-slate-800/50">
-              <h1 className="text-3xl font-black text-[#1A1A3A] dark:text-white text-balance">{title} Online Tool & Generator</h1>
-              <p className="text-slate-500 dark:text-slate-400 mt-2">{description}</p>
-            </div>
+              <div className="flex items-center justify-between p-8 border-b border-slate-50 dark:border-slate-800 bg-[#F8F9FF] dark:bg-slate-800/50">
+                <div>
+                  <h1 className="text-3xl font-black text-[#1A1A3A] dark:text-white text-balance">{title} Online Tool & Generator</h1>
+                  <p className="text-slate-500 dark:text-slate-400 mt-2">{description}</p>
+                </div>
+                <button 
+                  onClick={() => {
+                    navigator.share({
+                      title: title,
+                      text: description,
+                      url: window.location.href
+                    }).catch(() => {
+                      navigator.clipboard.writeText(window.location.href);
+                      alert('Link copied to clipboard!');
+                    });
+                  }}
+                  className="p-4 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 rounded-2xl border border-slate-100 dark:border-slate-600 shadow-sm hover:shadow-md transition-all flex items-center gap-2 font-bold whitespace-nowrap"
+                >
+                  <Share2 size={18} />
+                  <span className="hidden sm:inline">Share</span>
+                </button>
+              </div>
             <div className="p-8">
               {children}
             </div>

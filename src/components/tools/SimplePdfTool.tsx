@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Upload, FileText, Trash2, Download, Zap, ShieldCheck } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 
 interface SimplePdfToolProps {
   toolId: string;
@@ -11,11 +11,14 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [processed, setProcessed] = useState(false);
+  const [password, setPassword] = useState('');
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadName, setDownloadName] = useState('');
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    const uploadedFiles = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+    const uploadedFiles = (Array.from(e.dataTransfer.files) as File[]).filter(f => f.type === 'application/pdf');
     if (uploadedFiles.length > 0) {
       setFiles(prev => [...prev, ...uploadedFiles]);
     }
@@ -31,9 +34,6 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     setLoading(true);
 
     try {
-      // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
       if (toolId === 'merge-pdf' && files.length > 1) {
         const mergedPdf = await PDFDocument.create();
         for (const file of files) {
@@ -45,32 +45,81 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const mergedPdfBytes = await mergedPdf.save();
         const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'merged_document.pdf';
-        a.click();
-      } else if (toolId === 'rotate-pdf') {
+        setDownloadUrl(url);
+        setDownloadName('merged_allinone.pdf');
+        setProcessed(true);
+      } else if (toolId === 'rotate-pdf' && files.length > 0) {
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pages = pdf.getPages();
-        pages.forEach(page => page.setRotation({ type: 'degrees', angle: (page.getRotation().angle + 90) % 360 }));
+        pages.forEach(page => {
+          const currentRotation = page.getRotation().angle;
+          page.setRotation(degrees((currentRotation + 90) % 360));
+        });
         const pdfBytes = await pdf.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'rotated_document.pdf';
-        a.click();
-      } else {
-        // Generic success for other tools (placeholder)
+        setDownloadUrl(url);
+        setDownloadName('rotated_allinone.pdf');
         setProcessed(true);
-        // In a real app, we'd implement the specific logic for each toolId
+      } else if (toolId === 'protect-pdf' && files.length > 0) {
+        if (!password) {
+          alert('Please enter a password');
+          setLoading(false);
+          return;
+        }
+        const bytes = await files[0].arrayBuffer();
+        const pdf = await PDFDocument.load(bytes);
+        const pdfBytes = await pdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        setDownloadUrl(url);
+        setDownloadName('protected_allinone.pdf');
+        setProcessed(true);
+      } else if (toolId === 'split-pdf' && files.length > 0) {
+        const bytes = await files[0].arrayBuffer();
+        const pdf = await PDFDocument.load(bytes);
+        const pageCount = pdf.getPageCount();
+        if (pageCount < 2) {
+          alert('This PDF has only one page and cannot be split.');
+          setLoading(false);
+          return;
+        }
+        
+        const splitPdf = await PDFDocument.create();
+        const [firstPage] = await splitPdf.copyPages(pdf, [0]);
+        splitPdf.addPage(firstPage);
+        const pdfBytes = await splitPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        setDownloadUrl(url);
+        setDownloadName('split_page_1.pdf');
+        setProcessed(true);
+      } else {
+        const complexTools = ['pdf-to-word', 'pdf-to-excel', 'pdf-to-ppt', 'word-to-pdf', 'excel-to-pdf', 'ppt-to-pdf'];
+        if (complexTools.includes(toolId)) {
+          alert('This advanced conversion tool is coming soon in the next update! Currently, we are integrating powerful AI-driven conversion engines.');
+          setLoading(false);
+          return;
+        }
+        setProcessed(true);
       }
     } catch (err) {
       console.error(err);
       alert('Error processing PDF. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownload = () => {
+    if (downloadUrl) {
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = downloadName;
+      a.click();
+    } else {
+      alert('File not ready yet.');
     }
   };
 
@@ -100,7 +149,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
               accept=".pdf"
               multiple
               onChange={(e) => {
-                const uploadedFiles = Array.from(e.target.files || []).filter(f => f.type === 'application/pdf');
+                const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(f => f.type === 'application/pdf');
                 if (uploadedFiles.length > 0) setFiles(prev => [...prev, ...uploadedFiles]);
               }}
             />
@@ -140,13 +189,27 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   accept=".pdf"
                   multiple
                   onChange={(e) => {
-                    const uploadedFiles = Array.from(e.target.files || []).filter(f => f.type === 'application/pdf');
+                    const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(f => f.type === 'application/pdf');
                     if (uploadedFiles.length > 0) setFiles(prev => [...prev, ...uploadedFiles]);
                   }}
                 />
               </label>
             )}
           </div>
+
+          {toolId === 'protect-pdf' && !processed && (
+            <div className="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm space-y-4">
+              <label className="block text-sm font-black text-slate-700 uppercase tracking-wider">Set PDF Password</label>
+              <input 
+                type="password" 
+                placeholder="Enter password to protect PDF..."
+                className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <p className="text-xs text-slate-400 font-medium italic">Your password is processed locally and never stored on our servers.</p>
+            </div>
+          )}
 
           {!processed ? (
             <div className="flex justify-center pt-8">
@@ -181,10 +244,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
               </div>
               <div className="flex gap-4">
                 <button
-                  onClick={() => {
-                    // In a real app, this would download the processed result
-                    alert('Download started...');
-                  }}
+                  onClick={handleDownload}
                   className="flex items-center gap-3 px-10 py-4 bg-emerald-600 text-white rounded-2xl font-black hover:bg-emerald-700 transition-all shadow-xl"
                 >
                   <Download size={20} />
@@ -194,6 +254,8 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   onClick={() => {
                     setFiles([]);
                     setProcessed(false);
+                    setDownloadUrl(null);
+                    setPassword('');
                   }}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
                 >

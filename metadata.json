@@ -1,8 +1,11 @@
 {
-  "name": "OmniTool - All-in-One Utility Hub",
-  "description": "A comprehensive suite of online tools for images, PDF, text, encryption, and web development.",
+  "name": "Allinone.tools - Pro Utility Hub",
+  "description": "Multi-page professional utility website with 100+ tools for PDF, Images, Text, and Developers. Optimized for SEO and Google AdSense.",
   "requestFramePermissions": [
     "camera",
     "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]
 }
