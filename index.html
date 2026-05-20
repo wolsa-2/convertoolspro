@@ -9,6 +9,7 @@
       gtag('js', new Date());
 
       gtag('config', 'G-E5M3FZVL7Q');
+      gtag('config', 'AW-16905142948');
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -94,23 +95,6 @@
     
     <!-- Google AdSense (Asynchronous) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1527585635151141" crossorigin="anonymous"></script>
-    
-    <!-- Delay non-critical GTM scripts for better Largest Contentful Paint (LCP) -->
-    <script>
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          var gtScript = document.createElement('script');
-          gtScript.async = true;
-          gtScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-16905142948';
-          document.head.appendChild(gtScript);
-          
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'AW-16905142948');
-        }, 2500); 
-      });
-    </script>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
