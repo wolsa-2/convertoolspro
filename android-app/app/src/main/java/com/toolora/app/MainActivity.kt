@@ -158,7 +158,7 @@ private fun TooloraApp() {
                     onRun = {
                         try {
                             when (selected!!) {
-                                Tool.CASE -> output = when (operation) {
+                                Tool.CASE -> output = when (requestedOperation) {
                                     "UPPER" -> input.uppercase()
                                     "LOWER" -> input.lowercase()
                                     "TITLE" -> input.split(Regex("\\s+")).joinToString(" ") { word ->
@@ -176,7 +176,7 @@ private fun TooloraApp() {
                                     }
                                     message = "VALID JSON"
                                 }
-                                Tool.BASE64 -> output = if (operation == "DECODE") {
+                                Tool.BASE64 -> output = if (requestedOperation == "DECODE") {
                                     String(Base64.decode(input.trim(), Base64.DEFAULT), Charsets.UTF_8)
                                 } else {
                                     Base64.encodeToString(input.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)
@@ -289,7 +289,7 @@ private fun ToolScreen(
     onInput: (String) -> Unit,
     onLength: (Int) -> Unit,
     onOperation: (String) -> Unit,
-    onRun: () -> Unit
+    onRun: (String) -> Unit
 ) {
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 12.dp)
@@ -323,20 +323,20 @@ private fun ToolScreen(
             Spacer(Modifier.height(12.dp))
             Text("Conversion type", color = Ink, fontWeight = FontWeight.SemiBold)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
-                OutlinedButton(onClick = { onOperation("UPPER"); onRun() }) { Text("UPPER") }
-                OutlinedButton(onClick = { onOperation("LOWER"); onRun() }) { Text("lower") }
-                OutlinedButton(onClick = { onOperation("TITLE"); onRun() }) { Text("Title") }
+                OutlinedButton(onClick = { onOperation("UPPER"); onRun("UPPER") }) { Text("UPPER") }
+                OutlinedButton(onClick = { onOperation("LOWER"); onRun("LOWER") }) { Text("lower") }
+                OutlinedButton(onClick = { onOperation("TITLE"); onRun("TITLE") }) { Text("Title") }
             }
         } else if (tool == Tool.BASE64) {
             Spacer(Modifier.height(12.dp))
             Text("Choose an action", color = Ink, fontWeight = FontWeight.SemiBold)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
-                Button(onClick = { onOperation("ENCODE"); onRun() }) { Text("Encode") }
-                OutlinedButton(onClick = { onOperation("DECODE"); onRun() }) { Text("Decode") }
+                Button(onClick = { onOperation("ENCODE"); onRun("ENCODE") }) { Text("Encode") }
+                OutlinedButton(onClick = { onOperation("DECODE"); onRun("DECODE") }) { Text("Decode") }
             }
         } else {
             Button(
-                onClick = onRun,
+                onClick = { onRun("") },
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
