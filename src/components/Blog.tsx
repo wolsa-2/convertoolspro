@@ -8,16 +8,16 @@ export default function Blog() {
 
   if (selectedPost) {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="mx-auto max-w-4xl space-y-8">
         <button 
           onClick={() => setSelectedPost(null)}
-          className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold transition-colors group"
+          className="group inline-flex min-h-11 items-center gap-2 rounded-xl px-3 font-semibold text-slate-600 transition-colors hover:bg-indigo-50 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-indigo-300"
         >
           <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
           Back to Blog
         </button>
 
-        <article className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden">
+        <article className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:rounded-[2rem]">
           <div className="aspect-video bg-indigo-50 overflow-hidden relative">
             {selectedPost.image ? (
               <img 
@@ -35,14 +35,14 @@ export default function Blog() {
               </div>
             )}
           </div>
-          <div className="p-10 md:p-16 space-y-8">
-            <div className="flex items-center gap-6 text-sm text-slate-400 font-medium">
+          <div className="space-y-8 p-5 sm:p-8 md:p-12">
+            <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-slate-500 dark:text-slate-400 sm:gap-6">
               <span className="flex items-center gap-2"><Calendar size={18} /> {selectedPost.date}</span>
               <span className="flex items-center gap-2"><User size={18} /> {selectedPost.author}</span>
               <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-black uppercase tracking-widest">{selectedPost.category}</span>
             </div>
             
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 blog-content" 
+            <div className="seo-content blog-content prose prose-slate max-w-none space-y-6 leading-relaxed dark:prose-invert" 
                  dangerouslySetInnerHTML={{ __html: selectedPost.content }} />
           </div>
         </article>
@@ -51,18 +51,18 @@ export default function Blog() {
   }
 
   return (
-    <div className="space-y-12">
+    <div className="mx-auto max-w-7xl space-y-10">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-black text-[#1A1A3A]">Our Blog</h1>
         <p className="text-slate-500">Insights, tutorials, and updates from the Convertools team.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {BLOG_POSTS.map((post) => (
           <motion.article 
             key={post.id}
             whileHover={{ y: -5 }}
-            className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800"
           >
             <div className="aspect-video bg-indigo-50 overflow-hidden relative">
               {post.image ? (
@@ -81,15 +81,15 @@ export default function Blog() {
                 </div>
               )}
             </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+              <div className="mb-4 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
                 <span className="flex items-center gap-1"><Calendar size={14} /> {post.date}</span>
                 <span className="flex items-center gap-1"><User size={14} /> {post.author}</span>
               </div>
-              <h3 className="text-xl font-bold text-[#1A1A3A] mb-2 hover:text-indigo-600 cursor-pointer transition-colors">
+              <h3 className="mb-2 text-xl font-bold tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
                 {post.title}
               </h3>
-              <p className="text-slate-500 text-sm mb-6 flex-1">
+              <p className="mb-6 flex-1 text-sm leading-6 text-slate-600 dark:text-slate-300">
                 {post.excerpt}
               </p>
               <button 
