@@ -429,7 +429,8 @@ export default function App() {
                 ) : (
                   <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {tools.map((tool) => (
-                      <motion.div
+                      <motion.button
+                        type="button"
                         key={tool.id}
                         whileHover={{ y: -8 }}
                         onClick={() => setActiveTool(tool)}
@@ -651,7 +652,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </motion.button>
     );
   };
 
