@@ -92,6 +92,7 @@ private fun TooloraApp() {
     var output by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
     var passwordLength by remember { mutableIntStateOf(20) }
+    var operation by remember { mutableStateOf("UPPER") }
 
     MaterialTheme {
         Scaffold(
@@ -120,6 +121,7 @@ private fun TooloraApp() {
                                 input = ""
                                 output = ""
                                 message = ""
+                                operation = "UPPER"
                             }) { Icon(Icons.Outlined.ArrowBack, contentDescription = "Back", tint = Ink) }
                         }
                     },
@@ -135,6 +137,11 @@ private fun TooloraApp() {
                         input = ""
                         output = ""
                         message = ""
+                        operation = when (it) {
+                            Tool.CASE -> "UPPER"
+                            Tool.BASE64 -> "ENCODE"
+                            else -> ""
+                        }
                     }
                 )
             } else {
@@ -144,12 +151,14 @@ private fun TooloraApp() {
                     output = output,
                     message = message,
                     passwordLength = passwordLength,
+                    operation = operation,
                     onInput = { input = it; output = ""; message = "" },
                     onLength = { passwordLength = it },
+                    onOperation = { operation = it; output = ""; message = "" },
                     onRun = {
                         try {
                             when (selected!!) {
-                                Tool.CASE -> output = when (message) {
+                                Tool.CASE -> output = when (operation) {
                                     "UPPER" -> input.uppercase()
                                     "LOWER" -> input.lowercase()
                                     "TITLE" -> input.split(Regex("\\s+")).joinToString(" ") { word ->
@@ -167,7 +176,7 @@ private fun TooloraApp() {
                                     }
                                     message = "VALID JSON"
                                 }
-                                Tool.BASE64 -> output = if (message == "DECODE") {
+                                Tool.BASE64 -> output = if (operation == "DECODE") {
                                     String(Base64.decode(input.trim(), Base64.DEFAULT), Charsets.UTF_8)
                                 } else {
                                     Base64.encodeToString(input.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)
@@ -276,8 +285,10 @@ private fun ToolScreen(
     output: String,
     message: String,
     passwordLength: Int,
+    operation: String,
     onInput: (String) -> Unit,
     onLength: (Int) -> Unit,
+    onOperation: (String) -> Unit,
     onRun: () -> Unit
 ) {
     Column(
@@ -310,18 +321,18 @@ private fun ToolScreen(
         }
         if (tool == Tool.CASE) {
             Spacer(Modifier.height(12.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = { onInput(input); }) { Text("Input") }
-                OutlinedButton(onClick = { onRun(); }) { Text("Convert") }
+            Text("Conversion type", color = Ink, fontWeight = FontWeight.SemiBold)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
+                OutlinedButton(onClick = { onOperation("UPPER"); onRun() }) { Text("UPPER") }
+                OutlinedButton(onClick = { onOperation("LOWER"); onRun() }) { Text("lower") }
+                OutlinedButton(onClick = { onOperation("TITLE"); onRun() }) { Text("Title") }
             }
-            Text("Choose conversion below", color = Muted, fontSize = 12.sp, modifier = Modifier.padding(top = 8.dp))
-        }
-        if (tool == Tool.BASE64) {
+        } else if (tool == Tool.BASE64) {
             Spacer(Modifier.height(12.dp))
-            Text("Tap Encode for text → Base64, or Decode for Base64 → text.", color = Muted, fontSize = 12.sp)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = onRun) { Text("Encode") }
-                OutlinedButton(onClick = onRun) { Text("Decode requires mode") }
+            Text("Choose an action", color = Ink, fontWeight = FontWeight.SemiBold)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
+                Button(onClick = { onOperation("ENCODE"); onRun() }) { Text("Encode") }
+                OutlinedButton(onClick = { onOperation("DECODE"); onRun() }) { Text("Decode") }
             }
         } else {
             Button(
