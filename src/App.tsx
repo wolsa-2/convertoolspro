@@ -720,7 +720,7 @@ export default function App() {
           >
             <div className="mb-3 flex items-center gap-3">
               <button type="button" onClick={() => setIsDarkMode(!isDarkMode)} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-100">{isDarkMode ? <Sun size={18} /> : <Moon size={18} />} {isDarkMode ? "Light mode" : "Dark mode"}</button>
-              <button type="button" onClick={() => { setIsMenuOpen(false); document.getElementById("tool-directory")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 font-semibold text-white"><Search size={18} /> Find tools</button>
+              <label className="relative block flex-1"><Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" /><input type="search" aria-label="Search tools" placeholder="Search tools..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); if (currentPage !== "home") navigateTo("home"); }} className="min-h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" /></label>
             </div>
             <div className="flex flex-col gap-2">
               <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Home</button>
