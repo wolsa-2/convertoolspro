@@ -50,7 +50,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
       
       {/* Gradient Overlays for smooth edges */}
       <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#F7F8FC] to-transparent dark:from-slate-950 z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#F8F9FF] to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#F7F8FC] to-transparent dark:from-slate-950 z-10 pointer-events-none" />
     </div>
   );
 };
