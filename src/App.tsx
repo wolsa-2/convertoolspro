@@ -344,15 +344,34 @@ export default function App() {
         animate={{ opacity: 1 }}
         className="space-y-20 tool-container"
       >
-        {/* Fix Issue 6: SEO Optimized Heading Hierarchy (H1 & H2) */}
-            <div className="text-center space-y-4 px-4">
-              <h1 className="text-4xl md:text-7xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-5xl mx-auto">
-                The Ultimate Free Online Utility Hub
-              </h1>
-              <h2 className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed">
-                Empowering developers and designers with 100+ private, local-first tools for PDF management, Image editing, and Text processing.
-              </h2>
+        <section className="relative isolate overflow-hidden rounded-[2rem] border border-indigo-100/80 bg-gradient-to-br from-white via-indigo-50/80 to-violet-50 px-5 py-12 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 sm:px-10 sm:py-16 lg:py-20">
+          <div className="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl dark:bg-indigo-600/10" />
+          <div className="pointer-events-none absolute -bottom-24 -left-12 h-64 w-64 rounded-full bg-violet-200/40 blur-3xl dark:bg-violet-600/10" />
+          <div className="relative mx-auto max-w-4xl text-center">
+            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-xs font-bold tracking-wide text-indigo-700 shadow-sm dark:border-indigo-900 dark:bg-slate-800/80 dark:text-indigo-300">
+              <Sparkles size={15} /> YOUR EVERYDAY DIGITAL TOOLKIT
             </div>
+            <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
+              Powerful tools. <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Less busywork.</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+              Convert files, format data and simplify everyday tasks with a growing collection of easy-to-use online utilities.
+            </p>
+            <div className="mx-auto mt-8 flex max-w-2xl flex-col justify-center gap-3 sm:flex-row">
+              <button type="button" onClick={() => document.getElementById('tool-directory')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                Explore all tools <ArrowRight size={18} />
+              </button>
+              <button type="button" onClick={() => { const el = document.getElementById('tool-search'); el?.focus(); el?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 font-semibold text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                <Search size={18} /> Find a tool
+              </button>
+            </div>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-500 dark:text-slate-400">
+              <span className="inline-flex items-center gap-2"><Shield size={16} className="text-emerald-600" /> Privacy-conscious utilities</span>
+              <span className="inline-flex items-center gap-2"><Zap size={16} className="text-amber-500" /> Quick, simple workflows</span>
+              <span className="inline-flex items-center gap-2"><Heart size={16} className="text-rose-500" /> Free tools</span>
+            </div>
+          </div>
+        </section>
 
             {/* Marquee Section */}
             <div className="space-y-8">
@@ -381,7 +400,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Categorized Grid */}
+            {/* Categorized Grid */}\n            <div id="tool-directory" className="scroll-mt-28 space-y-6">\n              <div className="mx-auto max-w-3xl px-4 text-center">\n                <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">Tool directory</p>\n                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Everything you need, in one place</h2>\n                <p className="mt-3 text-slate-600 dark:text-slate-400">Choose a category or search for a specific utility.</p>\n              </div>
             {Object.entries(toolsByCategory).map(([category, tools]) => (
               <div key={category} className="space-y-12">
                 <div className="text-center space-y-3">
@@ -402,19 +421,19 @@ export default function App() {
                     <PdfToolsOverview onToolSelect={(tool) => setActiveTool(tool)} />
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                  <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {tools.map((tool) => (
                       <motion.div
                         key={tool.id}
                         whileHover={{ y: -8 }}
                         onClick={() => setActiveTool(tool)}
-                        className="group bg-white dark:bg-slate-900 p-10 rounded-[3rem] border border-slate-50 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-indigo-100 dark:hover:border-indigo-900 transition-all duration-500 cursor-pointer flex items-start gap-8"
+                        className="group flex cursor-pointer items-start gap-5 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800 sm:gap-6 sm:p-7"
                       >
-                        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition-colors group-hover:bg-indigo-600 group-hover:text-white dark:bg-slate-800 dark:text-indigo-300 sm:h-14 sm:w-14">
                           <tool.icon size={30} />
                         </div>
                         <div className="flex-1 space-y-2">
-                          <h3 className="text-2xl font-black text-[#1A1A3A] dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">{tool.name}</h3>
+                          <h3 className="text-lg font-bold tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400 sm:text-xl">{tool.name}</h3>
                           <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
                           <div className="pt-4 flex items-center text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
                              Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -426,6 +445,7 @@ export default function App() {
                 )}
               </div>
             ))}
+            </div>
 
             {/* Breadcrumb Schema for SEO */}
             <script type="application/ld+json">
