@@ -17,9 +17,26 @@
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
-body { margin: 0; min-width: 320px; background: var(--page); }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--page);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+}
+#root { min-height: 100vh; }
 button, input, textarea, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
+a { text-underline-offset: 0.2em; }
+::selection { background: #c7d2fe; color: #1e1b4b; }
+:where(input, textarea, select) { max-width: 100%; }
+:where(button, a, input, textarea, select) { touch-action: manipulation; }
+@media (hover: hover) {
+  a, button { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: 160ms; }
+}
+@media (max-width: 640px) {
+  html { scroll-padding-top: 5rem; }
+}
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: 3px solid #818cf8;
   outline-offset: 3px;
