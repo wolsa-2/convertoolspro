@@ -10,7 +10,7 @@ const StructuredData = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Convertools",
+    "name": "Toolora",
     "url": "https://convertools.app/",
     "description": "Free online utility tools for developers and designers.",
     "applicationCategory": "UtilityApplication",
@@ -87,21 +87,21 @@ export default function App() {
     window.scrollTo(0, 0);
 
     // Dynamic Title, Description & Social Meta Updates
-    let title = 'Convertools | Free Online Utility Hub & Privacy-First Tools';
+    let title = 'Toolora | Free Online Utility Hub & Privacy-First Tools';
     let description = 'Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing with no sign-up required.';
     let canonical = 'https://convertools.app/';
 
     if (activeTool) {
-      title = `${activeTool.name} | Convertools`;
+      title = `${activeTool.name} | Toolora`;
       description = `Use our free, local-first ${activeTool.name} tool. ${activeTool.description} Secure and private utility for professional use.`;
       canonical = `https://convertools.app/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
-      title = 'SEO & Productivity Blog | Convertools';
-      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with Convertools core guides.';
+      title = 'SEO & Productivity Blog | Toolora';
+      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with Toolora core guides.';
       canonical = 'https://convertools.app/blog';
     } else if (currentPage !== 'home') {
-      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Convertools`;
-      description = `Learn more about Convertools ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
+      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Toolora`;
+      description = `Learn more about Toolora ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
       canonical = `https://convertools.app/${currentPage}`;
     }
 
@@ -250,7 +250,7 @@ export default function App() {
               <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">We’re here to help</p>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Contact Us</h1>
               <p className="text-slate-600 leading-relaxed text-lg dark:text-slate-300">
-                We value your feedback and are always looking for ways to improve Convertools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
+                We value your feedback and are always looking for ways to improve Toolora. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
               </p>
             </div>
 
@@ -504,10 +504,10 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-6 text-left">
                   <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white leading-tight">
-                    Why Choose <span className="text-indigo-600">Convertools</span> for Your Daily Workflow?
+                    Why Choose <span className="text-indigo-600">Toolora</span> for Your Daily Workflow?
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
-                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Convertools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
+                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Toolora was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
                   </p>
                   <div className="space-y-6">
                     <div className="flex gap-4">
@@ -534,7 +534,7 @@ export default function App() {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
                   <h3 className="text-3xl font-black text-[#1A1A3A] dark:text-white relative">Our Commitment to Excellence</h3>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed relative">
-                    We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Convertools for even your most critical professional projects.
+                    We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Toolora for even your most critical professional projects.
                   </p>
                   <ul className="space-y-4 relative">
                     {['100% Free to Use Forever', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
@@ -560,11 +560,11 @@ export default function App() {
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
                     <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Yes, absolutely. Convertools is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
+                      Yes, absolutely. Toolora is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
                     </p>
                   </div>
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with Convertools?</h3>
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with Toolora?</h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                       Privacy is our core value. Most of our tools, including the Text Converter and JSON Formatter, run entirely in your browser. This means your data is processed locally and is never sent to our servers.
                     </p>
@@ -604,7 +604,7 @@ export default function App() {
                         <iframe 
                           className="w-full h-full"
                           src={`https://www.youtube.com/embed/${video.id}`} 
-                          title={`${video.title} - Convertools Tutorial`}
+                          title={`${video.title} - Toolora Tutorial`}
                           width="560"
                           height="315"
                           frameBorder="0" 
@@ -666,9 +666,9 @@ export default function App() {
       <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            <button type="button" aria-label="Convertools home" onClick={() => navigateTo('home')} className="group flex items-center gap-3 rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-900">
+            <button type="button" aria-label="Toolora home" onClick={() => navigateTo('home')} className="group flex items-center gap-3 rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-900">
               <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20 transition-transform group-hover:scale-105"><Zap size={23} fill="currentColor" aria-hidden="true" /></span>
-              <span className="text-xl font-extrabold tracking-tight text-[#1A1A3A] dark:text-white sm:text-2xl">Convertools <span className="sr-only">home</span></span>
+              <span className="text-xl font-extrabold tracking-tight text-[#1A1A3A] dark:text-white sm:text-2xl">Toolora <span className="sr-only">home</span></span>
             </button>
 
             <div className="hidden md:flex mx-6 max-w-md flex-1 items-center">
@@ -756,16 +756,16 @@ export default function App() {
                 <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
                   <Zap size={18} fill="currentColor" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Convertools</span>
+                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Toolora</span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm">
-                Convertools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
+                Toolora is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. Processing methods vary by tool; review each tool’s description before using sensitive information.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" aria-label="Convertools Pro on GitHub">
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" aria-label="Toolora Pro on GitHub">
                   <Github size={18} /> GitHub repository
                 </a>
                 <a href="mailto:b605649@gmail.com" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
@@ -809,7 +809,7 @@ export default function App() {
           
           <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-400 text-sm">
-              © 2026 Convertools. All rights reserved.
+              © 2026 Toolora. All rights reserved.
             </p>
             <div className="flex items-center gap-1 text-slate-400 text-sm">
               Made with <Heart size={14} className="text-rose-500 fill-rose-500" /> for the community.
