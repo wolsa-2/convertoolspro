@@ -1,32 +1,20 @@
-import { 
-  Image as ImageIcon, 
-  FileText, 
-  Share2, 
-  Type, 
-  Lock, 
-  Globe, 
-  MoreHorizontal,
+import {
+  Image as ImageIcon,
+  FileText,
+  Share2,
+  Type,
+  Lock,
   Hash,
-  ShieldCheck,
   FileJson,
   Code,
   QrCode,
-  Camera,
   Scissors,
-  FileArchive,
-  Zap,
-  RefreshCw,
   CaseSensitive,
-  Binary,
   Key,
-  FileDown,
-  FileUp,
-  FileEdit,
   Layers,
-  FilePlus,
   RotateCw,
-  Unlock,
   Settings,
+  FileUp,
 } from 'lucide-react';
 
 export type Category = 'Image' | 'PDF' | 'Social Media' | 'Text & Lists' | 'Encryption' | 'Web' | 'Others';
@@ -42,36 +30,28 @@ export interface Tool {
 
 export const TOOLS: Tool[] = [
   // Image Tools
-  { id: 'image-placeholder', name: 'Image Placeholder', description: 'Generate placeholder images with custom text.', category: 'Image', icon: ImageIcon },
-  { id: 'image-to-base64', name: 'Image to BASE64', description: 'Convert an image to Base64 format online.', category: 'Image', icon: ImageIcon },
-  
-  // PDF Tools
-  { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert multiple images into a single PDF.', category: 'PDF', icon: FileUp },
+  { id: 'image-to-base64', name: 'Image to BASE64', description: 'Convert an image to Base64 format in your browser.', category: 'Image', icon: ImageIcon },
+
+  // PDF tools currently supported by the implementation
+  { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert images into a single PDF.', category: 'PDF', icon: FileUp },
   { id: 'merge-pdf', name: 'Merge PDF', description: 'Combine multiple PDF files into one document.', category: 'PDF', icon: Layers },
-  { id: 'split-pdf', name: 'Split PDF', description: 'Separate one PDF file into multiple documents.', category: 'PDF', icon: Scissors },
-  { id: 'rotate-pdf', name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF.', category: 'PDF', icon: RotateCw },
-  { id: 'watermark-pdf', name: 'Watermark PDF', description: 'Add image or text watermark to your PDF.', category: 'PDF', icon: ImageIcon },
-  { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View and edit PDF metadata online.', category: 'PDF', icon: Settings },
-  
-  // Social Media Tools
-  { id: 'tweet-generator', name: 'Tweet Generator', description: 'Generate realistic fake tweets for memes.', category: 'Social Media', icon: Share2 },
-  
-  // Text & Lists Tools
-  { id: 'character-counter', name: 'Character Counter', description: 'Count characters, words, and lines in your text.', category: 'Text & Lists', icon: Type },
-  { id: 'case-converter', name: 'Case Converter', description: 'Convert text to uppercase, lowercase, camelCase, etc.', category: 'Text & Lists', icon: CaseSensitive },
-  { id: 'password-generator', name: 'Password Generator', description: 'Generate secure and random passwords.', category: 'Text & Lists', icon: Key },
-  { id: 'bionic-reading', name: 'Bionic Reading', description: 'Convert text to bionic reading format for faster reading.', category: 'Text & Lists', icon: Zap },
-  
-  // Encryption Tools
-  { id: 'base64-codec', name: 'Base64 Encode/Decode', description: 'Encode or decode text to/from Base64.', category: 'Encryption', icon: Lock },
-  { id: 'hash-generator', name: 'Hash Generator', description: 'Generate MD5, SHA-1, SHA-256 hashes.', category: 'Encryption', icon: Hash },
-  
-  // Web Tools
-  { id: 'json-formatter', name: 'JSON Formatter', description: 'Beautify or minify JSON data.', category: 'Web', icon: FileJson },
+  { id: 'rotate-pdf', name: 'Rotate PDF', description: 'Rotate every page in a PDF by 90 degrees.', category: 'PDF', icon: RotateCw },
+  { id: 'watermark-pdf', name: 'Watermark PDF', description: 'Add a simple text watermark to each PDF page.', category: 'PDF', icon: ImageIcon },
+  { id: 'pdf-metadata', name: 'PDF Metadata Viewer', description: 'View document metadata and page count.', category: 'PDF', icon: Settings },
+
+  // Text & Lists
+  { id: 'character-counter', name: 'Character & Word Counter', description: 'Count characters, words, lines, sentences, and characters without spaces.', category: 'Text & Lists', icon: Type },
+  { id: 'case-converter', name: 'Case Converter', description: 'Convert text to uppercase, lowercase, camelCase, and more.', category: 'Text & Lists', icon: CaseSensitive },
+  { id: 'password-generator', name: 'Secure Password Generator', description: 'Generate passwords using the browser cryptographic random number generator.', category: 'Text & Lists', icon: Key },
+
+  // Encoding & hashing
+  { id: 'base64-codec', name: 'Base64 Text Encoder / Decoder', description: 'Encode and decode UTF-8 text, including Hindi and other Unicode languages.', category: 'Encryption', icon: Lock },
+  { id: 'hash-generator', name: 'SHA Hash Generator', description: 'Generate SHA-1, SHA-256, and SHA-512 hashes locally.', category: 'Encryption', icon: Hash },
+
+  // Developer tools
+  { id: 'json-formatter', name: 'JSON Formatter', description: 'Validate, beautify, and minify JSON.', category: 'Web', icon: FileJson },
   { id: 'html-entities', name: 'HTML Entities', description: 'Encode or decode HTML entities.', category: 'Web', icon: Code },
-  
-  // Others
-  { id: 'qr-generator', name: 'QR Code Generator', description: 'Create custom QR codes for links or text.', category: 'Others', icon: QrCode },
+  { id: 'qr-generator', name: 'QR Code Generator', description: 'Create a QR code from text or a link.', category: 'Others', icon: QrCode },
 ];
 
 export const CATEGORIES: Category[] = [
