@@ -1,14 +1,11 @@
 import {
   Image as ImageIcon,
-  FileText,
-  Share2,
   Type,
   Lock,
   Hash,
   FileJson,
   Code,
   QrCode,
-  Scissors,
   CaseSensitive,
   Key,
   Layers,
@@ -17,7 +14,7 @@ import {
   FileUp,
 } from 'lucide-react';
 
-export type Category = 'Image' | 'PDF' | 'Social Media' | 'Text & Lists' | 'Encryption' | 'Web' | 'Others';
+export type Category = 'Image' | 'PDF' | 'Text & Lists' | 'Encryption' | 'Web' | 'Others';
 
 export interface Tool {
   id: string;
@@ -55,5 +52,5 @@ export const TOOLS: Tool[] = [
 ];
 
 export const CATEGORIES: Category[] = [
-  'Image', 'PDF', 'Social Media', 'Text & Lists', 'Encryption', 'Web', 'Others'
+  'Image', 'PDF', 'Text & Lists', 'Encryption', 'Web', 'Others'
 ];
