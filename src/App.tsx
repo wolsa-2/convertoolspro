@@ -434,7 +434,7 @@ export default function App() {
                         key={tool.id}
                         whileHover={{ y: -8 }}
                         onClick={() => setActiveTool(tool)}
-                        className="group flex cursor-pointer items-start gap-5 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800 sm:gap-6 sm:p-7"
+                        className="group flex w-full cursor-pointer items-start gap-5 rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800 sm:gap-6 sm:p-7"
                       >
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition-colors group-hover:bg-indigo-600 group-hover:text-white dark:bg-slate-800 dark:text-indigo-300 sm:h-14 sm:w-14">
                           <tool.icon size={30} />
