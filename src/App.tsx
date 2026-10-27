@@ -442,10 +442,10 @@ export default function App() {
                           <h3 className="text-lg font-bold tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400 sm:text-xl">{tool.name}</h3>
                           <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
                           <div className="pt-4 flex items-center text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
-                             Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                             Try {tool.name} <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
                           </div>
                         </div>
-                      </motion.div>
+                      </motion.button>
                     ))}
                   </div>
                 )}
@@ -760,21 +760,12 @@ export default function App() {
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. Processing methods vary by tool; review each tool’s description before using sensitive information.
               </p>
-              <div className="flex gap-4">
-                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
-                  <Github size={20} />
+              <div className="flex flex-wrap gap-3">
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" aria-label="Convertools Pro on GitHub">
+                  <Github size={18} /> GitHub repository
                 </a>
-                <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="Facebook">
-                  <Facebook size={20} />
-                </a>
-                <a href="https://www.instagram.com/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900 transition-all" aria-label="Instagram">
-                  <Instagram size={20} />
-                </a>
-                <a href="https://www.linkedin.com/company/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="LinkedIn">
-                  <Linkedin size={20} />
-                </a>
-                <a href="https://www.youtube.com/@online2pdf_official" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900 transition-all" aria-label="YouTube">
-                  <Youtube size={20} />
+                <a href="mailto:b605649@gmail.com" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+                  <Mail size={18} /> Contact
                 </a>
               </div>
             </div>
