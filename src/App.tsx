@@ -65,7 +65,8 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
     return !localStorage.getItem('cookie-consent');
@@ -268,7 +269,7 @@ export default function App() {
                 </div>
                 <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
                 <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
-                <button className="text-lg font-black text-emerald-600 hover:underline">View on GitHub</button>
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-lg font-bold text-emerald-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400">View on GitHub <ArrowRight size={18} aria-hidden="true" /></a>
               </div>
             </div>
 
@@ -432,7 +433,7 @@ export default function App() {
                       <motion.button
                         type="button"
                         key={tool.id}
-                        whileHover={{ y: -8 }}
+                        whileHover={{ y: -3 }}
                         onClick={() => setActiveTool(tool)}
                         className="group flex w-full cursor-pointer items-start gap-5 rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800 sm:gap-6 sm:p-7"
                       >
@@ -553,7 +554,7 @@ export default function App() {
                   <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Frequently Asked Questions</h2>
                   <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                   {/* ... Existing FAQ items ... */}
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
                     <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
@@ -657,16 +658,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FF] dark:bg-slate-950 text-[#1A1A3A] dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-700">
+    <div className="min-h-screen bg-[#F8F9FF] text-[#1A1A3A] font-sans selection:bg-indigo-100 selection:text-indigo-700 dark:bg-slate-950 dark:text-slate-100">
+      <a href="#main-content" className="sr-only z-[100] rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to main content</a>
       <StructuredData />
       {/* Navigation */}
       <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20"><Zap size={23} fill="currentColor" aria-hidden="true" /></div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Convertools</span>
-            </div>
+            <button type="button" aria-label="Convertools home" onClick={() => navigateTo('home')} className="group flex items-center gap-3 rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-900">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20 transition-transform group-hover:scale-105"><Zap size={23} fill="currentColor" aria-hidden="true" /></span>
+              <span className="text-xl font-extrabold tracking-tight text-[#1A1A3A] dark:text-white sm:text-2xl">Convertools <span className="sr-only">home</span></span>
+            </button>
 
             <div className="hidden md:flex mx-6 max-w-md flex-1 items-center">
               <div className="relative w-full">
@@ -739,13 +741,13 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
         {renderPage()}
       </main>
 
       {/* Footer */}
       <AdUnit slot="footer-top" className="max-w-7xl mx-auto px-4" />
-      <footer className="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-16 mt-20">
+      <footer className="mt-12 border-t border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-900 sm:mt-20 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-2 space-y-6">
