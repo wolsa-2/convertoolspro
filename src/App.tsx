@@ -632,7 +632,7 @@ export default function App() {
                 <div className="space-y-4 relative">
                   <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
                   <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Join thousands of developers, designers, and digital professionals who use Convertools every day to automate repetitive tasks and focus on what matters.
+                    Simplify everyday file, text, and developer tasks with a growing collection of straightforward online utilities.
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 relative">
@@ -657,25 +657,18 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
-              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
-                <img 
-                  src="/vite.svg" 
-                  alt="Convertools Logo" 
-                  width="32"
-                  height="32"
-                  className="w-8 h-8"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20"><Zap size={23} fill="currentColor" aria-hidden="true" /></div>
               <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Convertools</span>
             </div>
 
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+            <div className="hidden md:flex mx-6 max-w-md flex-1 items-center">
               <div className="relative w-full">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text"
-                  placeholder="Search 100+ tools..."
+                  id="tool-search"
+                  aria-label="Search tools"
+                  placeholder="Search tools..."
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
@@ -688,6 +681,8 @@ export default function App() {
 
             <div className="hidden md:flex items-center gap-6">
               <button 
+                type="button"
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="p-2.5 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-indigo-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-sm"
               >
@@ -702,7 +697,10 @@ export default function App() {
             </div>
 
             <button 
-              className="md:hidden p-2 text-slate-600"
+              type="button"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              className="md:hidden rounded-xl p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -720,6 +718,10 @@ export default function App() {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
           >
+            <div className="mb-3 flex items-center gap-3">
+              <button type="button" onClick={() => setIsDarkMode(!isDarkMode)} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-100">{isDarkMode ? <Sun size={18} /> : <Moon size={18} />} {isDarkMode ? "Light mode" : "Dark mode"}</button>
+              <button type="button" onClick={() => { setIsMenuOpen(false); document.getElementById("tool-directory")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 font-semibold text-white"><Search size={18} /> Find tools</button>
+            </div>
             <div className="flex flex-col gap-2">
               <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Home</button>
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
@@ -750,10 +752,10 @@ export default function App() {
                 Convertools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
-                Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
+                Disclaimer: All tools on this site are provided "as is" without warranty of any kind. Processing methods vary by tool; review each tool’s description before using sensitive information.
               </p>
               <div className="flex gap-4">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
                   <Github size={20} />
                 </a>
                 <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="Facebook">
