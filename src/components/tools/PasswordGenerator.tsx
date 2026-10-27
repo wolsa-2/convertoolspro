@@ -2,6 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { Copy, Check, RefreshCw, Shield, ShieldAlert, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+function secureRandomInt(maxExclusive: number): number {
+  if (!Number.isSafeInteger(maxExclusive) || maxExclusive < 1) {
+    throw new Error('Invalid random range.');
+  }
+  if (typeof crypto === 'undefined' || typeof crypto.getRandomValues !== 'function') {
+    throw new Error('Secure random generation is unavailable in this browser.');
+  }
+
+  // Rejection sampling avoids the modulo bias of value % maxExclusive.
+  const range = 0x100000000;
+  const limit = Math.floor(range / maxExclusive) * maxExclusive;
+  const values = new Uint32Array(1);
+  let value: number;
+
+  do {
+    crypto.getRandomValues(values);
+    value = values[0];
+  } while (value >= limit);
+
+  return value % maxExclusive;
+}
+
+function secureShuffle<T>(items: T[]): T[] {
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = secureRandomInt(i + 1);
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+
 export default function PasswordGenerator() {
   const [password, setPassword] = useState('');
   const [length, setLength] = useState(16);
@@ -12,6 +42,8 @@ export default function PasswordGenerator() {
     symbols: true,
   });
   const [copied, setCopied] = useState(false);
+  const [generationError, setGenerationError] = useState('');
+  const [copyError, setCopyError] = useState('');
 
   const generatePassword = () => {
     const charset = {
@@ -21,35 +53,78 @@ export default function PasswordGenerator() {
       symbols: '!@#$%^&*()_+~`|}{[]:;?><,./-=',
     };
 
-    let characters = '';
-    if (options.uppercase) characters += charset.uppercase;
-    if (options.lowercase) characters += charset.lowercase;
-    if (options.numbers) characters += charset.numbers;
-    if (options.symbols) characters += charset.symbols;
+    const selectedCharsets: string[] = [];
+    if (options.uppercase) selectedCharsets.push(charset.uppercase);
+    if (options.lowercase) selectedCharsets.push(charset.lowercase);
+    if (options.numbers) selectedCharsets.push(charset.numbers);
+    if (options.symbols) selectedCharsets.push(charset.symbols);
 
-    if (!characters) return;
-
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    if (selectedCharsets.length === 0) {
+      setPassword('');
+      setGenerationError('');
+      setCopyError('');
+      return;
     }
-    setPassword(result);
+
+    if (length < selectedCharsets.length) {
+      setPassword('');
+      setGenerationError('Choose a longer password or fewer character types.');
+      return;
+    }
+
+    try {
+      const allCharacters = selectedCharsets.join('');
+      const result: string[] = [];
+
+      // Guarantee at least one character from every selected character class.
+      for (const characters of selectedCharsets) {
+        result.push(characters[secureRandomInt(characters.length)]);
+      }
+
+      while (result.length < length) {
+        result.push(allCharacters[secureRandomInt(allCharacters.length)]);
+      }
+
+      setPassword(secureShuffle(result).join(''));
+      setGenerationError('');
+      setCopyError('');
+      setCopied(false);
+    } catch (error) {
+      setPassword('');
+      setCopied(false);
+      setGenerationError(
+        error instanceof Error
+          ? error.message
+          : 'Password generation failed. Please try again.'
+      );
+    }
   };
 
   useEffect(() => {
     generatePassword();
   }, [length, options]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(password);
-    setCopied(true);
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#4F46E5', '#10B981', '#F59E0B']
-    });
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (!password) return;
+
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error('Clipboard access is unavailable in this browser.');
+      }
+      await navigator.clipboard.writeText(password);
+      setCopyError('');
+      setCopied(true);
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#4F46E5', '#10B981', '#F59E0B']
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+      setCopyError('Could not copy password. Check clipboard permissions and try again.');
+    }
   };
 
   const getStrength = () => {
@@ -77,18 +152,23 @@ export default function PasswordGenerator() {
               onClick={generatePassword}
               className="p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all"
               title="Regenerate"
+              aria-label="Regenerate password"
             >
               <RefreshCw size={20} />
             </button>
             <button
               onClick={handleCopy}
-              className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all shadow-lg shadow-indigo-900/20"
+              disabled={!password}
+              className="p-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 rounded-xl transition-all shadow-lg shadow-indigo-900/20"
               title="Copy"
+              aria-label="Copy password"
             >
               {copied ? <Check size={20} /> : <Copy size={20} />}
             </button>
           </div>
         </div>
+        {generationError && <p role="alert" className="mt-2 text-sm text-rose-600">{generationError}</p>}
+        {copyError && <p role="alert" className="mt-2 text-sm text-rose-600">{copyError}</p>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
