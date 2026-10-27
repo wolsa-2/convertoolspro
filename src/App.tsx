@@ -400,7 +400,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Categorized Grid */}}
+            {/* Categorized Grid */}
             <div id="tool-directory" className="scroll-mt-28 space-y-6">
               <div className="mx-auto max-w-3xl px-4 text-center">
                 <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">Tool directory</p>
