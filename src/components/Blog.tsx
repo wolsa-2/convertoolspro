@@ -18,7 +18,7 @@ export default function Blog() {
         </button>
 
         <article className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:rounded-[2rem]">
-          <div className="aspect-video bg-indigo-50 overflow-hidden relative">
+          <div className="relative aspect-video overflow-hidden bg-indigo-50 dark:bg-slate-800">
             {selectedPost.image ? (
               <img 
                 src={selectedPost.image} 
@@ -52,10 +52,11 @@ export default function Blog() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-10">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-black text-[#1A1A3A]">Our Blog</h1>
-        <p className="text-slate-500">Insights, tutorials, and updates from the Convertools team.</p>
-      </div>
+      <header className="rounded-3xl border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-violet-50 px-5 py-10 text-center dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 sm:py-14">
+        <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">Guides & insights</p>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-4xl">The Convertools Blog</h1>
+        <p className="mx-auto mt-3 max-w-2xl leading-7 text-slate-600 dark:text-slate-300">Practical tutorials, product tips, and ideas to make everyday digital work simpler.</p>
+      </header>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {BLOG_POSTS.map((post) => (
@@ -71,7 +72,7 @@ export default function Blog() {
                   alt={post.title} 
                   width="400"
                   height="225"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                   loading="lazy"
                 />
