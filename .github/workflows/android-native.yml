@@ -1,6 +1,7 @@
 name: Native Android debug APK
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - toolora-android-native
