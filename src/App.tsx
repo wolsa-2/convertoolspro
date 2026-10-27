@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Mail, Shield, ArrowRight, Moon, Sun, Sparkles } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -65,7 +65,8 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
     return !localStorage.getItem('cookie-consent');
@@ -237,44 +238,45 @@ export default function App() {
       case 'blog': return <Blog />;
       case 'about':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 dark:prose-invert dark:text-slate-300" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.about }} />
           </div>
         );
       case 'contact':
         return (
-          <div className="max-w-3xl mx-auto space-y-12 py-12">
+          <div className="mx-auto max-w-3xl space-y-8 py-4 sm:py-8">
             <div className="space-y-4">
-              <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
-              <p className="text-slate-600 leading-relaxed text-lg">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">We’re here to help</p>
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Contact Us</h1>
+              <p className="text-slate-600 leading-relaxed text-lg dark:text-slate-300">
                 We value your feedback and are always looking for ways to improve Convertools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+              <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300">
                   <Mail size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-[#1A1A3A]">Email Support</h3>
-                <p className="text-sm text-slate-500">For general inquiries and technical support, reach out to us via email.</p>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">Email Support</h3>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">For general inquiries and technical support, reach out to us via email.</p>
                 <a href="mailto:b605649@gmail.com" className="block text-lg font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
               </div>
 
-              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+              <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300">
                   <Github size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
-                <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
-                <button className="text-lg font-black text-emerald-600 hover:underline">View on GitHub</button>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">Open Source</h3>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-lg font-bold text-emerald-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400">View on GitHub <ArrowRight size={18} aria-hidden="true" /></a>
               </div>
             </div>
 
-            <div className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100 space-y-4">
-              <h3 className="text-xl font-bold text-[#1A1A3A]">Response Time</h3>
-              <p className="text-slate-600 leading-relaxed">
+            <div className="space-y-4 rounded-3xl border border-indigo-100 bg-indigo-50 p-6 dark:border-indigo-900/70 dark:bg-indigo-950/30 sm:p-8">
+              <h3 className="text-xl font-bold text-slate-950 dark:text-white">Response Time</h3>
+              <p className="leading-relaxed text-slate-700 dark:text-slate-300">
                 Our team is based in India (IST). We typically respond to all inquiries within 24-48 hours. If you're suggesting a new tool, please provide as much detail as possible about the functionality you'd like to see.
               </p>
             </div>
@@ -282,21 +284,21 @@ export default function App() {
         );
       case 'privacy':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 dark:prose-invert dark:text-slate-300" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.privacy }} />
           </div>
         );
       case 'terms':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6" 
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6 dark:prose-invert" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.terms }} />
           </div>
         );
       case 'disclaimer':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
             <div className="prose prose-indigo prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.disclaimer }} />
           </div>
@@ -344,15 +346,34 @@ export default function App() {
         animate={{ opacity: 1 }}
         className="space-y-20 tool-container"
       >
-        {/* Fix Issue 6: SEO Optimized Heading Hierarchy (H1 & H2) */}
-            <div className="text-center space-y-4 px-4">
-              <h1 className="text-4xl md:text-7xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-5xl mx-auto">
-                The Ultimate Free Online Utility Hub
-              </h1>
-              <h2 className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed">
-                Empowering developers and designers with 100+ private, local-first tools for PDF management, Image editing, and Text processing.
-              </h2>
+        <section className="relative isolate overflow-hidden rounded-[2rem] border border-indigo-100/80 bg-gradient-to-br from-white via-indigo-50/80 to-violet-50 px-5 py-12 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 sm:px-10 sm:py-16 lg:py-20">
+          <div className="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl dark:bg-indigo-600/10" />
+          <div className="pointer-events-none absolute -bottom-24 -left-12 h-64 w-64 rounded-full bg-violet-200/40 blur-3xl dark:bg-violet-600/10" />
+          <div className="relative mx-auto max-w-4xl text-center">
+            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-xs font-bold tracking-wide text-indigo-700 shadow-sm dark:border-indigo-900 dark:bg-slate-800/80 dark:text-indigo-300">
+              <Sparkles size={15} /> YOUR EVERYDAY DIGITAL TOOLKIT
             </div>
+            <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
+              Powerful tools. <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Less busywork.</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+              Convert files, format data and simplify everyday tasks with a growing collection of easy-to-use online utilities.
+            </p>
+            <div className="mx-auto mt-8 flex max-w-2xl flex-col justify-center gap-3 sm:flex-row">
+              <button type="button" onClick={() => document.getElementById('tool-directory')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                Explore all tools <ArrowRight size={18} />
+              </button>
+              <button type="button" onClick={() => { document.getElementById('tool-directory')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 font-semibold text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                <Search size={18} /> Find a tool
+              </button>
+            </div>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-500 dark:text-slate-400">
+              <span className="inline-flex items-center gap-2"><Shield size={16} className="text-emerald-600" /> Privacy-conscious utilities</span>
+              <span className="inline-flex items-center gap-2"><Zap size={16} className="text-amber-500" /> Quick, simple workflows</span>
+              <span className="inline-flex items-center gap-2"><Heart size={16} className="text-rose-500" /> Free tools</span>
+            </div>
+          </div>
+        </section>
 
             {/* Marquee Section */}
             <div className="space-y-8">
@@ -382,6 +403,12 @@ export default function App() {
             </div>
 
             {/* Categorized Grid */}
+            <div id="tool-directory" className="scroll-mt-28 space-y-6">
+              <div className="mx-auto max-w-3xl px-4 text-center">
+                <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">Tool directory</p>
+                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Everything you need, in one place</h2>
+                <p className="mt-3 text-slate-600 dark:text-slate-400">Choose a category or search for a specific utility.</p>
+              </div>
             {Object.entries(toolsByCategory).map(([category, tools]) => (
               <div key={category} className="space-y-12">
                 <div className="text-center space-y-3">
@@ -402,30 +429,32 @@ export default function App() {
                     <PdfToolsOverview onToolSelect={(tool) => setActiveTool(tool)} />
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                  <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {tools.map((tool) => (
-                      <motion.div
+                      <motion.button
+                        type="button"
                         key={tool.id}
-                        whileHover={{ y: -8 }}
+                        whileHover={{ y: -3 }}
                         onClick={() => setActiveTool(tool)}
-                        className="group bg-white dark:bg-slate-900 p-10 rounded-[3rem] border border-slate-50 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-indigo-100 dark:hover:border-indigo-900 transition-all duration-500 cursor-pointer flex items-start gap-8"
+                        className="group flex w-full cursor-pointer items-start gap-5 rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800 sm:gap-6 sm:p-7"
                       >
-                        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition-colors group-hover:bg-indigo-600 group-hover:text-white dark:bg-slate-800 dark:text-indigo-300 sm:h-14 sm:w-14">
                           <tool.icon size={30} />
                         </div>
                         <div className="flex-1 space-y-2">
-                          <h3 className="text-2xl font-black text-[#1A1A3A] dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">{tool.name}</h3>
+                          <h3 className="text-lg font-bold tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400 sm:text-xl">{tool.name}</h3>
                           <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
                           <div className="pt-4 flex items-center text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
-                             Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                             Try {tool.name} <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
                           </div>
                         </div>
-                      </motion.div>
+                      </motion.button>
                     ))}
                   </div>
                 )}
               </div>
             ))}
+            </div>
 
             {/* Breadcrumb Schema for SEO */}
             <script type="application/ld+json">
@@ -526,7 +555,7 @@ export default function App() {
                   <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Frequently Asked Questions</h2>
                   <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                   {/* ... Existing FAQ items ... */}
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
                     <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
@@ -612,7 +641,7 @@ export default function App() {
                 <div className="space-y-4 relative">
                   <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
                   <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Join thousands of developers, designers, and digital professionals who use Convertools every day to automate repetitive tasks and focus on what matters.
+                    Simplify everyday file, text, and developer tasks with a growing collection of straightforward online utilities.
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 relative">
@@ -630,32 +659,26 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FF] dark:bg-slate-950 text-[#1A1A3A] dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-700">
+    <div className="min-h-screen bg-[#F8F9FF] text-[#1A1A3A] font-sans selection:bg-indigo-100 selection:text-indigo-700 dark:bg-slate-950 dark:text-slate-100">
+      <a href="#main-content" className="sr-only z-[100] rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to main content</a>
       <StructuredData />
       {/* Navigation */}
       <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
-              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
-                <img 
-                  src="/vite.svg" 
-                  alt="Convertools Logo" 
-                  width="32"
-                  height="32"
-                  className="w-8 h-8"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Convertools</span>
-            </div>
+            <button type="button" aria-label="Convertools home" onClick={() => navigateTo('home')} className="group flex items-center gap-3 rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-900">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20 transition-transform group-hover:scale-105"><Zap size={23} fill="currentColor" aria-hidden="true" /></span>
+              <span className="text-xl font-extrabold tracking-tight text-[#1A1A3A] dark:text-white sm:text-2xl">Convertools <span className="sr-only">home</span></span>
+            </button>
 
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+            <div className="hidden md:flex mx-6 max-w-md flex-1 items-center">
               <div className="relative w-full">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text"
-                  placeholder="Search 100+ tools..."
+                  id="tool-search"
+                  aria-label="Search tools"
+                  placeholder="Search tools..."
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
@@ -668,6 +691,8 @@ export default function App() {
 
             <div className="hidden md:flex items-center gap-6">
               <button 
+                type="button"
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="p-2.5 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-indigo-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-sm"
               >
@@ -682,7 +707,10 @@ export default function App() {
             </div>
 
             <button 
-              className="md:hidden p-2 text-slate-600"
+              type="button"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              className="md:hidden rounded-xl p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -700,6 +728,10 @@ export default function App() {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
           >
+            <div className="mb-3 flex items-center gap-3">
+              <button type="button" onClick={() => setIsDarkMode(!isDarkMode)} className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-100">{isDarkMode ? <Sun size={18} /> : <Moon size={18} />} {isDarkMode ? "Light mode" : "Dark mode"}</button>
+              <label className="relative block flex-1"><Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" /><input type="search" aria-label="Search tools" placeholder="Search tools..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); if (currentPage !== "home") navigateTo("home"); }} className="min-h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white" /></label>
+            </div>
             <div className="flex flex-col gap-2">
               <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Home</button>
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
@@ -710,13 +742,13 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
         {renderPage()}
       </main>
 
       {/* Footer */}
       <AdUnit slot="footer-top" className="max-w-7xl mx-auto px-4" />
-      <footer className="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-16 mt-20">
+      <footer className="mt-12 border-t border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-900 sm:mt-20 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-2 space-y-6">
@@ -730,23 +762,14 @@ export default function App() {
                 Convertools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
-                Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
+                Disclaimer: All tools on this site are provided "as is" without warranty of any kind. Processing methods vary by tool; review each tool’s description before using sensitive information.
               </p>
-              <div className="flex gap-4">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
-                  <Github size={20} />
+              <div className="flex flex-wrap gap-3">
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" aria-label="Convertools Pro on GitHub">
+                  <Github size={18} /> GitHub repository
                 </a>
-                <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="Facebook">
-                  <Facebook size={20} />
-                </a>
-                <a href="https://www.instagram.com/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900 transition-all" aria-label="Instagram">
-                  <Instagram size={20} />
-                </a>
-                <a href="https://www.linkedin.com/company/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="LinkedIn">
-                  <Linkedin size={20} />
-                </a>
-                <a href="https://www.youtube.com/@online2pdf_official" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900 transition-all" aria-label="YouTube">
-                  <Youtube size={20} />
+                <a href="mailto:b605649@gmail.com" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+                  <Mail size={18} /> Contact
                 </a>
               </div>
             </div>
