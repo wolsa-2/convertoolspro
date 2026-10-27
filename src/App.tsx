@@ -238,44 +238,45 @@ export default function App() {
       case 'blog': return <Blog />;
       case 'about':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 dark:prose-invert dark:text-slate-300" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.about }} />
           </div>
         );
       case 'contact':
         return (
-          <div className="max-w-3xl mx-auto space-y-12 py-12">
+          <div className="mx-auto max-w-3xl space-y-8 py-4 sm:py-8">
             <div className="space-y-4">
-              <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
-              <p className="text-slate-600 leading-relaxed text-lg">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">We’re here to help</p>
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Contact Us</h1>
+              <p className="text-slate-600 leading-relaxed text-lg dark:text-slate-300">
                 We value your feedback and are always looking for ways to improve Convertools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+              <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300">
                   <Mail size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-[#1A1A3A]">Email Support</h3>
-                <p className="text-sm text-slate-500">For general inquiries and technical support, reach out to us via email.</p>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">Email Support</h3>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">For general inquiries and technical support, reach out to us via email.</p>
                 <a href="mailto:b605649@gmail.com" className="block text-lg font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
               </div>
 
-              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+              <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300">
                   <Github size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
-                <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">Open Source</h3>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
                 <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-lg font-bold text-emerald-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-400">View on GitHub <ArrowRight size={18} aria-hidden="true" /></a>
               </div>
             </div>
 
-            <div className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100 space-y-4">
-              <h3 className="text-xl font-bold text-[#1A1A3A]">Response Time</h3>
-              <p className="text-slate-600 leading-relaxed">
+            <div className="space-y-4 rounded-3xl border border-indigo-100 bg-indigo-50 p-6 dark:border-indigo-900/70 dark:bg-indigo-950/30 sm:p-8">
+              <h3 className="text-xl font-bold text-slate-950 dark:text-white">Response Time</h3>
+              <p className="leading-relaxed text-slate-700 dark:text-slate-300">
                 Our team is based in India (IST). We typically respond to all inquiries within 24-48 hours. If you're suggesting a new tool, please provide as much detail as possible about the functionality you'd like to see.
               </p>
             </div>
@@ -283,21 +284,21 @@ export default function App() {
         );
       case 'privacy':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 dark:prose-invert dark:text-slate-300" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.privacy }} />
           </div>
         );
       case 'terms':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6" 
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6 dark:prose-invert" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.terms }} />
           </div>
         );
       case 'disclaimer':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-10">
             <div className="prose prose-indigo prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-6" 
                  dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.disclaimer }} />
           </div>
