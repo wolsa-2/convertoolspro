@@ -18,7 +18,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
   const duplicatedItems = [...items, ...items, ...items, ...items];
 
   return (
-    <div className="relative w-full overflow-hidden py-4 bg-white/50 backdrop-blur-sm border-y border-slate-100 group/marquee">
+    <div className="group/marquee relative w-full overflow-hidden border-y border-slate-200/70 bg-white/60 py-4 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
       <div 
         className={`flex gap-6 whitespace-nowrap ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'} group-hover/marquee:[animation-play-state:paused]`}
         style={{ 
@@ -32,14 +32,14 @@ export const Marquee: React.FC<MarqueeProps> = ({
             onClick={() => onItemClick(tool)}
             className="inline-flex items-center gap-4 px-6 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 transition-all cursor-pointer group"
           >
-            <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition-all duration-300 group-hover:bg-indigo-600 group-hover:text-white dark:bg-slate-800 dark:text-indigo-300">
               <tool.icon size={20} />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors">
+              <span className="text-sm font-semibold text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-300">
                 {tool.name}
               </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 {tool.category}
               </span>
             </div>
@@ -48,7 +48,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
       </div>
       
       {/* Gradient Overlays for smooth edges */}
-      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#F8F9FF] to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#F7F8FC] to-transparent dark:from-slate-950 z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#F8F9FF] to-transparent z-10 pointer-events-none" />
     </div>
   );
