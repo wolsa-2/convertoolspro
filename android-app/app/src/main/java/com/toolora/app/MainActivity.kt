@@ -155,7 +155,7 @@ private fun TooloraApp() {
                     onInput = { input = it; output = ""; message = "" },
                     onLength = { passwordLength = it },
                     onOperation = { operation = it; output = ""; message = "" },
-                    onRun = {
+                    onRun = { requestedOperation ->
                         try {
                             when (selected!!) {
                                 Tool.CASE -> output = when (requestedOperation) {
