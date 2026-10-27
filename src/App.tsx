@@ -400,7 +400,13 @@ export default function App() {
               </div>
             </div>
 
-            {/* Categorized Grid */}\n            <div id="tool-directory" className="scroll-mt-28 space-y-6">\n              <div className="mx-auto max-w-3xl px-4 text-center">\n                <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">Tool directory</p>\n                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Everything you need, in one place</h2>\n                <p className="mt-3 text-slate-600 dark:text-slate-400">Choose a category or search for a specific utility.</p>\n              </div>
+            /* Categorized Grid */}
+            <div id="tool-directory" className="scroll-mt-28 space-y-6">
+              <div className="mx-auto max-w-3xl px-4 text-center">
+                <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-600 dark:text-indigo-400">Tool directory</p>
+                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Everything you need, in one place</h2>
+                <p className="mt-3 text-slate-600 dark:text-slate-400">Choose a category or search for a specific utility.</p>
+              </div>
             {Object.entries(toolsByCategory).map(([category, tools]) => (
               <div key={category} className="space-y-12">
                 <div className="text-center space-y-3">
