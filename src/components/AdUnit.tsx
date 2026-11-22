@@ -56,13 +56,13 @@ export const AdUnit: React.FC<AdUnitProps> = ({
       script.crossOrigin = 'anonymous';
       script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`;
       script.addEventListener('load', initializeAd, { once: true });
-      script.addEventListener('error', initializeAd, { once: true });
+      script.addEventListener('error', () => console.warn('AdSense script failed to load.'), { once: true });
       document.head.appendChild(script);
     } else if (script.dataset.loaded === 'true') {
       initializeAd();
     } else {
       script.addEventListener('load', initializeAd, { once: true });
-      script.addEventListener('error', initializeAd, { once: true });
+      script.addEventListener('error', () => console.warn('AdSense script failed to load.'), { once: true });
     }
 
     const markLoaded = () => {
@@ -74,7 +74,7 @@ export const AdUnit: React.FC<AdUnitProps> = ({
     return () => {
       cancelled = true;
       script?.removeEventListener('load', initializeAd);
-      script?.removeEventListener('error', initializeAd);
+      // Script errors do not initialize an ad.
       script?.removeEventListener('load', markLoaded);
     };
   }, [adsDisabled, clientId, isProduction, validSlot]);
