@@ -1,9 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Upload, FileText, Trash2, Download, Zap, ShieldCheck } from 'lucide-react';
 import { PDFDocument, degrees } from 'pdf-lib';
 
 interface SimplePdfToolProps {
   toolId: string;
+}
+
+interface SplitResult {
+  name: string;
+  url: string;
 }
 
 export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
@@ -14,6 +19,12 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [password, setPassword] = useState('');
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState('');
+  const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
+
+  useEffect(() => () => {
+    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+    splitResults.forEach((result) => URL.revokeObjectURL(result.url));
+  }, [downloadUrl, splitResults]);
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -27,11 +38,15 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
     setProcessed(false);
+    setDownloadUrl(null);
+    setSplitResults([]);
   };
 
   const handleProcess = async () => {
     if (files.length === 0) return;
     setLoading(true);
+    setDownloadUrl(null);
+    setSplitResults([]);
 
     try {
       if (toolId === 'merge-pdf' && files.length > 1) {
@@ -63,64 +78,36 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         setDownloadName('rotated_convertools.pdf');
         setProcessed(true);
       } else if (toolId === 'protect-pdf' && files.length > 0) {
-        if (!password) {
-          alert('Please enter a password');
-          setLoading(false);
-          return;
-        }
-        const bytes = await files[0].arrayBuffer();
-        const pdf = await PDFDocument.load(bytes);
-        const pdfBytes = await pdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        setDownloadUrl(url);
-        setDownloadName('protected_convertools.pdf');
-        setProcessed(true);
+        throw new Error('PDF password protection is not supported by the current browser-only engine. Your original file has not been changed.');
       } else if (toolId === 'split-pdf' && files.length > 0) {
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pageCount = pdf.getPageCount();
         if (pageCount < 2) {
-          alert('This PDF has only one page and cannot be split.');
-          setLoading(false);
-          return;
+          throw new Error('This PDF has only one page, so there are no separate pages to split.');
         }
-        
-        const splitPdf = await PDFDocument.create();
-        const [firstPage] = await splitPdf.copyPages(pdf, [0]);
-        splitPdf.addPage(firstPage);
-        const pdfBytes = await splitPdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        setDownloadUrl(url);
-        setDownloadName('split_page_1.pdf');
+        if (pageCount > 100) {
+          throw new Error('For mobile browser stability, split is currently limited to PDFs with 100 pages or fewer.');
+        }
+
+        const results: SplitResult[] = [];
+        for (let pageIndex = 0; pageIndex < pageCount; pageIndex += 1) {
+          const splitPdf = await PDFDocument.create();
+          const [page] = await splitPdf.copyPages(pdf, [pageIndex]);
+          splitPdf.addPage(page);
+          const pdfBytes = await splitPdf.save();
+          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+          results.push({
+            name: `split_page_${pageIndex + 1}.pdf`,
+            url: URL.createObjectURL(blob),
+          });
+        }
+        setSplitResults(results);
         setProcessed(true);
       } else if (toolId === 'compress-pdf' && files.length > 0) {
-        // Simple compression by re-saving with pdf-lib
-        const bytes = await files[0].arrayBuffer();
-        const pdf = await PDFDocument.load(bytes);
-        const pdfBytes = await pdf.save({ useObjectStreams: false }); // Disable object streams to sometimes reduce size
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        setDownloadUrl(url);
-        setDownloadName('compressed_convertools.pdf');
-        setProcessed(true);
+        throw new Error('True PDF compression is not available in the current browser-only engine. Re-saving a PDF is not reliable compression, so no misleading output was created.');
       } else if (toolId === 'unlock-pdf' && files.length > 0) {
-        // Unlock simulation: stripping metadata/encryption if possible via re-save
-        const bytes = await files[0].arrayBuffer();
-        try {
-          const pdf = await PDFDocument.load(bytes);
-          const pdfBytes = await pdf.save();
-          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-          const url = URL.createObjectURL(blob);
-          setDownloadUrl(url);
-          setDownloadName('unlocked_convertools.pdf');
-          setProcessed(true);
-        } catch (e) {
-          alert('This PDF is heavily encrypted. For security reasons, browser-based unlocking is limited. Please ensure you have the original owner permissions.');
-          setLoading(false);
-          return;
-        }
+        throw new Error('PDF unlocking is not supported by the current browser-only engine. Only process documents you own or are authorized to modify.');
       } else if (toolId === 'watermark-pdf' && files.length > 0) {
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
@@ -144,10 +131,17 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       }
     } catch (err) {
       console.error(err);
-      alert('Error processing PDF. Please try again.');
+      alert(err instanceof Error ? err.message : 'Error processing PDF. Please try again.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSplitDownload = (result: SplitResult) => {
+    const anchor = document.createElement('a');
+    anchor.href = result.url;
+    anchor.download = result.name;
+    anchor.click();
   };
 
   const handleDownload = () => {
@@ -278,21 +272,33 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
               </div>
               <div className="text-center space-y-2">
                 <h3 className="text-2xl font-black text-emerald-900">Successfully Processed!</h3>
-                <p className="text-emerald-700 font-medium">Your PDF has been optimized and is ready for download.</p>
+                <p className="text-emerald-700 font-medium">{toolId === 'split-pdf' ? `${splitResults.length} separate PDF pages are ready to download.` : 'Your PDF is ready for download.'}</p>
               </div>
-              <div className="flex gap-4">
-                <button
-                  onClick={handleDownload}
-                  className="flex items-center gap-3 px-10 py-4 bg-emerald-600 text-white rounded-2xl font-black hover:bg-emerald-700 transition-all shadow-xl"
-                >
-                  <Download size={20} />
-                  Download Result
-                </button>
+              <div className="flex flex-wrap justify-center gap-3">
+                {toolId === 'split-pdf' ? splitResults.map((result) => (
+                  <button
+                    key={result.name}
+                    onClick={() => handleSplitDownload(result)}
+                    className="flex items-center gap-2 px-5 py-3 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-lg"
+                  >
+                    <Download size={18} />
+                    {result.name}
+                  </button>
+                )) : (
+                  <button
+                    onClick={handleDownload}
+                    className="flex items-center gap-3 px-10 py-4 bg-emerald-600 text-white rounded-2xl font-black hover:bg-emerald-700 transition-all shadow-xl"
+                  >
+                    <Download size={20} />
+                    Download Result
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     setFiles([]);
                     setProcessed(false);
                     setDownloadUrl(null);
+                    setSplitResults([]);
                     setPassword('');
                   }}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
