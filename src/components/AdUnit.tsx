@@ -21,28 +21,63 @@ export const AdUnit: React.FC<AdUnitProps> = ({
   className = '',
   style,
 }) => {
-  const adRef = useRef<HTMLElement | null>(null);
+  const adRef = useRef<HTMLModElement | null>(null);
   const initialized = useRef(false);
   const adsDisabled = import.meta.env.VITE_DISABLE_ADS === 'true';
   const isProduction = import.meta.env.PROD;
   const clientId = import.meta.env.VITE_ADSENSE_CLIENT_ID || 'ca-pub-1527585635151141';
-  const validSlot = /^\\d+$/.test(slot);
+  const validSlot = /^\d+$/.test(slot);
 
   useEffect(() => {
     if (!isProduction || adsDisabled || !validSlot || initialized.current || !adRef.current) {
       return;
     }
 
-    try {
-      const adsWindow = window as AdsWindow;
-      adsWindow.adsbygoogle = adsWindow.adsbygoogle || [];
-      adsWindow.adsbygoogle.push({});
-      initialized.current = true;
-    } catch (error) {
-      // Ad blockers, consent settings, or network restrictions can prevent ad initialization.
-      console.warn('AdSense could not initialize this ad unit.', error);
+    let cancelled = false;
+    const initializeAd = () => {
+      if (cancelled || initialized.current) return;
+      try {
+        const adsWindow = window as AdsWindow;
+        adsWindow.adsbygoogle = adsWindow.adsbygoogle || [];
+        adsWindow.adsbygoogle.push({});
+        initialized.current = true;
+      } catch (error) {
+        console.warn('AdSense could not initialize this ad unit.', error);
+      }
+    };
+
+    const scriptId = 'convertools-adsense-loader';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`;
+      script.addEventListener('load', initializeAd, { once: true });
+      script.addEventListener('error', initializeAd, { once: true });
+      document.head.appendChild(script);
+    } else if (script.dataset.loaded === 'true') {
+      initializeAd();
+    } else {
+      script.addEventListener('load', initializeAd, { once: true });
+      script.addEventListener('error', initializeAd, { once: true });
     }
-  }, [adsDisabled, isProduction, validSlot]);
+
+    const markLoaded = () => {
+      const current = document.getElementById(scriptId);
+      if (current) current.dataset.loaded = 'true';
+    };
+    script.addEventListener('load', markLoaded, { once: true });
+
+    return () => {
+      cancelled = true;
+      script?.removeEventListener('load', initializeAd);
+      script?.removeEventListener('error', initializeAd);
+      script?.removeEventListener('load', markLoaded);
+    };
+  }, [adsDisabled, clientId, isProduction, validSlot]);
 
   if (adsDisabled) return null;
 
