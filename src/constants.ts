@@ -51,7 +51,7 @@ export const TOOLS: Tool[] = [
   { id: 'split-pdf', name: 'Split PDF', description: 'Separate one PDF file into multiple documents.', category: 'PDF', icon: Scissors },
   { id: 'rotate-pdf', name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF.', category: 'PDF', icon: RotateCw },
   { id: 'watermark-pdf', name: 'Watermark PDF', description: 'Add image or text watermark to your PDF.', category: 'PDF', icon: ImageIcon },
-  { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View and edit PDF metadata online.', category: 'PDF', icon: Settings },
+  { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View PDF metadata, page count, and document details in your browser.', category: 'PDF', icon: Settings },
   
   // Social Media Tools
   { id: 'tweet-generator', name: 'Tweet Generator', description: 'Generate realistic fake tweets for memes.', category: 'Social Media', icon: Share2 },
