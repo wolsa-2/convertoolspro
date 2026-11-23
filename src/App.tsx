@@ -197,7 +197,7 @@ export default function App() {
       case 'unlock-pdf':
       case 'protect-pdf':
       case 'watermark-pdf':
-        component = <SimplePdfTool toolId={activeTool.id} />;
+        component = <SimplePdfTool key={activeTool.id} toolId={activeTool.id} />;
         break;
       case 'tweet-generator': component = <TweetGenerator />; break;
       case 'html-entities': component = <HtmlEntities />; break;
