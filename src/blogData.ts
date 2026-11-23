@@ -51,7 +51,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>For years, the standard for online utilities was simple: you upload your file, the server processes it, and you download the result. While convenient, this model has a fatal flaw: your data is out of your control the moment you hit "upload."</p>
 
       <h2>How Local-First Tools Work</h2>
-      <p>Local-first tools use WebAssembly, JavaScript, and Client-side APIs to perform tasks that previously required a server. When you use tools on <strong>PhotoSize</strong>, the logic runs entirely on your CPU.</p>
+      <p>Local-first tools use WebAssembly, JavaScript, and Client-side APIs to perform tasks that previously required a server. Many browser-based tools on <strong>PhotoSize</strong> perform supported operations locally. Review each tool's description for its processing behavior.</p>
     `
   },
   {
