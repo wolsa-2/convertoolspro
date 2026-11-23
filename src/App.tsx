@@ -723,7 +723,7 @@ export default function App() {
                 PhotoSize brings together useful photo, image, PDF, text, and developer utilities. Use the available tools without creating an account.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
-                Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
+                Disclaimer: Tools are provided as is. Processing behavior can vary by tool; review the relevant tool details before using sensitive files or information.
               </p>
               <div className="flex gap-4">
                 <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
