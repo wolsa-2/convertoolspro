@@ -638,14 +638,7 @@ export default function App() {
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
               <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
-                <img 
-                  src="/vite.svg" 
-                  alt="PhotoSize Logo" 
-                  width="32"
-                  height="32"
-                  className="w-8 h-8"
-                  referrerPolicy="no-referrer"
-                />
+                <Camera size={26} strokeWidth={2.5} />
               </div>
               <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">PhotoSize</span>
             </div>
@@ -722,7 +715,7 @@ export default function App() {
             <div className="col-span-1 md:col-span-2 space-y-6">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
-                  <Zap size={18} fill="currentColor" />
+                  <Camera size={18} strokeWidth={2.5} />
                 </div>
                 <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">PhotoSize</span>
               </div>
@@ -736,18 +729,7 @@ export default function App() {
                 <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
                   <Github size={20} />
                 </a>
-                <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="Facebook">
-                  <Facebook size={20} />
-                </a>
-                <a href="https://www.instagram.com/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900 transition-all" aria-label="Instagram">
-                  <Instagram size={20} />
-                </a>
-                <a href="https://www.linkedin.com/company/online2pdf" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="LinkedIn">
-                  <Linkedin size={20} />
-                </a>
-                <a href="https://www.youtube.com/@online2pdf_official" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900 transition-all" aria-label="YouTube">
-                  <Youtube size={20} />
-                </a>
+
               </div>
             </div>
             
