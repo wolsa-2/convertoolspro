@@ -5,4 +5,4 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /temp/
 
-Sitemap: https://convertools.app/sitemap.xml
+Sitemap: https://photosize.vercel.app/sitemap.xml
