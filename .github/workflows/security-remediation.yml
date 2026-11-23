@@ -30,12 +30,17 @@ jobs:
       - name: Install current lockfile
         run: npm ci
 
+      - name: Remove unused server dependencies and update tooling
+        run: |
+          npm uninstall express better-sqlite3 @types/express @types/react-router-dom
+          npm install --save-dev tsx@^4.23.15
+
       - name: Apply non-breaking security updates
         shell: bash
         run: |
           npm audit fix || true
           npm audit fix || true
-          npm ls esbuild qs || true
+          npm ls esbuild qs tsx || true
 
       - name: Verify dependency audit
         shell: bash
