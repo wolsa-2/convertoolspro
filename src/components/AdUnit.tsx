@@ -46,7 +46,7 @@ export const AdUnit: React.FC<AdUnitProps> = ({
       }
     };
 
-    const scriptId = 'convertools-adsense-loader';
+    const scriptId = 'photosize-adsense-loader';
     let script = document.getElementById(scriptId) as HTMLScriptElement | null;
 
     if (!script) {
