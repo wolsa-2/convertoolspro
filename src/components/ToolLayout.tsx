@@ -2,7 +2,7 @@ import React from 'react';
 import { Share2 } from 'lucide-react';
 import { TOOLS_SEO_CONTENT, TOOLS_FAQ } from '../content';
 import { TOOLS, Tool } from '../constants';
-import AdSenseUnit from './AdSenseUnit';
+import { AdUnit } from './AdUnit';
 import FAQSection from './FAQSection';
 
 interface ToolLayoutProps {
@@ -54,7 +54,7 @@ export default function ToolLayout({ children, title, description, toolId, onToo
           </div>
 
           {/* Persistent Ad after the main tool UI */}
-          <AdSenseUnit slot="8344712956" className="max-w-4xl mx-auto" />
+          <AdUnit slot="8344712956" className="max-w-4xl mx-auto" />
 
           {/* SEO Content Section - The "Publisher Content" */}
           <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm p-10 space-y-8">
@@ -90,7 +90,7 @@ export default function ToolLayout({ children, title, description, toolId, onToo
           )}
 
           {/* Bottom Ad after content */}
-          <AdSenseUnit slot="3122948107" className="mt-8" />
+          <AdUnit slot="3122948107" className="mt-8" />
         </div>
 
         {/* Sidebar for Large Screens */}
@@ -98,7 +98,7 @@ export default function ToolLayout({ children, title, description, toolId, onToo
           <div className="sticky top-24 space-y-6">
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm">
               <h3 className="font-bold text-[#1A1A3A] dark:text-white mb-4 text-sm uppercase tracking-wider">Sponsored</h3>
-              <AdSenseUnit slot="2933847101" format="rectangle" />
+              <AdUnit slot="2933847101" format="rectangle" />
             </div>
           </div>
         </div>
