@@ -358,8 +358,7 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
     <h2>How to Use the PDF Metadata Tool</h2>
     <ol>
       <li>Upload your PDF file by dragging it into the drop zone.</li>
-      <li>Review the existing metadata (Title, Author, Subject, Keywords).</li>
-      <li>Review the available metadata fields and page count.</li>
+      <li>Review the displayed metadata, including title, author, subject, creator, producer, dates, and page count.</li>
       <li>Remove the current file and select another PDF when finished.</li>
     </ol>
 
@@ -368,7 +367,7 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
       <li><strong>Privacy Review:</strong> Check whether author names or software details are present before sharing a document.</li>
       <li><strong>Document Review:</strong> Inspect title, author, subject, creator, and producer fields.</li>
       <li><strong>Archiving:</strong> Check creation and modification dates before organizing documents.</li>
-      <li><strong>Organization:</strong> Standardize the metadata across a large collection of documents.</li>
+      <li><strong>Organization:</strong> Sort and compare documents using their available metadata details.</li>
     </ul>
 
     <h2>Frequently Asked Questions</h2>
