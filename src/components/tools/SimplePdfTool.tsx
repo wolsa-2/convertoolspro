@@ -11,12 +11,15 @@ interface SplitResult {
   url: string;
 }
 
+const isPdfFile = (file: File) =>
+  file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+
 export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [processed, setProcessed] = useState(false);
-  const [password, setPassword] = useState('');
+  const [watermarkText, setWatermarkText] = useState('Convertools');
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState('');
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
@@ -29,11 +32,15 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    const uploadedFiles = (Array.from(e.dataTransfer.files) as File[]).filter(f => f.type === 'application/pdf');
+    const uploadedFiles = (Array.from(e.dataTransfer.files) as File[]).filter(isPdfFile);
     if (uploadedFiles.length > 0) {
-      setFiles(prev => [...prev, ...uploadedFiles]);
+      if (toolId === 'merge-pdf') {
+        setFiles(prev => [...prev, ...uploadedFiles]);
+      } else {
+        setFiles([uploadedFiles[0]]);
+      }
     }
-  }, []);
+  }, [toolId]);
 
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
@@ -49,7 +56,10 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     setSplitResults([]);
 
     try {
-      if (toolId === 'merge-pdf' && files.length > 1) {
+      if (toolId === 'merge-pdf') {
+        if (files.length < 2) {
+          throw new Error('Select at least two PDF files to merge.');
+        }
         const mergedPdf = await PDFDocument.create();
         for (const file of files) {
           const bytes = await file.arrayBuffer();
@@ -64,6 +74,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         setDownloadName('merged_convertools.pdf');
         setProcessed(true);
       } else if (toolId === 'rotate-pdf' && files.length > 0) {
+        if (files.length > 1) throw new Error('Rotate one PDF at a time.');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pages = pdf.getPages();
@@ -80,6 +91,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       } else if (toolId === 'protect-pdf' && files.length > 0) {
         throw new Error('PDF password protection is not supported by the current browser-only engine. Your original file has not been changed.');
       } else if (toolId === 'split-pdf' && files.length > 0) {
+        if (files.length > 1) throw new Error('Split one PDF at a time.');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pageCount = pdf.getPageCount();
@@ -109,16 +121,21 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       } else if (toolId === 'unlock-pdf' && files.length > 0) {
         throw new Error('PDF unlocking is not supported by the current browser-only engine. Only process documents you own or are authorized to modify.');
       } else if (toolId === 'watermark-pdf' && files.length > 0) {
+        if (files.length > 1) throw new Error('Add a watermark to one PDF at a time.');
+        const label = watermarkText.trim();
+        if (!label) throw new Error('Enter watermark text before processing.');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pages = pdf.getPages();
         pages.forEach(page => {
-           page.drawText('Convertools', {
-             x: 50,
-             y: 50,
-             size: 30,
-             opacity: 0.2
-           });
+          const { width, height } = page.getSize();
+          page.drawText(label, {
+            x: 40,
+            y: Math.min(40, Math.max(10, height - 40)),
+            size: 24,
+            opacity: 0.2,
+            maxWidth: Math.max(80, width - 80)
+          });
         });
         const pdfBytes = await pdf.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -127,7 +144,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         setDownloadName('watermarked_convertools.pdf');
         setProcessed(true);
       } else {
-        setProcessed(true);
+        throw new Error('This PDF operation is not available yet. Your original file has not been changed.');
       }
     } catch (err) {
       console.error(err);
@@ -179,10 +196,14 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
               type="file"
               className="hidden"
               accept=".pdf"
-              multiple
+              multiple={toolId === 'merge-pdf'}
               onChange={(e) => {
-                const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(f => f.type === 'application/pdf');
-                if (uploadedFiles.length > 0) setFiles(prev => [...prev, ...uploadedFiles]);
+                const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(isPdfFile);
+                if (uploadedFiles.length > 0) {
+                  if (toolId === 'merge-pdf') setFiles(prev => [...prev, ...uploadedFiles]);
+                  else setFiles([uploadedFiles[0]]);
+                }
+                e.target.value = '';
               }}
             />
           </label>
@@ -209,7 +230,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                 </button>
               </div>
             ))}
-            {!processed && (
+            {!processed && toolId === 'merge-pdf' && (
               <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-100 rounded-[2rem] hover:border-indigo-200 hover:bg-white transition-all cursor-pointer group">
                 <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all mb-2">
                   <Upload size={20} />
@@ -229,17 +250,18 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
             )}
           </div>
 
-          {toolId === 'protect-pdf' && !processed && (
-            <div className="bg-white p-8 rounded-[2rem] border border-indigo-100 shadow-sm space-y-4">
-              <label className="block text-sm font-black text-slate-700 uppercase tracking-wider">Set PDF Password</label>
-              <input 
-                type="password" 
-                placeholder="Enter password to protect PDF..."
-                className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+          {toolId === 'watermark-pdf' && !processed && (
+            <div className="bg-white p-6 rounded-[2rem] border border-indigo-100 shadow-sm space-y-3">
+              <label className="block text-sm font-black text-slate-700 uppercase tracking-wider" htmlFor="pdf-watermark-text">Watermark text</label>
+              <input
+                id="pdf-watermark-text"
+                type="text"
+                maxLength={80}
+                value={watermarkText}
+                onChange={(e) => setWatermarkText(e.target.value)}
+                placeholder="Enter watermark text"
+                className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-slate-800 dark:border-slate-700 dark:text-white"
               />
-              <p className="text-xs text-slate-400 font-medium italic">Your password is processed locally and never stored on our servers.</p>
             </div>
           )}
 
@@ -299,7 +321,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                     setProcessed(false);
                     setDownloadUrl(null);
                     setSplitResults([]);
-                    setPassword('');
+                    setWatermarkText('Convertools');
                   }}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
                 >
