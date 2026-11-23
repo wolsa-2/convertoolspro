@@ -25,10 +25,10 @@ export default function ToolLayout({ children, title, description, toolId, onToo
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-12">
           
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-              <div className="flex items-center justify-between p-5 sm:p-7 border-b border-slate-50 dark:border-slate-800 bg-[#F8F9FF] dark:bg-slate-800/50">
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+              <div className="flex items-center justify-between gap-4 border-b border-slate-100 bg-slate-50/80 p-5 sm:p-7">
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1A1A3A] dark:text-white text-balance">{title} Online Tool & Generator</h1>
+                  <h1 className="text-2xl font-bold tracking-tight text-slate-950 text-balance sm:text-3xl">{title} Online Tool & Generator</h1>
                   <p className="text-slate-500 dark:text-slate-400 mt-2">{description}</p>
                 </div>
                 <button 
@@ -42,7 +42,7 @@ export default function ToolLayout({ children, title, description, toolId, onToo
                       alert('Link copied to clipboard!');
                     });
                   }}
-                  className="p-4 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 rounded-2xl border border-slate-100 dark:border-slate-600 shadow-sm hover:shadow-md transition-all flex items-center gap-2 font-bold whitespace-nowrap"
+                  className="flex items-center gap-2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-blue-700 shadow-sm transition hover:border-blue-200 hover:bg-blue-50"
                 >
                   <Share2 size={18} />
                   <span className="hidden sm:inline">Share</span>
