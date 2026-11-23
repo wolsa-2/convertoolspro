@@ -21,14 +21,14 @@ export default function ToolLayout({ children, title, description, toolId, onToo
   const relatedTools = TOOLS.filter(t => t.category === currentTool?.category && t.id !== toolId).slice(0, 3);
 
   return (
-    <div className="space-y-12">
+    <div className="photosize-tool-page space-y-8 md:space-y-10">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-12">
           
-          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-xl overflow-hidden">
-              <div className="flex items-center justify-between p-8 border-b border-slate-50 dark:border-slate-800 bg-[#F8F9FF] dark:bg-slate-800/50">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between p-5 sm:p-7 border-b border-slate-50 dark:border-slate-800 bg-[#F8F9FF] dark:bg-slate-800/50">
                 <div>
-                  <h1 className="text-3xl font-black text-[#1A1A3A] dark:text-white text-balance">{title} Online Tool & Generator</h1>
+                  <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1A1A3A] dark:text-white text-balance">{title} Online Tool & Generator</h1>
                   <p className="text-slate-500 dark:text-slate-400 mt-2">{description}</p>
                 </div>
                 <button 
@@ -48,7 +48,7 @@ export default function ToolLayout({ children, title, description, toolId, onToo
                   <span className="hidden sm:inline">Share</span>
                 </button>
               </div>
-            <div className="p-8">
+            <div className="p-4 sm:p-7">
               {children}
             </div>
           </div>
@@ -57,13 +57,13 @@ export default function ToolLayout({ children, title, description, toolId, onToo
           <AdUnit slot="8344712956" className="max-w-4xl mx-auto" />
 
           {/* SEO Content Section - The "Publisher Content" */}
-          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm p-10 space-y-8">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm p-5 sm:p-8 space-y-6">
              <div className="prose prose-indigo prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed space-y-8 seo-content" 
                   dangerouslySetInnerHTML={{ __html: seoContent }} />
           </div>
 
           {/* Reusable FAQ Section */}
-          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm p-10">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm p-5 sm:p-8">
             <FAQSection items={faqs} />
           </div>
 

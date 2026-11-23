@@ -18,12 +18,12 @@ const FAQSection: React.FC<FAQSectionProps> = ({ items }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-black text-[#1A1A3A] mb-6">Frequently Asked Questions</h2>
+      <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#1A1A3A] mb-6">Frequently Asked Questions</h2>
       <div className="space-y-3">
         {items.map((item, index) => (
           <div 
             key={index}
-            className="group bg-white rounded-2xl border border-slate-100 overflow-hidden transition-all hover:border-indigo-100 shadow-sm"
+            className="group bg-white rounded-2xl border border-slate-100 overflow-hidden transition-all hover:border-indigo-200 hover:shadow-sm"
           >
             <button
               onClick={() => setOpenIndex(openIndex === index ? null : index)}

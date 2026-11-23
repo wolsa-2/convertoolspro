@@ -101,3 +101,67 @@ img {
     @apply text-slate-500 text-sm leading-relaxed mb-0;
   }
 }
+
+
+/* PhotoSize site-wide visual system */
+:root {
+  color-scheme: light;
+  --ps-ink: #171a35;
+  --ps-muted: #68708a;
+  --ps-indigo: #5658e8;
+  --ps-line: #e8eaf4;
+  --ps-surface: #ffffff;
+  --ps-canvas: #f7f8fd;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ps-canvas);
+  color: var(--ps-ink);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #dfe2ff; color: #27277a; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgb(86 88 232 / 28%);
+  outline-offset: 2px;
+}
+main { min-height: 60vh; }
+main .prose {
+  color: #566078;
+  line-height: 1.8;
+}
+main .prose h1, main .prose h2, main .prose h3 {
+  color: var(--ps-ink);
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+main .prose a { color: var(--ps-indigo); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+main .prose img { border-radius: 1rem; }
+main .prose blockquote {
+  border-left: 3px solid var(--ps-indigo);
+  background: #f3f4ff;
+  border-radius: 0 1rem 1rem 0;
+  padding: 1rem 1.25rem;
+}
+.tool-container {
+  border-color: var(--ps-line);
+  border-radius: 1.5rem;
+}
+.faq-item {
+  background: #fff;
+  border-color: var(--ps-line);
+  border-radius: 1.1rem;
+}
+@media (max-width: 640px) {
+  .tool-container { min-height: 360px; }
+  main .prose { font-size: .96rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
