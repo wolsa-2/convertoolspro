@@ -475,7 +475,7 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-6 text-left">
                   <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white leading-tight">
-                    Why Choose <span className="text-indigo-600">PhotoSize</span> for Your Daily Workflow?
+                    Why Choose <span className="text-indigo-600">PhotoSize</span> for Everyday Image & File Tasks?
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
                     In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. PhotoSize brings useful image, PDF, text, and developer utilities together in one convenient place.
@@ -495,8 +495,8 @@ export default function App() {
                         <Zap size={24} />
                       </div>
                       <div className="space-y-1">
-                        <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Zero Latency Performance</h4>
-                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">By leveraging powerful client-side processing, we eliminate the need for server round-trips. This delivers instantaneous results, whether you are generating a QR code or converting a large block of text. Efficiency is our top priority.</p>
+                        <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Fast Browser-Based Processing</h4>
+                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">Tools that run locally can process supported tasks in your browser without sending each operation to a remote processing server. This can make everyday workflows quicker and keeps the experience simple.</p>
                       </div>
                     </div>
                   </div>
@@ -508,7 +508,7 @@ export default function App() {
                     We aim to make everyday image and file tasks straightforward. PhotoSize brings supported utilities into one accessible workspace, with clear tool descriptions and practical controls.
                   </p>
                   <ul className="space-y-4 relative">
-                    {['100% Free to Use Forever', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
+                    {['Free tools with no sign-up required', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
                       <li key={item} className="flex items-center gap-4 font-bold text-slate-700 dark:text-slate-300">
                         <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-100">
                           <Zap size={12} fill="currentColor" />
@@ -612,7 +612,7 @@ export default function App() {
                 <div className="space-y-4 relative">
                   <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
                   <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Join thousands of developers, designers, and digital professionals who use PhotoSize every day to automate repetitive tasks and focus on what matters.
+                    Explore PhotoSize's available photo, image, PDF, text, and developer tools in one convenient place. Start using a tool without creating an account.
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 relative">
