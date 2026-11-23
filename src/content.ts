@@ -703,7 +703,7 @@ export const STATIC_PAGES_CONTENT = {
     <p>At PhotoSize, accessible from photosize.vercel.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by PhotoSize and how we use it.</p>
     
     <h2>Local Data Processing (Our Privacy Promise)</h2>
-    <p>We take a unique approach to privacy that sets us apart from most online utility platforms. Most of the utility tools provided on our website (such as PDF Metadata analysis, Base64 encoding, and Hash generation) process your data locally within your web browser using JavaScript. This means that your sensitive files, passwords, and strings are never uploaded to our servers. Your data remains on your device, ensuring the highest level of privacy and security.</p>
+    <p>We take a unique approach to privacy that sets us apart from most online utility platforms. Many tools provided on our website (such as PDF Metadata analysis, Base64 encoding, and Hash generation) are designed to process data locally within your browser. Processing behavior can vary by feature, so review the relevant tool description before using sensitive files, passwords, or information.</p>
     
     <h2>Google AdSense and Cookies</h2>
     <p>We use Google AdSense to serve advertisements on our website. Google, as a third-party vendor, uses cookies to serve ads on PhotoSize. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our site or other sites on the Internet.</p>
