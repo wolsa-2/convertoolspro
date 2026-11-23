@@ -92,15 +92,15 @@ export default function App() {
 
     if (activeTool) {
       title = `${activeTool.name} | PhotoSize`;
-      description = `Use our free, local-first ${activeTool.name} tool. ${activeTool.description} Secure and private utility for professional use.`;
+      description = `Use the ${activeTool.name} tool on PhotoSize. ${activeTool.description} Review this tool's details for supported formats and processing behavior.`;
       canonical = `https://photosize.vercel.app/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
       title = 'SEO & Productivity Blog | PhotoSize';
-      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with PhotoSize core guides.';
+      description = 'Read practical guides on photo and image workflows, digital productivity, and online utilities.';
       canonical = 'https://photosize.vercel.app/blog';
     } else if (currentPage !== 'home') {
       title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | PhotoSize`;
-      description = `Learn more about PhotoSize ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
+      description = `Learn more about PhotoSize, our available image and file utilities, and how to use the website.`;
       canonical = `https://photosize.vercel.app/${currentPage}`;
     }
 
@@ -655,7 +655,7 @@ export default function App() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text"
-                  placeholder="Search available tools..."
+                  placeholder="Search image, PDF, text and other tools..."
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
@@ -733,7 +733,7 @@ export default function App() {
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
               </p>
               <div className="flex gap-4">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
                   <Github size={20} />
                 </a>
                 <a href="https://www.facebook.com/Online2PDF" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900 transition-all" aria-label="Facebook">
