@@ -353,24 +353,21 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
   `,
   "pdf-metadata": `
     <h2>About PDF Metadata</h2>
-    <p>PDF files often contain "hidden" information like the author's name, creation date, and the software used. Our tool allows you to view and edit this metadata to protect your privacy and ensure your documents look professional.</p>
+    <p>PDF files often contain "hidden" information like the author's name, creation date, and the software used. This read-only tool lets you inspect document details before sharing or archiving a PDF.</p>
     
     <h2>How to Use the PDF Metadata Tool</h2>
     <ol>
       <li>Upload your PDF file by dragging it into the drop zone.</li>
-      <li>Review the existing metadata (Title, Author, Subject, Keywords).</li>
-      <li>Edit any of the fields to update the information.</li>
-      <li>Click "Save Changes" to apply the new metadata.</li>
-      <li>Download the updated PDF file to your computer.</li>
-      <li>Clear the tool to process another document.</li>
+      <li>Review the displayed metadata, including title, author, subject, creator, producer, dates, and page count.</li>
+      <li>Remove the current file and select another PDF when finished.</li>
     </ol>
 
     <h2>Example Use Cases</h2>
     <ul>
-      <li><strong>Privacy Protection:</strong> Remove your name or internal file paths from a document before sharing it publicly.</li>
-      <li><strong>Professionalism:</strong> Ensure your whitepapers or reports have the correct title and company name in the metadata.</li>
-      <li><strong>SEO:</strong> Add relevant keywords to your PDF metadata to help it rank better in search results.</li>
-      <li><strong>Organization:</strong> Standardize the metadata across a large collection of documents.</li>
+      <li><strong>Privacy Review:</strong> Check whether author names or software details are present before sharing a document.</li>
+      <li><strong>Document Review:</strong> Inspect title, author, subject, creator, and producer fields.</li>
+      <li><strong>Archiving:</strong> Check creation and modification dates before organizing documents.</li>
+      <li><strong>Organization:</strong> Sort and compare documents using their available metadata details.</li>
     </ul>
 
     <h2>Frequently Asked Questions</h2>
@@ -380,7 +377,7 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
     </div>
     <div class="faq-item">
       <h3>Can I remove all metadata?</h3>
-      <p>Yes, you can clear all fields to "sanitize" the document before sharing.</p>
+      <p>No. This tool currently displays metadata only; it does not edit or remove metadata. Use a dedicated PDF editor for those changes.</p>
     </div>
   `,
   "jpg-to-pdf": `

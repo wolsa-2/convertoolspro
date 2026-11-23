@@ -197,7 +197,7 @@ export default function App() {
       case 'unlock-pdf':
       case 'protect-pdf':
       case 'watermark-pdf':
-        component = <SimplePdfTool toolId={activeTool.id} />;
+        component = <SimplePdfTool key={activeTool.id} toolId={activeTool.id} />;
         break;
       case 'tweet-generator': component = <TweetGenerator />; break;
       case 'html-entities': component = <HtmlEntities />; break;
@@ -715,7 +715,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <AdUnit slot="footer-top" className="max-w-7xl mx-auto px-4" />
+      <AdUnit slot={import.meta.env.VITE_ADSENSE_SLOT_FOOTER || ""} className="max-w-7xl mx-auto px-4" />
       <footer className="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-16 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
