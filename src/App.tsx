@@ -338,294 +338,192 @@ export default function App() {
   };
 
   const renderHome = () => {
+    const imageTools = TOOLS.filter((tool) =>
+      tool.category === 'Image' &&
+      (tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       tool.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+
+    const steps = [
+      { number: '01', title: 'Choose a tool', description: 'Select the image utility that matches your task.' },
+      { number: '02', title: 'Set your options', description: 'Use the available controls to prepare your image.' },
+      { number: '03', title: 'Get your result', description: 'View the result and follow the tool’s download or copy action.' }
+    ];
+
+    const faqs = [
+      { question: 'Which image tools are available on PhotoSize?', answer: 'PhotoSize currently provides an Image Placeholder generator and an Image to Base64 converter. More tools should appear here only when they are ready to use.' },
+      { question: 'Do I need to create an account?', answer: 'No account is required to use the available tools.' },
+      { question: 'Is PhotoSize free to use?', answer: 'The currently available PhotoSize tools are free to use.' },
+      { question: 'Are my images uploaded to a server?', answer: 'Processing behavior can differ by tool. Please review the individual tool’s description before using sensitive images or data.' }
+    ];
+
     return (
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="space-y-20 tool-container"
-      >
-        {/* Fix Issue 6: SEO Optimized Heading Hierarchy (H1 & H2) */}
-            <div className="text-center space-y-4 px-4">
-              <h1 className="text-4xl md:text-7xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-5xl mx-auto">
-                Free Online Photo & Image Tools
-              </h1>
-              <h2 className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed">
-                Work with photos and images using simple browser-based utilities, alongside useful PDF, text, and developer tools. No account required.
-              </h2>
-            </div>
-
-            {/* Marquee Section */}
-            <div className="space-y-8">
-              <div className="text-center space-y-2">
-                <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">Quick Access</span>
-                <h2 className="text-2xl font-black text-[#1A1A3A] dark:text-white">Featured Tools</h2>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-16 md:space-y-24 tool-container">
+        <section className="relative overflow-hidden rounded-[2rem] border border-indigo-100/80 bg-gradient-to-br from-white via-white to-indigo-50/80 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 dark:border-slate-800">
+          <div className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full bg-indigo-200/30 blur-3xl dark:bg-indigo-500/10" />
+          <div className="pointer-events-none absolute -bottom-32 left-1/4 h-72 w-72 rounded-full bg-violet-200/20 blur-3xl dark:bg-violet-500/10" />
+          <div className="relative grid items-center gap-10 px-6 py-12 sm:px-10 md:grid-cols-2 md:px-14 md:py-20">
+            <div className="space-y-7 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white/90 px-3.5 py-2 text-xs font-bold uppercase tracking-[0.14em] text-indigo-700 shadow-sm dark:border-indigo-900 dark:bg-slate-900 dark:text-indigo-300">
+                <span className="h-2 w-2 rounded-full bg-indigo-500" /> Simple online image tools
               </div>
-              <div className="space-y-4">
-                <Marquee 
-                  items={TOOLS.slice(0, Math.ceil(TOOLS.length / 2))} 
-                  onItemClick={(tool) => {
-                    setActiveTool(tool);
-                    window.scrollTo(0, 0);
-                  }} 
-                  speed={30}
-                />
-                <Marquee 
-                  items={TOOLS.slice(Math.ceil(TOOLS.length / 2))} 
-                  onItemClick={(tool) => {
-                    setActiveTool(tool);
-                    window.scrollTo(0, 0);
-                  }} 
-                  direction="right"
-                  speed={35}
-                />
+              <div className="space-y-5">
+                <h1 className="mx-auto max-w-2xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 dark:text-white sm:text-5xl md:mx-0 md:text-[3.65rem]">
+                  Make more of your <span className="text-indigo-600 dark:text-indigo-400">images.</span>
+                </h1>
+                <p className="mx-auto max-w-xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg md:mx-0">
+                  Straightforward online image tools for everyday tasks. Choose a tool, make your changes, and get your result without a complicated workflow.
+                </p>
+              </div>
+              <div className="flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
+                <button onClick={() => document.getElementById('image-tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all hover:-translate-y-0.5 hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900">
+                  Explore image tools <ArrowRight size={17} />
+                </button>
+                <button onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-indigo-200 hover:bg-indigo-50/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+                  How it works
+                </button>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-medium text-slate-500 dark:text-slate-400 md:justify-start">
+                <span className="inline-flex items-center gap-1.5"><Shield size={14} className="text-indigo-500" /> No account required</span>
+                <span className="inline-flex items-center gap-1.5"><Zap size={14} className="text-indigo-500" /> Simple workflow</span>
               </div>
             </div>
-
-            {/* Categorized Grid */}
-            {Object.entries(toolsByCategory).map(([category, tools]) => (
-              <div key={category} className="space-y-12">
-                <div className="text-center space-y-3">
-                  <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">{category}</span>
-                  <h2 className="text-3xl font-black text-[#1A1A3A] dark:text-white">
-                    {category === 'Image' && 'Photo & Image Utilities'}
-                    {category === 'PDF' && 'Advanced PDF Management & Conversion'}
-                    {category === 'Social Media' && 'Social Media Content Generators'}
-                    {category === 'Text & Lists' && 'Professional Text Tools & Converters'}
-                    {category === 'Encryption' && 'Secure Encryption & Hashing Utilities'}
-                    {category === 'Web' && 'Web Developer & Coding Utilities'}
-                    {category === 'Others' && 'General Utility Tools'}
-                  </h2>
+            <div className="mx-auto w-full max-w-md">
+              <div className="rounded-3xl border border-slate-200/90 bg-white p-4 shadow-2xl shadow-indigo-950/10 dark:border-slate-700 dark:bg-slate-900 sm:p-5">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white"><Camera size={18} /></div>
+                    <div><p className="text-sm font-bold text-slate-900 dark:text-white">PhotoSize workspace</p><p className="text-xs text-slate-500 dark:text-slate-400">A simpler image workflow</p></div>
+                  </div>
+                  <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">Ready to use</span>
                 </div>
+                <div className="my-5 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/60 px-5 py-8 text-center dark:border-indigo-900 dark:bg-indigo-950/30">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm dark:bg-slate-800 dark:text-indigo-300"><Camera size={27} /></div>
+                  <p className="mt-4 text-sm font-semibold text-slate-800 dark:text-slate-100">Your image tools, in one place</p>
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Pick the right tool for your task</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-800">
+                    <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-300"><ImageIcon size={18} /></div>
+                    <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Image Placeholder</p><p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Create a placeholder</p>
+                  </div>
+                  <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-800">
+                    <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300"><FileText size={18} /></div>
+                    <p className="text-xs font-bold text-slate-800 dark:text-slate-100">Image to Base64</p><p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Convert image data</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-between rounded-xl bg-slate-50 px-3.5 py-3 dark:bg-slate-800/70"><span className="text-xs font-medium text-slate-600 dark:text-slate-300">Clean. Clear. Focused.</span><span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">PhotoSize</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                {category === 'PDF' && searchQuery === '' ? (
-                  <div className="max-w-6xl mx-auto px-4">
-                    <PdfToolsOverview onToolSelect={(tool) => setActiveTool(tool)} />
+        <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {[
+            { icon: Shield, title: 'No account required', text: 'Open a tool and get started.' },
+            { icon: MousePointerClick, title: 'Easy to use', text: 'Clear tools and simple controls.' },
+            { icon: Smartphone, title: 'Works across screens', text: 'A responsive experience on mobile and desktop.' }
+          ].map((item) => (
+            <div key={item.title} className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white px-5 py-4 dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-300"><item.icon size={21} /></div>
+              <div><h2 className="text-sm font-bold text-slate-900 dark:text-white">{item.title}</h2><p className="mt-0.5 text-xs leading-5 text-slate-500 dark:text-slate-400">{item.text}</p></div>
+            </div>
+          ))}
+        </section>
+
+        <section id="image-tools" className="scroll-mt-28 space-y-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-2">
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Explore PhotoSize</span>
+              <h2 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-4xl">Image tools</h2>
+              <p className="max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">Choose from the image utilities currently available on PhotoSize.</p>
+            </div>
+            <div className="relative w-full sm:max-w-xs">
+              <Search size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Search image tools..." aria-label="Search image tools" className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-800 outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-indigo-950" />
+            </div>
+          </div>
+          {imageTools.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {imageTools.map((tool) => (
+                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: 0.99 }} onClick={() => { setActiveTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-5 rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-950/5 focus:outline-none focus:ring-4 focus:ring-indigo-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-800 dark:focus:ring-indigo-950 sm:p-7">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 transition-colors group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-900/40 dark:text-indigo-300"><tool.icon size={26} /></div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-bold tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">{tool.name}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{tool.description}</p>
+                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-400">Open tool <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" /></span>
                   </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    {tools.map((tool) => (
-                      <motion.div
-                        key={tool.id}
-                        whileHover={{ y: -8 }}
-                        onClick={() => setActiveTool(tool)}
-                        className="group bg-white dark:bg-slate-900 p-10 rounded-[3rem] border border-slate-50 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-indigo-100 dark:hover:border-indigo-900 transition-all duration-500 cursor-pointer flex items-start gap-8"
-                      >
-                        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
-                          <tool.icon size={30} />
-                        </div>
-                        <div className="flex-1 space-y-2">
-                          <h3 className="text-2xl font-black text-[#1A1A3A] dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">{tool.name}</h3>
-                          <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{tool.description}</p>
-                          <div className="pt-4 flex items-center text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all">
-                             Try {tool.name} <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
+                </motion.button>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center dark:border-slate-700 dark:bg-slate-900">
+              <Search size={24} className="mx-auto text-slate-400" /><p className="mt-3 font-semibold text-slate-800 dark:text-white">No matching image tools</p><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Try another search term.</p>
+            </div>
+          )}
+        </section>
+
+        <section id="how-it-works" className="scroll-mt-28 rounded-[2rem] bg-slate-50 px-6 py-10 dark:bg-slate-900/70 sm:px-10 md:py-14">
+          <div className="mx-auto max-w-2xl space-y-3 text-center">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">A straightforward workflow</span>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">How PhotoSize works</h2>
+            <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">No complicated setup. Start with the tool that matches what you want to do.</p>
+          </div>
+          <div className="mt-9 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {steps.map((step, index) => (
+              <div key={step.number} className="relative rounded-2xl border border-slate-200/80 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+                <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400">{step.number}</span><h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">{step.title}</h3><p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{step.description}</p>
+                {index < steps.length - 1 && <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-1 text-indigo-500 md:block dark:border-slate-700 dark:bg-slate-900" size={25} />}
               </div>
             ))}
+          </div>
+        </section>
 
-            {/* Breadcrumb Schema for SEO */}
-            <script type="application/ld+json">
-              {JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                "itemListElement": [{
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": "https://photosize.vercel.app/"
-                }, {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": activeTool ? activeTool.name : "Utilities",
-                  "item": activeTool ? `https://photosize.vercel.app/?tool=${activeTool.id}` : "https://photosize.vercel.app/"
-                }]
-              })}
-            </script>
-
-            {/* Featured Articles Mini-Section */}
-            <div className="max-w-6xl mx-auto py-20 border-t border-slate-100 dark:border-slate-800">
-               <div className="text-center space-y-4 mb-12">
-                  <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Latest from our SEO Blog</h2>
-                  <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Stay ahead with digital marketing trends, developer tips, and utility guides.</p>
-               </div>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {[
-                    { title: 'The Ultimate Guide to Core Web Vitals', desc: 'Learn how to optimize your website for Googles vital speed metrics.', date: 'May 2026' },
-                    { title: 'Why Privacy-First Tools are the Future', desc: 'Discover why local processing is becoming the standard for professional utilities.', date: 'April 2026' },
-                    { title: 'Mastering PDF Management Online', desc: 'Tips and tricks for editing PDF metadata safely without tracking.', date: 'March 2026' }
-                  ].map((article, i) => (
-                    <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 hover:border-indigo-100 dark:hover:border-indigo-900 transition-all cursor-pointer group shadow-sm hover:shadow-xl">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500">{article.date}</span>
-                      <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white mt-2 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{article.title}</h3>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">{article.desc}</p>
-                      <button onClick={() => navigateTo('blog')} className="text-xs font-black text-indigo-600 uppercase tracking-widest flex items-center">
-                        Read Story <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </div>
-                  ))}
-               </div>
-            </div>
-
-            {/* High Value Publisher Content Section */}
-            <div className="max-w-5xl mx-auto space-y-24 py-20 border-t border-slate-100 dark:border-slate-800">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                <div className="space-y-6 text-left">
-                  <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white leading-tight">
-                    Why Choose <span className="text-indigo-600">PhotoSize</span> for Everyday Image & File Tasks?
-                  </h2>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
-                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. PhotoSize brings useful image, PDF, text, and developer utilities together in one convenient place.
-                  </p>
-                  <div className="space-y-6">
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0 shadow-sm">
-                        <Shield size={24} />
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Privacy-First Architecture</h4>
-                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">Many tools process data directly in your browser, so files and text used in those tools stay on your device. Check each tool's description for its processing behavior.</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 shadow-sm">
-                        <Zap size={24} />
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Fast Browser-Based Processing</h4>
-                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">Tools that run locally can process supported tasks in your browser without sending each operation to a remote processing server. This can make everyday workflows quicker and keeps the experience simple.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white dark:bg-slate-900 p-12 rounded-[3rem] border border-slate-100 dark:border-slate-800 shadow-2xl space-y-8 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
-                  <h3 className="text-3xl font-black text-[#1A1A3A] dark:text-white relative">Our Commitment to Excellence</h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed relative">
-                    We aim to make everyday image and file tasks straightforward. PhotoSize brings supported utilities into one accessible workspace, with clear tool descriptions and practical controls.
-                  </p>
-                  <ul className="space-y-4 relative">
-                    {['Free tools with no sign-up required', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
-                      <li key={item} className="flex items-center gap-4 font-bold text-slate-700 dark:text-slate-300">
-                        <div className="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-100">
-                          <Zap size={12} fill="currentColor" />
-                        </div>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+        <section className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
+          <div className="space-y-4">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Designed for clarity</span>
+            <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-950 dark:text-white sm:text-4xl">The image tools you need, without the clutter.</h2>
+            <p className="text-base leading-7 text-slate-600 dark:text-slate-300">PhotoSize keeps the experience focused: clear tool names, simple navigation, and a layout that works on the device you are using.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {[
+              { icon: Camera, title: 'Image focused', text: 'A dedicated place to find image utilities.' },
+              { icon: MousePointerClick, title: 'Simple controls', text: 'Straightforward tool pages and actions.' },
+              { icon: Smartphone, title: 'Responsive layout', text: 'Comfortable to use on smaller screens.' },
+              { icon: Shield, title: 'Clear information', text: 'Tool descriptions help explain what each utility does.' }
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-slate-100 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+                <item.icon size={21} className="text-indigo-600 dark:text-indigo-400" /><h3 className="mt-3 text-sm font-bold text-slate-900 dark:text-white">{item.title}</h3><p className="mt-1.5 text-xs leading-5 text-slate-500 dark:text-slate-400">{item.text}</p>
               </div>
+            ))}
+          </div>
+        </section>
 
-              {/* FAQ Section */}
-              <div className="space-y-12">
-                <div className="text-center space-y-4">
-                  <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Frequently Asked Questions</h2>
-                  <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Get answers to the most common questions about our platform and how our tools work.</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* ... Existing FAQ items ... */}
-                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Yes, absolutely. PhotoSize aims to keep its available utility tools free to use. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with PhotoSize?</h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Many tools run directly in your browser, but processing can vary by tool. Review the individual tool description before using sensitive files or information.
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Do I need to create an account?</h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      No. We respect your time and privacy. You can use any tool on our platform instantly without the need for registration, email verification, or login. Efficiency is just one click away.
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">How can I suggest a new tool?</h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      We love hearing from our community! If there is a tool you need that we don't have yet, please use our Contact Us page to send your suggestion. We regularly update the platform with new requested features.
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <section className="mx-auto max-w-3xl space-y-7">
+          <div className="space-y-2 text-center"><span className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Helpful answers</span><h2 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">Frequently asked questions</h2></div>
+          <div className="space-y-3">
+            {faqs.map((faq) => (
+              <details key={faq.question} className="group rounded-2xl border border-slate-200 bg-white p-5 open:border-indigo-200 open:shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:open:border-indigo-900">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-slate-900 marker:hidden dark:text-white">{faq.question}<ChevronDown size={18} className="shrink-0 text-slate-400 transition-transform group-open:rotate-180" /></summary>
+                <p className="pt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
 
-              {/* YouTube Tutorial Hook Section */}
-              <div className="max-w-6xl mx-auto space-y-12 py-16">
-                <div className="text-center space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black text-[#1A1A3A] dark:text-white tracking-tight">Master Our Tools with Video Guides</h2>
-                  <p className="text-slate-500 dark:text-slate-400 max-w-3xl mx-auto text-lg leading-relaxed">
-                    Visual learner? Watch our comprehensive video tutorials to master PDF conversion, image editing, and developer utilities in record time.
-                  </p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-                  {[
-                    { id: '5XU6bWNUtXE', title: 'Complete Tools Overview' },
-                    { id: 'qKWTQB4Ir_Y', title: 'PDF & File Management Guide' },
-                    { id: 'ZxnjsvW563g', title: 'Advanced Developer Utilities' }
-                  ].map((video, idx) => (
-                    <div key={idx} className="relative group p-3 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                      <div className="aspect-video w-full rounded-[1.8rem] overflow-hidden bg-slate-100 mb-4">
-                        <iframe 
-                          className="w-full h-full"
-                          src={`https://www.youtube.com/embed/${video.id}`} 
-                          title={`${video.title} - PhotoSize Tutorial`}
-                          width="560"
-                          height="315"
-                          frameBorder="0" 
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                          referrerPolicy="strict-origin-when-cross-origin" 
-                          allowFullScreen
-                          loading="lazy"
-                        ></iframe>
-                      </div>
-                      <div className="px-4 pb-4">
-                        <h3 className="text-lg font-black text-[#1A1A3A] group-hover:text-indigo-600 transition-colors uppercase tracking-tight">
-                          {video.title}
-                        </h3>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="flex justify-center flex-wrap gap-6 pt-4">
-                  <div className="flex items-center gap-3 px-8 py-4 bg-indigo-50 text-indigo-700 rounded-full font-black text-xs uppercase tracking-widest shadow-sm">
-                    <Zap size={18} fill="currentColor" className="text-indigo-500" /> Fast & Instant
-                  </div>
-                  <div className="flex items-center gap-3 px-8 py-4 bg-emerald-50 text-emerald-700 rounded-full font-black text-xs uppercase tracking-widest shadow-sm">
-                    <Shield size={18} fill="currentColor" className="text-emerald-500" /> Secure Processing
-                  </div>
-                  <div className="flex items-center gap-3 px-8 py-4 bg-pink-50 text-pink-700 rounded-full font-black text-xs uppercase tracking-widest shadow-sm">
-                    <Heart size={18} fill="currentColor" className="text-pink-500" /> 100% Free Forever
-                  </div>
-                </div>
-              </div>
+        <section className="overflow-hidden rounded-[2rem] bg-slate-950 px-6 py-12 text-center text-white sm:px-10 md:py-16">
+          <div className="mx-auto max-w-2xl space-y-5">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-300"><Camera size={24} /></div>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to work with your images?</h2>
+            <p className="text-sm leading-6 text-slate-300">Explore the image tools currently available on PhotoSize and choose the one that fits your task.</p>
+            <button onClick={() => document.getElementById('image-tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-indigo-50">Explore image tools <ArrowRight size={16} /></button>
+          </div>
+        </section>
 
-              <div className="bg-[#1A1A3A] rounded-[4rem] p-12 md:p-24 text-center space-y-10 text-white relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent)] pointer-events-none"></div>
-                <div className="space-y-4 relative">
-                  <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
-                  <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Explore PhotoSize's available photo, image, PDF, text, and developer tools in one convenient place. Start using a tool without creating an account.
-                  </p>
-                </div>
-                <div className="flex flex-wrap justify-center gap-6 relative">
-                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="px-10 py-5 bg-white text-[#1A1A3A] rounded-2xl font-black hover:bg-indigo-50 transition-all shadow-2xl hover:scale-105 active:scale-95 duration-200">
-                    Explore All Tools
-                  </button>
-                  <button onClick={() => navigateTo('blog')} className="px-10 py-5 bg-indigo-600 text-white rounded-2xl font-black hover:bg-indigo-500 transition-all border border-indigo-400/30 shadow-2xl hover:scale-105 active:scale-95 duration-200">
-                    Read Our SEO Blog
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+        <script type="application/ld+json">
+          {JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://photosize.vercel.app/" }] })}
+        </script>
+      </motion.div>
     );
   };
 
@@ -648,7 +546,7 @@ export default function App() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text"
-                  placeholder="Search image, PDF, text and other tools..."
+                  placeholder="Search image tools..."
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
@@ -720,7 +618,7 @@ export default function App() {
                 <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">PhotoSize</span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm">
-                PhotoSize brings together useful photo, image, PDF, text, and developer utilities. Use the available tools without creating an account.
+                PhotoSize brings simple online image utilities together in one focused, easy-to-use workspace.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: Tools are provided as is. Processing behavior can vary by tool; review the relevant tool details before using sensitive files or information.
