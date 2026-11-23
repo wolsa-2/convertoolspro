@@ -17,7 +17,7 @@ export default function Blog() {
           Back to Blog
         </button>
 
-        <article className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden">
+        <article className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="aspect-video bg-indigo-50 overflow-hidden relative">
             {selectedPost.image ? (
               <img 
@@ -51,9 +51,9 @@ export default function Blog() {
   }
 
   return (
-    <div className="space-y-12">
+    <div className="photosize-blog space-y-10 md:space-y-12">
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-black text-[#1A1A3A]">Our Blog</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1A1A3A]">Our Blog</h1>
         <p className="text-slate-500">Insights, tutorials, and updates from the PhotoSize team.</p>
       </div>
 
@@ -62,7 +62,7 @@ export default function Blog() {
           <motion.article 
             key={post.id}
             whileHover={{ y: -5 }}
-            className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col"
+            className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
           >
             <div className="aspect-video bg-indigo-50 overflow-hidden relative">
               {post.image ? (
