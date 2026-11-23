@@ -165,3 +165,33 @@ main .prose blockquote {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* PhotoSize complete redesign — shared component polish */
+:root {
+  --ps-blue: #2563eb;
+  --ps-blue-soft: #eff6ff;
+  --ps-rose: #e11d48;
+  --ps-violet: #6d28d9;
+}
+body { background: #f8fafc; }
+.ps-mega-bar { box-shadow: 0 8px 24px rgb(15 23 42 / 4%); }
+.ps-hero { isolation: isolate; }
+.ps-tool-card { border: 1px solid #e2e8f0; border-radius: 1rem; background: #fff; }
+.photosize-tool-page { max-width: 1440px; margin-inline: auto; }
+.photosize-tool-page .tool-container,
+.photosize-tool-page .bg-white { border-color: #e2e8f0; }
+.photosize-tool-page h1 { letter-spacing: -.035em; }
+.photosize-tool-page button { -webkit-tap-highlight-color: transparent; }
+.photosize-tool-page .tool-workspace,
+.photosize-tool-page .tool-container { border-radius: 1.25rem; }
+@media (max-width: 767px) {
+  .ps-mega-bar { top: 4rem; }
+  .ps-mega-bar > div { padding-inline: .75rem; }
+  .photosize-tool-page { overflow-wrap: anywhere; }
+  .photosize-tool-page .p-10 { padding: 1.25rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ps-hero, .photosize-tool-page > div { animation: ps-enter .32s cubic-bezier(.2,.75,.25,1) both; }
+  @keyframes ps-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+}
