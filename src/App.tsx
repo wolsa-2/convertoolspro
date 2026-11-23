@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -10,9 +10,9 @@ const StructuredData = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Convertools",
-    "url": "https://convertools.app/",
-    "description": "Free online utility tools for developers and designers.",
+    "name": "PhotoSize",
+    "url": "https://photosize.vercel.app/",
+    "description": "Useful photo and image utilities, with PDF, text and developer tools in one browser-based workspace.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Any",
     "author": {
@@ -86,22 +86,22 @@ export default function App() {
     window.scrollTo(0, 0);
 
     // Dynamic Title, Description & Social Meta Updates
-    let title = 'Convertools | Free Online Utility Hub & Privacy-First Tools';
-    let description = 'Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing with no sign-up required.';
-    let canonical = 'https://convertools.app/';
+    let title = 'PhotoSize | Free Online Photo, Image & Utility Tools';
+    let description = 'Free online photo and image utilities, plus useful PDF, text and developer tools. Simple browser-based tools with no account required.';
+    let canonical = 'https://photosize.vercel.app/';
 
     if (activeTool) {
-      title = `${activeTool.name} | Convertools`;
+      title = `${activeTool.name} | PhotoSize`;
       description = `Use our free, local-first ${activeTool.name} tool. ${activeTool.description} Secure and private utility for professional use.`;
-      canonical = `https://convertools.app/tool/${activeTool.id}`;
+      canonical = `https://photosize.vercel.app/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
-      title = 'SEO & Productivity Blog | Convertools';
-      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with Convertools core guides.';
-      canonical = 'https://convertools.app/blog';
+      title = 'SEO & Productivity Blog | PhotoSize';
+      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with PhotoSize core guides.';
+      canonical = 'https://photosize.vercel.app/blog';
     } else if (currentPage !== 'home') {
-      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Convertools`;
-      description = `Learn more about Convertools ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
-      canonical = `https://convertools.app/${currentPage}`;
+      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | PhotoSize`;
+      description = `Learn more about PhotoSize ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
+      canonical = `https://photosize.vercel.app/${currentPage}`;
     }
 
     // Apply basic metadata
@@ -125,7 +125,7 @@ export default function App() {
     if (twitterDesc) twitterDesc.setAttribute('content', description);
     
     // Fix Issue 2: Branded OG Image
-    const brandedImage = 'https://convertools.app/og-image.png';
+    const brandedImage = 'https://photosize.vercel.app/og-image.svg';
     if (ogImage) ogImage.setAttribute('content', brandedImage);
     if (twitterImage) twitterImage.setAttribute('content', brandedImage);
 
@@ -248,7 +248,7 @@ export default function App() {
             <div className="space-y-4">
               <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
               <p className="text-slate-600 leading-relaxed text-lg">
-                We value your feedback and are always looking for ways to improve Convertools. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
+                We value your feedback and are always looking for ways to improve PhotoSize. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
               </p>
             </div>
 
@@ -347,10 +347,10 @@ export default function App() {
         {/* Fix Issue 6: SEO Optimized Heading Hierarchy (H1 & H2) */}
             <div className="text-center space-y-4 px-4">
               <h1 className="text-4xl md:text-7xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-5xl mx-auto">
-                The Ultimate Free Online Utility Hub
+                Free Online Photo & Image Tools
               </h1>
               <h2 className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed">
-                Empowering developers and designers with 100+ private, local-first tools for PDF management, Image editing, and Text processing.
+                Work with photos and images using simple browser-based utilities, alongside useful PDF, text, and developer tools. No account required.
               </h2>
             </div>
 
@@ -387,7 +387,7 @@ export default function App() {
                 <div className="text-center space-y-3">
                   <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">{category}</span>
                   <h2 className="text-3xl font-black text-[#1A1A3A] dark:text-white">
-                    {category === 'Image' && 'High-Quality Image & Design Utilities'}
+                    {category === 'Image' && 'Photo & Image Utilities'}
                     {category === 'PDF' && 'Advanced PDF Management & Conversion'}
                     {category === 'Social Media' && 'Social Media Content Generators'}
                     {category === 'Text & Lists' && 'Professional Text Tools & Converters'}
@@ -436,12 +436,12 @@ export default function App() {
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": "https://convertools.app/"
+                  "item": "https://photosize.vercel.app/"
                 }, {
                   "@type": "ListItem",
                   "position": 2,
                   "name": activeTool ? activeTool.name : "Utilities",
-                  "item": activeTool ? `https://convertools.app/?tool=${activeTool.id}` : "https://convertools.app/"
+                  "item": activeTool ? `https://photosize.vercel.app/?tool=${activeTool.id}` : "https://photosize.vercel.app/"
                 }]
               })}
             </script>
@@ -475,10 +475,10 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-6 text-left">
                   <h2 className="text-4xl font-black text-[#1A1A3A] dark:text-white leading-tight">
-                    Why Choose <span className="text-indigo-600">Convertools</span> for Your Daily Workflow?
+                    Why Choose <span className="text-indigo-600">PhotoSize</span> for Your Daily Workflow?
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
-                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. Convertools was built to solve this problem by providing a centralized, high-performance hub for all your essential utilities.
+                    In the modern digital landscape, developers and designers are often forced to jump between dozens of different websites to perform simple tasks. This fragmentation leads to "tab fatigue" and breaks your creative flow. PhotoSize brings useful image, PDF, text, and developer utilities together in one convenient place.
                   </p>
                   <div className="space-y-6">
                     <div className="flex gap-4">
@@ -487,7 +487,7 @@ export default function App() {
                       </div>
                       <div className="space-y-1">
                         <h4 className="font-bold text-xl text-[#1A1A3A] dark:text-white">Privacy-First Architecture</h4>
-                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">Unlike other platforms that upload your files to remote servers for processing, our tools are designed to work locally in your browser. This means your text, images, and sensitive data never leave your device, ensuring total privacy and security.</p>
+                        <p className="text-slate-500 dark:text-slate-400 leading-relaxed">Many tools process data directly in your browser, so files and text used in those tools stay on your device. Check each tool's description for its processing behavior.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
@@ -505,7 +505,7 @@ export default function App() {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
                   <h3 className="text-3xl font-black text-[#1A1A3A] dark:text-white relative">Our Commitment to Excellence</h3>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed relative">
-                    We believe that free tools shouldn't mean a compromise in quality. Every utility on our platform is meticulously crafted to be intuitive, accessible, and robust. We follow industry best practices for both security and user experience design, ensuring that you can rely on Convertools for even your most critical professional projects.
+                    We aim to make everyday image and file tasks straightforward. PhotoSize brings supported utilities into one accessible workspace, with clear tool descriptions and practical controls.
                   </p>
                   <ul className="space-y-4 relative">
                     {['100% Free to Use Forever', 'No Registration or Sign-up', 'Open Source Driven Spirit', 'Regularly Updated Features'].map((item) => (
@@ -531,13 +531,13 @@ export default function App() {
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
                     <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Are the tools really free?</h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Yes, absolutely. Convertools is committed to providing high-quality utility tools completely free of charge. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
+                      Yes, absolutely. PhotoSize aims to keep its available utility tools free to use. We do not have hidden fees, subscriptions, or paywalls for any of our standard utilities.
                     </p>
                   </div>
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
-                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with Convertools?</h3>
+                    <h3 className="text-xl font-bold text-[#1A1A3A] dark:text-white">Is my data safe with PhotoSize?</h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                      Privacy is our core value. Most of our tools, including the Text Converter and JSON Formatter, run entirely in your browser. This means your data is processed locally and is never sent to our servers.
+                      Many tools run directly in your browser, but processing can vary by tool. Review the individual tool description before using sensitive files or information.
                     </p>
                   </div>
                   <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-50 dark:border-slate-800 shadow-sm space-y-4">
@@ -575,7 +575,7 @@ export default function App() {
                         <iframe 
                           className="w-full h-full"
                           src={`https://www.youtube.com/embed/${video.id}`} 
-                          title={`${video.title} - Convertools Tutorial`}
+                          title={`${video.title} - PhotoSize Tutorial`}
                           width="560"
                           height="315"
                           frameBorder="0" 
@@ -612,7 +612,7 @@ export default function App() {
                 <div className="space-y-4 relative">
                   <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">Ready to Streamline Your Work?</h2>
                   <p className="text-indigo-200 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Join thousands of developers, designers, and digital professionals who use Convertools every day to automate repetitive tasks and focus on what matters.
+                    Join thousands of developers, designers, and digital professionals who use PhotoSize every day to automate repetitive tasks and focus on what matters.
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-6 relative">
@@ -640,14 +640,14 @@ export default function App() {
               <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
                 <img 
                   src="/vite.svg" 
-                  alt="Convertools Logo" 
+                  alt="PhotoSize Logo" 
                   width="32"
                   height="32"
                   className="w-8 h-8"
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">Convertools</span>
+              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">PhotoSize</span>
             </div>
 
             <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
@@ -655,7 +655,7 @@ export default function App() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text"
-                  placeholder="Search 100+ tools..."
+                  placeholder="Search available tools..."
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
@@ -724,10 +724,10 @@ export default function App() {
                 <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
                   <Zap size={18} fill="currentColor" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Convertools</span>
+                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">PhotoSize</span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm">
-                Convertools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
+                PhotoSize brings together useful photo, image, PDF, text, and developer utilities. Use the available tools without creating an account.
               </p>
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
@@ -786,7 +786,7 @@ export default function App() {
           
           <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-400 text-sm">
-              © 2026 Convertools. All rights reserved.
+              © 2026 PhotoSize. All rights reserved.
             </p>
             <div className="flex items-center gap-1 text-slate-400 text-sm">
               Made with <Heart size={14} className="text-rose-500 fill-rose-500" /> for the community.
