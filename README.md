@@ -1,20 +1,24 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# PhotoSize
 
-# Run and deploy your AI Studio app
+PhotoSize is a browser-based collection of photo, image, PDF, text, and developer utilities.
 
-This contains everything you need to run your app locally.
+Production site: https://photosize.vercel.app/
 
-View your app in AI Studio: https://ai.studio/apps/941153e1-dac8-4eb9-91c5-d18b8ace7fd3
+## Tech stack
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
 
-## Run Locally
+## Local development
+1. Install Node.js 22.x.
+2. Install dependencies with `npm ci`.
+3. Start the development server with `npm run dev`.
+4. Create a production build with `npm run build`.
 
-**Prerequisites:**  Node.js
+## Privacy and processing
+Processing behavior depends on the individual tool. Review each tool's description before using sensitive files or information.
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Deployment
+The project is connected to Vercel and deploys from the configured production branch.
