@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { ArrowRightLeft, Copy, Check, Trash2 } from 'lucide-react';
 
+const encodeUtf8Base64 = (value: string) => {
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary);
+};
+
+const decodeUtf8Base64 = (value: string) => {
+  const binary = atob(value);
+  const bytes = Uint8Array.from(binary, character => character.charCodeAt(0));
+  return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+};
+
 export default function Base64Codec() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
@@ -18,9 +31,9 @@ export default function Base64Codec() {
 
     try {
       if (currentMode === 'encode') {
-        setOutput(btoa(val));
+        setOutput(encodeUtf8Base64(val));
       } else {
-        setOutput(atob(val));
+        setOutput(decodeUtf8Base64(val));
       }
     } catch (e) {
       setError('Invalid input for ' + currentMode + 'ing');
