@@ -3,34 +3,57 @@ import { QRCodeSVG } from 'qrcode.react';
 import { Download, Share2, Palette, Settings } from 'lucide-react';
 
 export default function QrGenerator() {
-  const [value, setValue] = useState('https://omnitool.app');
+  const [value, setValue] = useState('https://photosize.vercel.app/');
   const [fgColor, setFgColor] = useState('#4F46E5');
   const [bgColor, setBgColor] = useState('#FFFFFF');
   const [size, setSize] = useState(256);
   const [includeMargin, setIncludeMargin] = useState(true);
+  const [downloadError, setDownloadError] = useState('');
   const qrRef = useRef<HTMLDivElement>(null);
 
   const downloadQR = () => {
+    setDownloadError('');
     const svg = qrRef.current?.querySelector('svg');
-    if (!svg) return;
+    if (!svg) {
+      setDownloadError('QR code is not ready. Please try again.');
+      return;
+    }
 
     const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    const svgUrl = URL.createObjectURL(new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' }));
     const img = new Image();
-    
+
     img.onload = () => {
+      URL.revokeObjectURL(svgUrl);
+      const canvas = document.createElement('canvas');
       canvas.width = size;
       canvas.height = size;
-      ctx?.drawImage(img, 0, 0);
-      const pngFile = canvas.toDataURL('image/png');
-      const downloadLink = document.createElement('a');
-      downloadLink.download = 'omnitool-qr.png';
-      downloadLink.href = pngFile;
-      downloadLink.click();
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        setDownloadError('Your browser could not prepare the PNG image.');
+        return;
+      }
+
+      ctx.drawImage(img, 0, 0, size, size);
+      canvas.toBlob(blob => {
+        if (!blob) {
+          setDownloadError('PNG export failed. Please try again.');
+          return;
+        }
+        const pngUrl = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.download = 'photosize-qr.png';
+        downloadLink.href = pngUrl;
+        downloadLink.click();
+        window.setTimeout(() => URL.revokeObjectURL(pngUrl), 1000);
+      }, 'image/png');
     };
 
-    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    img.onerror = () => {
+      URL.revokeObjectURL(svgUrl);
+      setDownloadError('QR image could not be rendered for download.');
+    };
+    img.src = svgUrl;
   };
 
   return (
@@ -102,6 +125,7 @@ export default function QrGenerator() {
           <Download size={20} />
           Download PNG
         </button>
+        {downloadError && <p role="alert" className="text-sm text-rose-600">{downloadError}</p>}
       </div>
 
       <div className="flex flex-col items-center justify-center bg-slate-50 rounded-3xl border border-slate-200 p-12 space-y-6">

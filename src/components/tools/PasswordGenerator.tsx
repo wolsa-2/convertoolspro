@@ -18,22 +18,42 @@ export default function PasswordGenerator() {
       uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
       lowercase: 'abcdefghijklmnopqrstuvwxyz',
       numbers: '0123456789',
-      symbols: '!@#$%^&*()_+~`|}{[]:;?><,./-=',
+      symbols: '!@#$%^&*()_+~\`|}{[]:;?><,./-=',
     };
 
-    let characters = '';
-    if (options.uppercase) characters += charset.uppercase;
-    if (options.lowercase) characters += charset.lowercase;
-    if (options.numbers) characters += charset.numbers;
-    if (options.symbols) characters += charset.symbols;
+    const enabledSets = Object.entries(options)
+      .filter(([key, enabled]) => enabled)
+      .map(([key]) => charset[key as keyof typeof charset]);
 
-    if (!characters) return;
-
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    if (enabledSets.length === 0 || length < enabledSets.length) {
+      setPassword('');
+      return;
     }
-    setPassword(result);
+
+    const randomInt = (maxExclusive: number) => {
+      const range = 0x100000000;
+      const limit = range - (range % maxExclusive);
+      const values = new Uint32Array(1);
+      let value = limit;
+      while (value >= limit) {
+        crypto.getRandomValues(values);
+        value = values[0];
+      }
+      return value % maxExclusive;
+    };
+
+    const pool = enabledSets.join('');
+    const characters = enabledSets.map(set => set[randomInt(set.length)]);
+    while (characters.length < length) {
+      characters.push(pool[randomInt(pool.length)]);
+    }
+
+    // Shuffle so the guaranteed category characters are not predictable by position.
+    for (let i = characters.length - 1; i > 0; i--) {
+      const j = randomInt(i + 1);
+      [characters[i], characters[j]] = [characters[j], characters[i]];
+    }
+    setPassword(characters.join(''));
   };
 
   useEffect(() => {

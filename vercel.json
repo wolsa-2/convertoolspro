@@ -22,5 +22,107 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/blog",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/disclaimer",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/404",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/image-placeholder",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/image-to-base64",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/jpg-to-pdf",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/merge-pdf",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/split-pdf",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/rotate-pdf",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/watermark-pdf",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/pdf-metadata",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/tweet-generator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/character-counter",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/case-converter",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/password-generator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/bionic-reading",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/base64-codec",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/hash-generator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/json-formatter",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/html-entities",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tool/qr-generator",
+      "destination": "/index.html"
+    }
   ]
 }
