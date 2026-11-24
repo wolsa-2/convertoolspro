@@ -159,9 +159,37 @@ export default function App() {
   }, [currentPage, activeTool]);
 
   const acceptCookies = () => {
-    localStorage.setItem('cookie-consent', 'true');
+    localStorage.setItem('cookie-consent', 'accepted');
+    window.location.reload();
+  };
+
+  const rejectCookies = () => {
+    localStorage.setItem('cookie-consent', 'rejected');
     setShowCookieConsent(false);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('cookie-consent') !== 'accepted') return;
+    const trackingWindow = window as Window & {
+      dataLayer?: unknown[];
+      gtag?: (...args: unknown[]) => void;
+    };
+    trackingWindow.dataLayer = trackingWindow.dataLayer || [];
+    trackingWindow.gtag = (...args: unknown[]) => {
+      trackingWindow.dataLayer?.push(args);
+    };
+    trackingWindow.gtag('js', new Date());
+    trackingWindow.gtag('config', 'G-E5M3FZVL7Q');
+    trackingWindow.gtag('config', 'AW-16905142948');
+
+    if (!document.getElementById('photosize-gtag-loader')) {
+      const script = document.createElement('script');
+      script.id = 'photosize-gtag-loader';
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E5M3FZVL7Q';
+      document.head.appendChild(script);
+    }
+  }, []);
 
   const filteredTools = TOOLS.filter(tool => {
     const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -691,24 +719,27 @@ export default function App() {
               <div className="space-y-1">
                 <h4 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  We use cookies to enhance your experience and serve personalized ads via Google AdSense. By using our site, you agree to our use of cookies.
+                  Essential site storage keeps the website working. Optional analytics and advertising scripts are enabled only if you choose to accept them.
                 </p>
               </div>
             </div>
             <div className="flex gap-3">
-              <button 
+              <button
+                onClick={rejectCookies}
+                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
+              >
+                Reject Optional
+              </button>
+              <button
                 onClick={acceptCookies}
                 className="flex-1 py-3 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all font-sans"
               >
                 Accept All
               </button>
-              <button 
-                onClick={() => navigateTo('privacy')}
-                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
-              >
-                Learn More
-              </button>
             </div>
+            <button onClick={() => navigateTo('privacy')} className="text-xs font-semibold text-indigo-600 hover:underline">
+              Read Privacy Policy
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
