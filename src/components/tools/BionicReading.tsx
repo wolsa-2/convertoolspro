@@ -20,7 +20,7 @@ export default function BionicReading() {
   const bionicText = processText(text);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(bionicText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -81,7 +81,7 @@ export default function BionicReading() {
           className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all"
         >
           {copied ? <Check size={18} /> : <Copy size={18} />}
-          Copy Original
+          Copy Bionic Text
         </button>
       </div>
     </div>
