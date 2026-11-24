@@ -3,7 +3,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { Download, Share2, Palette, Settings } from 'lucide-react';
 
 export default function QrGenerator() {
-  const [value, setValue] = useState('https://omnitool.app');
+  const [value, setValue] = useState('https://photosize.vercel.app/');
   const [fgColor, setFgColor] = useState('#4F46E5');
   const [bgColor, setBgColor] = useState('#FFFFFF');
   const [size, setSize] = useState(256);
@@ -25,12 +25,12 @@ export default function QrGenerator() {
       ctx?.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL('image/png');
       const downloadLink = document.createElement('a');
-      downloadLink.download = 'omnitool-qr.png';
+      downloadLink.download = 'photosize-qr.png';
       downloadLink.href = pngFile;
       downloadLink.click();
     };
 
-    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    img.src = URL.createObjectURL(new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' }));
   };
 
   return (
