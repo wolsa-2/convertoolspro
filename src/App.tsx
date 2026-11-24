@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code, Type } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -348,9 +348,10 @@ export default function App() {
     });
 
     const sectionCards = [
-      { label: 'Image tools', category: 'Image' as Category, description: 'Image utilities and file helpers', tone: 'blue' },
-      { label: 'PDF tools', category: 'PDF' as Category, description: 'Create, organize and inspect PDFs', tone: 'rose' },
-      { label: 'Text & web tools', category: 'Text & Lists' as Category, description: 'Writing, coding and everyday utilities', tone: 'violet' }
+      { label: 'Image tools', category: 'Image' as Category, description: 'Prepare and convert image files', tone: 'blue' },
+      { label: 'PDF tools', category: 'PDF' as Category, description: 'Create, organize and inspect PDFs', tone: 'violet' },
+      { label: 'Text tools', category: 'Text & Lists' as Category, description: 'Write, count and transform text', tone: 'emerald' },
+      { label: 'Web & developer', category: 'Web' as Category, description: 'Format data and work with web content', tone: 'amber' }
     ];
 
     return (
@@ -394,11 +395,12 @@ export default function App() {
                   </div>
                   <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700">Ready</span>
                 </div>
-                <div className="my-5 rounded-2xl border border-dashed border-blue-200 bg-blue-50/70 px-5 py-8 text-center">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-sm"><ImageIcon size={27} /></div>
-                  <p className="mt-4 text-sm font-semibold text-slate-800">A clean space for everyday tasks</p>
-                  <p className="mt-1 text-xs text-slate-500">Choose from the tools available below</p>
-                </div>
+                <button type="button" onClick={() => { setActiveSection('Image'); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="ps-workspace-launch my-5 w-full rounded-2xl border border-dashed border-blue-300 bg-blue-50/70 px-5 py-8 text-center transition hover:border-blue-500 hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-100" aria-label="Browse image tools">
+                  <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-sm"><ImageIcon size={27} /></span>
+                  <span className="mt-4 block text-sm font-semibold text-slate-800">Your creative workspace</span>
+                  <span className="mt-1 block text-xs text-slate-500">Select a tool to start working with your files</span>
+                  <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-bold text-white">Browse image tools <ArrowRight size={14} /></span>
+                </button>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-xl border border-slate-100 p-3"><ImageIcon size={19} className="mb-2 text-blue-600" /><p className="text-xs font-semibold text-slate-800">Image utilities</p><p className="mt-1 text-[11px] text-slate-500">Work with image files</p></div>
                   <div className="rounded-xl border border-slate-100 p-3"><FileText size={19} className="mb-2 text-rose-600" /><p className="text-xs font-semibold text-slate-800">PDF utilities</p><p className="mt-1 text-[11px] text-slate-500">Manage documents</p></div>
@@ -408,14 +410,12 @@ export default function App() {
           </div>
         </section>
 
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <section aria-label="Browse tool categories" className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {sectionCards.map((item) => (
-            <button key={item.category} onClick={() => { setActiveSection(item.category); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
-              <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", item.tone === 'rose' ? "bg-rose-50 text-rose-600" : item.tone === 'violet' ? "bg-violet-50 text-violet-600" : "bg-blue-50 text-blue-600")}>
-                {item.category === 'Image' ? <ImageIcon size={23} /> : item.category === 'PDF' ? <FileText size={23} /> : <Code size={23} />}
-              </span>
-              <span className="min-w-0 flex-1"><span className="block text-sm font-bold text-slate-900">{item.label}</span><span className="mt-1 block text-xs text-slate-500">{item.description}</span></span>
-              <ArrowRight size={17} className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-blue-600" />
+            <button key={item.category} onClick={() => { setActiveSection(item.category); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className={cn("ps-category-tile group relative flex min-h-40 flex-col justify-between overflow-hidden rounded-3xl border p-6 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl", item.tone === 'blue' ? "ps-category-blue" : item.tone === 'violet' ? "ps-category-violet" : item.tone === 'emerald' ? "ps-category-emerald" : "ps-category-amber")}>
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/20 text-white shadow-sm backdrop-blur"><span>{item.category === 'Image' ? <ImageIcon size={23} /> : item.category === 'PDF' ? <FileText size={23} /> : item.category === 'Text & Lists' ? <Type size={23} /> : <Code size={23} />}</span></span>
+              <span className="min-w-0"><span className="block text-lg font-bold tracking-tight text-white">{item.label}</span><span className="mt-1 block text-xs leading-5 text-white/80">{item.description}</span></span>
+              <ArrowRight size={18} className="absolute right-6 top-6 text-white/80 transition group-hover:translate-x-1" />
             </button>
           ))}
         </section>
@@ -457,10 +457,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FF] dark:bg-slate-950 text-[#1A1A3A] dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-700">
+    <div className="ps-app min-h-screen bg-[#F1F5F9] dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-100 selection:text-blue-700">
       <StructuredData />
       {/* Navigation */}
-      <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50">
+      <nav className="ps-navbar sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-2xl dark:border-slate-800/80 dark:bg-slate-950/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
@@ -486,9 +486,22 @@ export default function App() {
               </div>
             </div>
 
+            <div className="md:hidden relative min-w-0 flex-1 mx-2">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); if (currentPage !== 'home') navigateTo('home'); }}
+                placeholder="Search tools"
+                aria-label="Search tools"
+                className="w-full rounded-full border border-slate-200 bg-slate-50/80 py-2 pl-9 pr-3 text-xs text-slate-800 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+              />
+            </div>
+
             <div className="hidden md:flex items-center gap-6">
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                 className="p-2.5 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-indigo-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-sm"
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -501,17 +514,29 @@ export default function App() {
               </button>
             </div>
 
-            <button 
-              className="md:hidden p-2 text-slate-600"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="md:hidden flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                className="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              >
+                {isDarkMode ? <Sun size={19} /> : <Moon size={19} />}
+              </button>
+              <button 
+                type="button"
+                aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                className="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
 
-      <div className="ps-mega-bar sticky top-20 z-40 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+      <div className="ps-mega-bar sticky top-20 z-40 border-b border-slate-200/70 bg-white/75 shadow-sm backdrop-blur-2xl dark:border-slate-800/70 dark:bg-slate-950/75">
         <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
           {[
             { id: 'image', label: 'Image Tools', category: 'Image' as Category },
@@ -560,7 +585,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="ps-main mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         {renderPage()}
       </main>
 
