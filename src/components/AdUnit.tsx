@@ -29,7 +29,7 @@ export const AdUnit: React.FC<AdUnitProps> = ({
   const validSlot = /^\d+$/.test(slot);
 
   useEffect(() => {
-    if (!isProduction || adsDisabled || !validSlot || initialized.current || !adRef.current) {
+    if (!isProduction || adsDisabled || !validSlot || localStorage.getItem('cookie-consent') !== 'accepted' || initialized.current || !adRef.current) {
       return;
     }
 
