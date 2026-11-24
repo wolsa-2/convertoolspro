@@ -92,7 +92,12 @@ export default function App() {
     return localStorage.getItem('theme') === 'dark';
   });
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
-    return !localStorage.getItem('cookie-consent');
+    const savedConsent = localStorage.getItem('cookie-consent');
+    // Preserve consent already granted by earlier PhotoSize versions.
+    if (savedConsent === 'true') {
+      localStorage.setItem('cookie-consent', 'accepted');
+    }
+    return !savedConsent;
   });
 
   useEffect(() => {
