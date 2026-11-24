@@ -65,7 +65,12 @@ const getRouteFromLocation = (): { page: Page; tool: Tool | null } => {
   while (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
   const toolPrefix = '/tool/';
   if (pathname.startsWith(toolPrefix)) {
-    const id = decodeURIComponent(pathname.slice(toolPrefix.length));
+    let id = '';
+    try {
+      id = decodeURIComponent(pathname.slice(toolPrefix.length));
+    } catch {
+      return { page: '404', tool: null };
+    }
     const tool = TOOLS.find(item => item.id === id) || null;
     return tool ? { page: 'home', tool } : { page: '404', tool: null };
   }
