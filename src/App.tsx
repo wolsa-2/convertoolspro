@@ -486,9 +486,22 @@ export default function App() {
               </div>
             </div>
 
+            <div className="md:hidden relative min-w-0 flex-1 mx-2">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); if (currentPage !== 'home') navigateTo('home'); }}
+                placeholder="Search tools"
+                aria-label="Search tools"
+                className="w-full rounded-full border border-slate-200 bg-slate-50/80 py-2 pl-9 pr-3 text-xs text-slate-800 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+              />
+            </div>
+
             <div className="hidden md:flex items-center gap-6">
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                 className="p-2.5 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-indigo-400 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-sm"
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -501,12 +514,24 @@ export default function App() {
               </button>
             </div>
 
-            <button 
-              className="md:hidden p-2 text-slate-600"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="md:hidden flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                className="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              >
+                {isDarkMode ? <Sun size={19} /> : <Moon size={19} />}
+              </button>
+              <button 
+                type="button"
+                aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                className="rounded-xl p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
