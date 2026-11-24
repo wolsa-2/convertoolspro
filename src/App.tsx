@@ -644,10 +644,10 @@ export default function App() {
             <div>
               <h4 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h4>
               <ul className="space-y-4 text-slate-500 dark:text-slate-400">
-                <li><a href="/?tool=case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
-                <li><a href="/?tool=image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
-                <li><a href="/?tool=pdf-metadata" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
-                <li><a href="/?tool=json-formatter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
+                <li><a href="/tool/case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
+                <li><a href="/tool/image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
+                <li><a href="/tool/pdf-metadata" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
+                <li><a href="/tool/json-formatter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
               </ul>
             </div>
 
