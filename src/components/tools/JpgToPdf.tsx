@@ -19,24 +19,33 @@ export default function JpgToPdf() {
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
 
-    const newImages: ImageFile[] = [];
-    Array.from(files).forEach((file) => {
-      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImages((prev) => [
-            ...prev,
-            {
-              id: Math.random().toString(36).substr(2, 9),
-              file: file,
-              preview: e.target?.result as string,
-              name: file.name,
-              size: (file.size / 1024).toFixed(2) + ' KB',
-            },
-          ]);
-        };
-        reader.readAsDataURL(file);
-      }
+    const selectedFiles = Array.from(files);
+    const validFiles = selectedFiles.filter(file => file.type === 'image/jpeg' || file.type === 'image/jpg');
+    if (validFiles.length !== selectedFiles.length) {
+      alert('Only JPG/JPEG images are supported. Unsupported files were skipped.');
+    }
+
+    validFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = e.target?.result;
+        if (typeof preview !== 'string') {
+          alert(`Could not read ${file.name}. Please choose the file again.`);
+          return;
+        }
+        setImages((prev) => [
+          ...prev,
+          {
+            id: `${file.name}-${file.lastModified}-${Date.now()}-${prev.length}`,
+            file,
+            preview,
+            name: file.name,
+            size: (file.size / 1024).toFixed(2) + ' KB',
+          },
+        ]);
+      };
+      reader.onerror = () => alert(`Could not read ${file.name}. Please try another file.`);
+      reader.readAsDataURL(file);
     });
   };
 
@@ -72,18 +81,27 @@ export default function JpgToPdf() {
         
         // Create a temporary image element to get dimensions
         const tempImg = new Image();
-        tempImg.src = imgData;
-        
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve, reject) => {
           tempImg.onload = () => {
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            
-            if (i > 0) pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-            resolve(null);
+            try {
+              const imgProps = pdf.getImageProperties(imgData);
+              const pageWidth = pdf.internal.pageSize.getWidth();
+              const pageHeight = pdf.internal.pageSize.getHeight();
+              const scale = Math.min(pageWidth / imgProps.width, pageHeight / imgProps.height);
+              const drawWidth = imgProps.width * scale;
+              const drawHeight = imgProps.height * scale;
+              const x = (pageWidth - drawWidth) / 2;
+              const y = (pageHeight - drawHeight) / 2;
+
+              if (i > 0) pdf.addPage();
+              pdf.addImage(imgData, 'JPEG', x, y, drawWidth, drawHeight);
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
           };
+          tempImg.onerror = () => reject(new Error(`Could not decode ${img.name}. Please choose a valid JPG image.`));
+          tempImg.src = imgData;
         });
       }
 
