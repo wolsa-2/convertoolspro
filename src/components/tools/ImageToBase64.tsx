@@ -14,12 +14,20 @@ export default function ImageToBase64() {
       return;
     }
 
+    setBase64('');
     setFileName(file.name);
     setFileSize((file.size / 1024).toFixed(2) + ' KB');
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      setBase64(e.target?.result as string);
+      const result = e.target?.result;
+      if (typeof result === 'string') setBase64(result);
+      else alert('The selected image could not be converted. Please try another file.');
+    };
+    reader.onerror = () => {
+      setFileName('');
+      setFileSize('');
+      alert('The selected image could not be read. Please try another file.');
     };
     reader.readAsDataURL(file);
   };
@@ -78,7 +86,7 @@ export default function ImageToBase64() {
                   <p className="text-sm text-slate-500">{fileSize}</p>
                 </div>
                 <button
-                  onClick={() => { setBase64(''); setFileName(''); }}
+                  onClick={() => { setBase64(''); setFileName(''); setFileSize(''); }}
                   className="p-2 text-slate-400 hover:text-rose-600 transition-colors"
                 >
                   <Trash2 size={20} />
