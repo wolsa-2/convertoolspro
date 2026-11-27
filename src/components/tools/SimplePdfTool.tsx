@@ -210,7 +210,8 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       anchor.click();
       const urlToRevoke = objectUrl;
       objectUrl = null;
-      window.setTimeout(() => URL.revokeObjectURL(urlToRevoke), 1000);
+      // Give slower mobile browsers more time to hand the Blob URL to the download manager.
+      window.setTimeout(() => URL.revokeObjectURL(urlToRevoke), 60_000);
     } catch (err) {
       console.error(err);
       alert('Could not create this page. Please try again.');
