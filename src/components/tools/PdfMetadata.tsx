@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Upload, FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
 
 export default function PdfMetadata() {
   const [metadata, setMetadata] = useState<any>(null);
@@ -23,7 +22,11 @@ export default function PdfMetadata() {
     setFileSize((file.size / 1024 / 1024).toFixed(2) + ' MB');
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
+      // Load the PDF parser only after a user selects a file so the initial tool view stays lightweight.
+      const [{ PDFDocument }, arrayBuffer] = await Promise.all([
+        import('pdf-lib'),
+        file.arrayBuffer(),
+      ]);
       const pdfDoc = await PDFDocument.load(arrayBuffer, { updateMetadata: false });
       
       setMetadata({
