@@ -27,7 +27,7 @@ export default function JpgToPdf() {
     const validFiles = selectedFiles.filter(file =>
       file.type === 'image/jpeg' ||
       file.type === 'image/jpg' ||
-      /\\.jpe?g$/i.test(file.name)
+      /\.jpe?g$/i.test(file.name)
     );
     if (validFiles.length !== selectedFiles.length) {
       alert('Only JPG/JPEG images are supported. Unsupported files were skipped.');
