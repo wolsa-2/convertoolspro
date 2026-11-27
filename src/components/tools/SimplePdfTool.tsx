@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, FileText, Trash2, Download, Zap, ShieldCheck } from 'lucide-react';
 import { PDFDocument, degrees } from 'pdf-lib';
 
@@ -8,7 +8,7 @@ interface SimplePdfToolProps {
 
 interface SplitResult {
   name: string;
-  url: string;
+  pageIndex: number;
 }
 
 const isPdfFile = (file: File) =>
@@ -23,11 +23,11 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState('');
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
+  const splitPdfRef = useRef<PDFDocument | null>(null);
 
   useEffect(() => () => {
     if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-    splitResults.forEach((result) => URL.revokeObjectURL(result.url));
-  }, [downloadUrl, splitResults]);
+  }, [downloadUrl]);
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -47,6 +47,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     setProcessed(false);
     setDownloadUrl(null);
     setSplitResults([]);
+    splitPdfRef.current = null;
   };
 
   const handleProcess = async () => {
@@ -54,6 +55,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     setLoading(true);
     setDownloadUrl(null);
     setSplitResults([]);
+    splitPdfRef.current = null;
 
     try {
       if (toolId === 'merge-pdf') {
@@ -102,18 +104,13 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
           throw new Error('For mobile browser stability, split is currently limited to PDFs with 100 pages or fewer.');
         }
 
-        const results: SplitResult[] = [];
-        for (let pageIndex = 0; pageIndex < pageCount; pageIndex += 1) {
-          const splitPdf = await PDFDocument.create();
-          const [page] = await splitPdf.copyPages(pdf, [pageIndex]);
-          splitPdf.addPage(page);
-          const pdfBytes = await splitPdf.save();
-          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-          results.push({
-            name: `split_page_${pageIndex + 1}.pdf`,
-            url: URL.createObjectURL(blob),
-          });
-        }
+        // Keep the parsed source PDF once and generate each page only when requested.
+        // This avoids retaining up to 100 separate PDF blobs in browser memory.
+        splitPdfRef.current = pdf;
+        const results = Array.from({ length: pageCount }, (_, pageIndex) => ({
+          name: `split_page_${pageIndex + 1}.pdf`,
+          pageIndex,
+        }));
         setSplitResults(results);
         setProcessed(true);
       } else if (toolId === 'compress-pdf' && files.length > 0) {
@@ -154,11 +151,27 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     }
   };
 
-  const handleSplitDownload = (result: SplitResult) => {
-    const anchor = document.createElement('a');
-    anchor.href = result.url;
-    anchor.download = result.name;
-    anchor.click();
+  const handleSplitDownload = async (result: SplitResult) => {
+    if (!splitPdfRef.current) {
+      alert('The source PDF is no longer available. Please upload it again.');
+      return;
+    }
+
+    try {
+      const splitPdf = await PDFDocument.create();
+      const [page] = await splitPdf.copyPages(splitPdfRef.current, [result.pageIndex]);
+      splitPdf.addPage(page);
+      const pdfBytes = await splitPdf.save();
+      const url = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = result.name;
+      anchor.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (err) {
+      console.error(err);
+      alert('Could not create this page. Please try again.');
+    }
   };
 
   const handleDownload = () => {
@@ -321,6 +334,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                     setProcessed(false);
                     setDownloadUrl(null);
                     setSplitResults([]);
+                    splitPdfRef.current = null;
                     setWatermarkText('PhotoSize');
                   }}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
