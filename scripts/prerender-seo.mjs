@@ -12,8 +12,10 @@ const blogSource = fs.readFileSync(path.join(root, 'src/blogData.ts'), 'utf8');
 
 const tools = [...constants.matchAll(/\{ id: '([^']+)', name: '([^']+)', description: '([^']+)'/g)]
   .map((m) => ({ id: m[1], name: m[2], description: m[3] }));
-const posts = [...blogSource.matchAll(/"title":\s*"([^"]+)"[\s\S]*?"metaDescription":\s*"([^"]+)"[\s\S]*?"excerpt":\s*"([^"]+)"[\s\S]*?"image":\s*"([^"]+)"/g)]
-  .map((m) => ({ title: m[1], description: m[2], excerpt: m[3], image: m[4] }));
+const blogArrayStart = blogSource.indexOf('[', blogSource.indexOf('export const BLOG_POSTS'));
+const blogArrayEnd = blogSource.lastIndexOf('];');
+if (blogArrayStart < 0 || blogArrayEnd < blogArrayStart) throw new Error('Could not locate BLOG_POSTS array.');
+const posts = JSON.parse(blogSource.slice(blogArrayStart, blogArrayEnd + 1).replace(/,\s*\]$/, ']'));
 
 if (tools.length !== 18) throw new Error(`Expected 18 tool routes, found ${tools.length}`);
 if (posts.length !== 10) throw new Error(`Expected 10 blog posts, found ${posts.length}`);
@@ -76,17 +78,32 @@ for (const tool of tools) {
   });
 }
 
+const blogDescription = 'Practical guides for image resizing, photo formats, image optimization, PDF workflows, privacy and useful online tools.';
+const articleCards = posts.map((post) => {
+  const route = '/blog/' + slugify(post.title);
+  return '<article><a href="' + route + '"><img src="' + esc(post.image) + '" alt="' + esc(post.title) + '" loading="lazy" /><h2>' + esc(post.title) + '</h2></a><p>' + esc(post.excerpt) + '</p><p><strong>' + esc(post.category) + '</strong></p><a href="' + route + '">Read the full guide</a></article>';
+}).join(newline);
+const blogBody = '<section><h1>PhotoSize Journal: Image, PDF and Digital Workflow Guides</h1><p>' + esc(blogDescription) + '</p><p>' + posts.length + ' practical guides from the PhotoSize Team.</p></section><section><h2>All guides</h2>' + articleCards + '</section><p><a href="/">Explore all PhotoSize tools</a></p>';
+writeRoute('/blog', { title: 'PhotoSize Journal | Image, PDF & Digital Workflow Guides', description: blogDescription }, blogBody, {
+  '@context': 'https://schema.org', '@type': 'Blog', name: 'PhotoSize Journal', description: blogDescription,
+  url: baseUrl + '/blog', blogPost: posts.map((post) => ({ '@type': 'BlogPosting', headline: post.title, url: baseUrl + '/blog/' + slugify(post.title) }))
+});
+
 for (const post of posts) {
   const route = '/blog/' + slugify(post.title);
   const image = baseUrl + post.image;
-  writeRoute(route, { title: post.title + ' | PhotoSize Journal', description: post.description, image, type: 'article' },
-    '<article><h1>' + esc(post.title) + '</h1><p>' + esc(post.excerpt) + '</p><p><a href="/blog">Browse all PhotoSize guides</a></p></article>',
-    { '@context': 'https://schema.org', '@type': 'Article', headline: post.title, description: post.description, image,
-      author: { '@type': 'Organization', name: 'PhotoSize Team' }, publisher: { '@type': 'Organization', name: 'PhotoSize' },
-      mainEntityOfPage: baseUrl + route }
-  );
+  const articleTitle = post.title + ' | PhotoSize Journal';
+  const date = new Date(post.date);
+  if (Number.isNaN(date.getTime())) throw new Error('Invalid publication date for article: ' + post.title);
+  const datePublished = date.toISOString();
+  const articleBody = '<article><header><p>' + esc(post.category) + '</p><h1>' + esc(post.title) + '</h1><p>' + esc(post.excerpt) + '</p><p>By ' + esc(post.author) + ' · <time datetime="' + datePublished + '">' + esc(post.date) + '</time></p><img src="' + esc(post.image) + '" alt="' + esc(post.title) + '" /></header><div>' + post.content + '</div><footer><p>Topics: ' + post.keywords.map(esc).join(', ') + '</p><p><a href="/blog">Back to all PhotoSize guides</a> · <a href="/">Explore PhotoSize tools</a></p></footer></article>';
+  writeRoute(route, { title: articleTitle, description: post.metaDescription, image, type: 'article' }, articleBody, {
+    '@context': 'https://schema.org', '@type': 'Article', headline: post.title, description: post.metaDescription,
+    image, datePublished, dateModified: datePublished, author: { '@type': 'Organization', name: post.author },
+    publisher: { '@type': 'Organization', name: 'PhotoSize' }, articleSection: post.category, keywords: post.keywords,
+    mainEntityOfPage: baseUrl + route
+  });
 }
-
 const pages = [
   ['about', 'About PhotoSize', 'Learn about PhotoSize, our browser-based image, PDF, text and utility tools, and our approach to simple online workflows.'],
   ['contact', 'Contact PhotoSize', 'Get in touch with the PhotoSize team for questions, feedback or website support.'],
@@ -101,4 +118,18 @@ for (const [slug, title, description] of pages) {
   );
 }
 
-console.log('SEO route prerender complete: homepage, ' + tools.length + ' tools, ' + posts.length + ' articles and ' + pages.length + ' static pages.');
+const sitemapUrls = [
+  { loc: baseUrl + '/', priority: '1.0' },
+  { loc: baseUrl + '/blog', priority: '0.9' },
+  ...posts.map((post) => ({ loc: baseUrl + '/blog/' + slugify(post.title), priority: '0.8' })),
+  ...tools.map((tool) => ({ loc: baseUrl + '/tool/' + tool.id, priority: '0.8' })),
+  ...pages.map(([slug]) => ({ loc: baseUrl + '/' + slug, priority: slug === 'privacy' || slug === 'terms' ? '0.3' : '0.5' }))
+];
+const today = new Date().toISOString().slice(0, 10);
+const sitemap = '<?xml version="1.0" encoding="UTF-8"?>' + newline +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + newline +
+  sitemapUrls.map((item) => '  <url><loc>' + item.loc + '</loc><lastmod>' + today + '</lastmod><priority>' + item.priority + '</priority></url>').join(newline) +
+  newline + '</urlset>' + newline;
+fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap);
+
+console.log('SEO route prerender complete: homepage, blog index, ' + tools.length + ' tools, ' + posts.length + ' full articles and ' + pages.length + ' static pages. Sitemap URLs: ' + sitemapUrls.length + '.');
