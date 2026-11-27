@@ -63,12 +63,21 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
           throw new Error('Select at least two PDF files to merge.');
         }
         const mergedPdf = await PDFDocument.create();
-        for (const file of files) {
+
+        // Keep each source document and its input buffer scoped to one iteration.
+        // This lets the browser garbage-collect source data before the next file
+        // is parsed, instead of retaining loop-local references across the merge.
+        const appendSourcePdf = async (file: File) => {
           const bytes = await file.arrayBuffer();
-          const pdf = await PDFDocument.load(bytes);
-          const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+          const sourcePdf = await PDFDocument.load(bytes);
+          const copiedPages = await mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
           copiedPages.forEach((page) => mergedPdf.addPage(page));
+        };
+
+        for (const file of files) {
+          await appendSourcePdf(file);
         }
+
         const mergedPdfBytes = await mergedPdf.save();
         const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
