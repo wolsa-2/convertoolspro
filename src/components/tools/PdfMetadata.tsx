@@ -49,7 +49,8 @@ export default function PdfMetadata() {
       });
     } catch (err) {
       console.error(err);
-      const reason = err instanceof Error ? err.message : String(err);\n      alert(`Could not read PDF metadata: ${reason}`);
+      const reason = err instanceof Error ? err.message : String(err);
+      alert(`Could not read PDF metadata: ${reason}`);
     } finally {
       loadingRef.current = false;
       setLoading(false);
