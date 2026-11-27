@@ -149,7 +149,7 @@ export default function JpgToPdf() {
         <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-4">
           <Upload size={32} />
         </div>
-        <h3 className="text-lg font-bold text-slate-900">Upload JPG Images</h3>
+        <h2 className="text-lg font-bold text-slate-900">Upload JPG Images</h2>
         <p className="text-slate-500 mt-1 mb-6 text-sm text-center">
           Drag and drop multiple JPG files here, or click to select.
         </p>
