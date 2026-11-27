@@ -246,7 +246,9 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                 </div>
                 <button
                   onClick={() => removeFile(idx)}
-                  className="p-3 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                  disabled={loading}
+                  aria-label={`Remove ${file.name}`}
+                  className="p-3 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all opacity-0 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <Trash2 size={18} />
                 </button>
@@ -263,6 +265,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   className="hidden"
                   accept=".pdf"
                   multiple
+                  disabled={loading}
                   onChange={(e) => {
                     const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(f => f.type === 'application/pdf');
                     if (uploadedFiles.length > 0) setFiles(prev => [...prev, ...uploadedFiles]);
