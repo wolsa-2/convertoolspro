@@ -743,7 +743,7 @@ export default function App() {
           </div>
         )}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="min-h-[calc(100svh-8rem)] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {renderPage()}
       </main>
 
