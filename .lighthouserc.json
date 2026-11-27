@@ -16,7 +16,10 @@
       ],
       "numberOfRuns": 1,
       "startServerCommand": "npm run preview -- --host 127.0.0.1",
-      "startServerReadyPattern": "Local:"
+      "startServerReadyPattern": "Local:",
+      "settings": {
+        "saveAssets": true
+      }
     },
     "upload": {
       "target": "temporary-public-storage"
