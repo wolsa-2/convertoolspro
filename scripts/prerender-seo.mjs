@@ -23,33 +23,31 @@ const esc = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;'
 const jsonLd = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
 
 function setMeta(html, selector, attrs) {
-  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const re = new RegExp('<meta\\b(?=[^>]*' + escaped + ')[^>]*>', 'i');
+  const re = new RegExp('<meta\\b(?=[^>]*' + selector + ')[^>]*>', 'i');
   const tag = '<meta ' + Object.entries(attrs).map(([key, value]) => key + '="' + esc(value) + '"').join(' ') + ' />';
   return re.test(html) ? html.replace(re, tag) : html.replace('</head>', '  ' + tag + '\\n</head>');
 }
 function setCanonical(html, url) {
   const tag = '<link rel="canonical" href="' + esc(url) + '" />';
-  return /<link\\b[^>]*rel=["']canonical["'][^>]*>/i.test(html)
-    ? html.replace(/<link\\b[^>]*rel=["']canonical["'][^>]*>/i, tag)
-    : html.replace('</head>', '  ' + tag + '\\n</head>');
+  const re = /<link\\b[^>]*rel=["']canonical["'][^>]*>/i;
+  return re.test(html) ? html.replace(re, tag) : html.replace('</head>', '  ' + tag + '\\n</head>');
 }
 function writeRoute(route, meta, body, schema) {
   const url = baseUrl + route;
   const image = meta.image || baseUrl + '/og-image.svg';
   let html = template.replace(/<title>[^<]*<\\/title>/i, '<title>' + esc(meta.title) + '</title>');
-  html = setMeta(html, 'name=["']description["']', { name: 'description', content: meta.description });
-  html = setMeta(html, 'name=["']robots["']', { name: 'robots', content: 'index, follow' });
-  html = setMeta(html, 'property=["']og:type["']', { property: meta.type || 'website' });
-  html = setMeta(html, 'property=["']og:url["']', { property: 'og:url', content: url });
-  html = setMeta(html, 'property=["']og:title["']', { property: 'og:title', content: meta.title });
-  html = setMeta(html, 'property=["']og:description["']', { property: 'og:description', content: meta.description });
-  html = setMeta(html, 'property=["']og:image["']', { property: 'og:image', content: image });
-  html = setMeta(html, 'property=["']og:image:type["']', { property: 'og:image:type', content: image.endsWith('.jpg') ? 'image/jpeg' : 'image/svg+xml' });
-  html = setMeta(html, 'property=["']twitter:card["']', { property: 'twitter:card', content: 'summary_large_image' });
-  html = setMeta(html, 'property=["']twitter:title["']', { property: 'twitter:title', content: meta.title });
-  html = setMeta(html, 'property=["']twitter:description["']', { property: 'twitter:description', content: meta.description });
-  html = setMeta(html, 'property=["']twitter:image["']', { property: 'twitter:image', content: image });
+  html = setMeta(html, "name=[\\"']description[\\"']", { name: 'description', content: meta.description });
+  html = setMeta(html, "name=[\\"']robots[\\"']", { name: 'robots', content: 'index, follow' });
+  html = setMeta(html, "property=[\\"']og:type[\\"']", { property: 'og:type', content: meta.type || 'website' });
+  html = setMeta(html, "property=[\\"']og:url[\\"']", { property: 'og:url', content: url });
+  html = setMeta(html, "property=[\\"']og:title[\\"']", { property: 'og:title', content: meta.title });
+  html = setMeta(html, "property=[\\"']og:description[\\"']", { property: 'og:description', content: meta.description });
+  html = setMeta(html, "property=[\\"']og:image[\\"']", { property: 'og:image', content: image });
+  html = setMeta(html, "property=[\\"']og:image:type[\\"']", { property: 'og:image:type', content: image.endsWith('.jpg') ? 'image/jpeg' : 'image/svg+xml' });
+  html = setMeta(html, "property=[\\"']twitter:card[\\"']", { property: 'twitter:card', content: 'summary_large_image' });
+  html = setMeta(html, "property=[\\"']twitter:title[\\"']", { property: 'twitter:title', content: meta.title });
+  html = setMeta(html, "property=[\\"']twitter:description[\\"']", { property: 'twitter:description', content: meta.description });
+  html = setMeta(html, "property=[\\"']twitter:image[\\"']", { property: 'twitter:image', content: image });
   html = setCanonical(html, url);
   html = html.replace('<div id="root"></div>', '<div id="root"><main data-seo-prerender="true">' + body + '</main></div>');
   html = html.replace('</head>', '  <script type="application/ld+json">' + jsonLd(schema) + '</script>\\n</head>');
