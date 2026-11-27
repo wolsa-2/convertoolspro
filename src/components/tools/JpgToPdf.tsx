@@ -14,6 +14,7 @@ export default function JpgToPdf() {
   const [isDragging, setIsDragging] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
   const previewUrlsRef = useRef<Set<string>>(new Set());
+  const conversionLockRef = useRef(false);
 
   useEffect(() => () => {
     previewUrlsRef.current.forEach(url => URL.revokeObjectURL(url));
@@ -76,7 +77,8 @@ export default function JpgToPdf() {
   };
 
   const convertToPdf = async () => {
-    if (images.length === 0) return;
+    if (images.length === 0 || conversionLockRef.current) return;
+    conversionLockRef.current = true;
     setIsConverting(true);
 
     try {
@@ -133,6 +135,7 @@ export default function JpgToPdf() {
       console.error('PDF conversion failed:', error);
       alert('Failed to convert images to PDF. Please try again.');
     } finally {
+      conversionLockRef.current = false;
       setIsConverting(false);
     }
   };
