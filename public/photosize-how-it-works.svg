@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="864" viewBox="0 0 1600 864" role="img" aria-labelledby="title desc">
+<title id="title">How PhotoSize works — three simple steps</title>
+<desc id="desc">Choose a tool, add your content, and get your result.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f4f8ff"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#39a5ff"/><stop offset="1" stop-color="#0864e8"/></linearGradient>
+ <linearGradient id="pale" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8f3ff"/><stop offset="1" stop-color="#d8eaff"/></linearGradient>
+ <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="9"/><feOffset dy="8"/><feComponentTransfer><feFuncA type="linear" slope=".12"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="1600" height="864" fill="url(#bg)"/>
+<path d="M0 0h270C190 115 105 160 0 205Z" fill="#e8f2ff"/><path d="M1600 130c-80 120-160 160-260 190h260Z" fill="#edf5ff"/><path d="M0 790c170 40 240 75 350 74H0Z" fill="#e7f2ff"/><path d="M1600 755c-125 55-210 70-330 109h330Z" fill="#e7f2ff"/>
+<g font-family="Arial,Helvetica,sans-serif" text-anchor="middle">
+ <path d="M300 91H605M995 91h305" stroke="#b8d6ff" stroke-width="3"/>
+ <rect x="630" y="50" width="340" height="82" rx="41" fill="#e3efff" stroke="#c8e0ff" stroke-width="2"/>
+ <text x="800" y="101" fill="#0864d9" font-size="31" font-weight="700" letter-spacing="2">HOW IT WORKS</text>
+ <text x="800" y="214" fill="#111d39" font-size="76" font-weight="700">Three simple <tspan fill="#0875ef">steps</tspan></text>
+ <text x="800" y="278" fill="#5c6d8b" font-size="32">A clear workflow from choosing a tool to getting your result.</text>
+</g>
+<!-- cards -->
+<g filter="url(#shadow)">
+ <rect x="34" y="320" width="492" height="480" rx="30" fill="#fff" stroke="#dceaff" stroke-width="2"/>
+ <rect x="554" y="320" width="492" height="480" rx="30" fill="#fff" stroke="#dceaff" stroke-width="2"/>
+ <rect x="1074" y="320" width="492" height="480" rx="30" fill="#fff" stroke="#dceaff" stroke-width="2"/>
+</g>
+<g font-family="Arial,Helvetica,sans-serif">
+ <!-- card 1 -->
+ <circle cx="102" cy="395" r="39" fill="#e4f0ff" stroke="#c9e1ff" stroke-width="2"/><text x="102" y="408" text-anchor="middle" font-size="32" font-weight="700" fill="#0864df">01</text>
+ <ellipse cx="285" cy="485" rx="145" ry="91" fill="url(#pale)"/>
+ <path d="M193 434h86l24 22h91q13 0 13 13v111q0 14-14 14H194q-14 0-14-14V448q0-14 13-14Z" fill="#0757c9"/>
+ <path d="M180 468q0-14 14-14h195q18 0 18 17v99q0 14-14 14H194q-14 0-14-14Z" fill="url(#blue)"/>
+ <rect x="224" y="487" width="101" height="72" rx="10" fill="#fff"/>
+ <path d="M236 547l25-31 20 22 15-18 18 27Z" fill="#1681ed"/><circle cx="286" cy="503" r="8" fill="#1681ed"/>
+ <path d="M332 548l50 47-17 4-5 19-48-54Z" fill="#10213f" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+ <path d="M420 445l10-31m20 43 25-17m-19 42 28 2" stroke="#0875ef" stroke-width="7" stroke-linecap="round" fill="none"/>
+ <text x="280" y="650" text-anchor="middle" font-size="36" font-weight="700" fill="#101d39">Choose a tool</text>
+ <text x="280" y="710" text-anchor="middle" font-size="25" fill="#5b6c8b">Open the utility that matches your</text><text x="280" y="750" text-anchor="middle" font-size="25" fill="#5b6c8b">task.</text>
+ <!-- card 2 -->
+ <circle cx="622" cy="395" r="39" fill="#e4f0ff" stroke="#c9e1ff" stroke-width="2"/><text x="622" y="408" text-anchor="middle" font-size="32" font-weight="700" fill="#0864df">02</text>
+ <ellipse cx="800" cy="485" rx="150" ry="92" fill="url(#pale)"/>
+ <rect x="694" y="380" width="245" height="174" rx="22" fill="#fff" stroke="#7ebaff" stroke-width="6"/>
+ <path d="M694 401q0-21 22-21h201q22 0 22 21v20H694Z" fill="url(#blue)"/>
+ <g fill="#fff"><circle cx="718" cy="400" r="6"/><circle cx="741" cy="400" r="6"/><circle cx="764" cy="400" r="6"/></g>
+ <g stroke="#b4d5fb" stroke-width="9" stroke-linecap="round"><path d="M730 456h128M730 497h128M730 538h128"/></g>
+ <g stroke="#0875ef" stroke-width="9" stroke-linecap="round"><path d="M730 456h64M730 497h48M730 538h62"/></g>
+ <g fill="#0875ef"><circle cx="796" cy="456" r="13"/><circle cx="778" cy="497" r="13"/><circle cx="792" cy="538" r="13"/></g>
+ <path d="M916 475l13 12 20-1 6 18 16 11-9 18 4 19-18 9-9 17-18-8-18 7-9-17-18-10 5-19-7-18 16-12 5-19 20 0Z" fill="#0867dc"/>
+ <circle cx="909" cy="518" r="20" fill="#dceeff" stroke="#fff" stroke-width="6"/>
+ <text x="800" y="650" text-anchor="middle" font-size="36" font-weight="700" fill="#101d39">Add your content</text>
+ <text x="800" y="710" text-anchor="middle" font-size="25" fill="#5b6c8b">Follow the controls and</text><text x="800" y="750" text-anchor="middle" font-size="25" fill="#5b6c8b">instructions on that tool page.</text>
+ <!-- card 3 -->
+ <circle cx="1142" cy="395" r="39" fill="#e4f0ff" stroke="#c9e1ff" stroke-width="2"/><text x="1142" y="408" text-anchor="middle" font-size="32" font-weight="700" fill="#0864df">03</text>
+ <ellipse cx="1320" cy="485" rx="145" ry="92" fill="url(#pale)"/>
+ <path d="M1282 372h104l43 44v137q0 13-13 13h-134q-14 0-14-14V387q0-15 14-15Z" fill="#fff" stroke="#1685f5" stroke-width="7" stroke-linejoin="round"/>
+ <path d="M1386 374v44h42" fill="#d9edff" stroke="#1685f5" stroke-width="7" stroke-linejoin="round"/>
+ <path d="M1332 426v74m-27-25 27 27 27-27M1302 515h61" fill="none" stroke="#0875ef" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="1415" cy="543" r="37" fill="#0875ef" stroke="#fff" stroke-width="5"/><path d="M1398 543l12 12 23-26" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M1482 438l10-31m17 44 23-16m-18 42 26 1" stroke="#0875ef" stroke-width="7" stroke-linecap="round" fill="none"/>
+ <text x="1320" y="650" text-anchor="middle" font-size="36" font-weight="700" fill="#101d39">Get your result</text>
+ <text x="1320" y="710" text-anchor="middle" font-size="25" fill="#5b6c8b">Use the available download, copy</text><text x="1320" y="750" text-anchor="middle" font-size="25" fill="#5b6c8b">or export action.</text>
+</g>
+</svg>
