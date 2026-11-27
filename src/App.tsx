@@ -432,8 +432,8 @@ export default function App() {
               <div className="pt-8">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 font-sans">Popular Destination</h3>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <button onClick={() => setCurrentPage('home')} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100">Home Hub</button>
-                  <button onClick={() => setCurrentPage('blog')} className="px-6 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm">Visit Blog</button>
+                  <button onClick={() => navigateTo('home')} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100">Home Hub</button>
+                  <button onClick={() => navigateTo('blog')} className="px-6 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm">Visit Blog</button>
                 </div>
               </div>
             </div>
