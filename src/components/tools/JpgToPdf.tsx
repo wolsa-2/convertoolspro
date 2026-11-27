@@ -17,6 +17,7 @@ export default function JpgToPdf() {
   const [isDragging, setIsDragging] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
   const previewUrlsRef = useRef<Set<string>>(new Set());
+  const totalImageBytesRef = useRef(0);
   const conversionLockRef = useRef(false);
 
   useEffect(() => () => {
@@ -39,9 +40,8 @@ export default function JpgToPdf() {
     if (sizeValidFiles.length !== validFiles.length) {
       alert('Images larger than 25 MB were skipped.');
     }
-    const currentTotalBytes = images.reduce((total, image) => total + image.file.size, 0);
     const acceptedFiles: File[] = [];
-    let acceptedBytes = currentTotalBytes;
+    let acceptedBytes = totalImageBytesRef.current;
     for (const file of sizeValidFiles) {
       if (acceptedBytes + file.size > MAX_JPG_TOTAL_BYTES) continue;
       acceptedFiles.push(file);
@@ -64,6 +64,7 @@ export default function JpgToPdf() {
           size: (file.size / 1024).toFixed(2) + ' KB',
         };
       });
+      totalImageBytesRef.current += acceptedFiles.reduce((total, file) => total + file.size, 0);
       setImages(prev => [...prev, ...loadedImages]);
     } catch (error) {
       alert(error instanceof Error ? error.message : 'One or more images could not be read.');
@@ -82,6 +83,7 @@ export default function JpgToPdf() {
     if (image) {
       URL.revokeObjectURL(image.preview);
       previewUrlsRef.current.delete(image.preview);
+      totalImageBytesRef.current = Math.max(0, totalImageBytesRef.current - image.file.size);
     }
     setImages(prev => prev.filter(img => img.id !== id));
   };
