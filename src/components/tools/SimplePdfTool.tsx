@@ -72,8 +72,13 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const appendSourcePdf = async (file: File) => {
           const bytes = await file.arrayBuffer();
           const sourcePdf = await PDFDocument.load(bytes);
-          const copiedPages = await mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
-          copiedPages.forEach((page) => mergedPdf.addPage(page));
+
+          // Copy one page at a time to avoid holding a second full set of
+          // copied page objects for a large source PDF.
+          for (let pageIndex = 0; pageIndex < sourcePdf.getPageCount(); pageIndex++) {
+            const [page] = await mergedPdf.copyPages(sourcePdf, [pageIndex]);
+            mergedPdf.addPage(page);
+          }
         };
 
         for (const file of files) {
