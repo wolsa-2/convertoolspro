@@ -452,10 +452,10 @@ export default function App() {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} className="space-y-12 pb-12">
         <section className="ps-hero overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
           <img
-            src="/photosize-brand-hero.svg"
+            src="/photosize-brand-hero.webp"
             alt="PhotoSize — Photo and PDF tools made simple, with image utilities, PDF tools, and an easy workflow"
-            width="1600"
-            height="900"
+            width="720"
+            height="405"
             loading="eager"
             decoding="async"
             fetchPriority="high"
