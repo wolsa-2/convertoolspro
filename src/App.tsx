@@ -57,11 +57,33 @@ const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
 
+
 type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | '404';
 
+const getRouteFromLocation = (): { page: Page; tool: Tool | null } => {
+  let pathname = window.location.pathname;
+  while (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
+  const toolPrefix = '/tool/';
+  if (pathname.startsWith(toolPrefix)) {
+    let id = '';
+    try {
+      id = decodeURIComponent(pathname.slice(toolPrefix.length));
+    } catch {
+      return { page: '404', tool: null };
+    }
+    const tool = TOOLS.find(item => item.id === id) || null;
+    return tool ? { page: 'home', tool } : { page: '404', tool: null };
+  }
+  const pageByPath: Record<string, Page> = {
+    '/': 'home', '/blog': 'blog', '/about': 'about', '/contact': 'contact',
+    '/privacy': 'privacy', '/terms': 'terms', '/disclaimer': 'disclaimer', '/404': '404',
+  };
+  return { page: pageByPath[pathname] || '404', tool: null };
+};
+
 export default function App() {
-  const [activeTool, setActiveTool] = useState<Tool | null>(null);
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [activeTool, setActiveTool] = useState<Tool | null>(() => getRouteFromLocation().tool);
+  const [currentPage, setCurrentPage] = useState<Page>(() => getRouteFromLocation().page);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSection, setActiveSection] = useState<'All Tools' | Category>('All Tools');
   const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null);
@@ -70,7 +92,12 @@ export default function App() {
     return localStorage.getItem('theme') === 'dark';
   });
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
-    return !localStorage.getItem('cookie-consent');
+    const savedConsent = localStorage.getItem('cookie-consent');
+    // Preserve consent already granted by earlier PhotoSize versions.
+    if (savedConsent === 'true') {
+      localStorage.setItem('cookie-consent', 'accepted');
+    }
+    return !savedConsent;
   });
 
   useEffect(() => {
@@ -142,9 +169,37 @@ export default function App() {
   }, [currentPage, activeTool]);
 
   const acceptCookies = () => {
-    localStorage.setItem('cookie-consent', 'true');
+    localStorage.setItem('cookie-consent', 'accepted');
+    window.location.reload();
+  };
+
+  const rejectCookies = () => {
+    localStorage.setItem('cookie-consent', 'rejected');
     setShowCookieConsent(false);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('cookie-consent') !== 'accepted') return;
+    const trackingWindow = window as Window & {
+      dataLayer?: unknown[];
+      gtag?: (...args: unknown[]) => void;
+    };
+    trackingWindow.dataLayer = trackingWindow.dataLayer || [];
+    trackingWindow.gtag = (...args: unknown[]) => {
+      trackingWindow.dataLayer?.push(args);
+    };
+    trackingWindow.gtag('js', new Date());
+    trackingWindow.gtag('config', 'G-E5M3FZVL7Q');
+    trackingWindow.gtag('config', 'AW-16905142948');
+
+    if (!document.getElementById('photosize-gtag-loader')) {
+      const script = document.createElement('script');
+      script.id = 'photosize-gtag-loader';
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E5M3FZVL7Q';
+      document.head.appendChild(script);
+    }
+  }, []);
 
   const filteredTools = TOOLS.filter(tool => {
     const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -159,11 +214,35 @@ export default function App() {
   }, {} as Record<Category, Tool[]>);
 
   const navigateTo = (page: Page) => {
+    const path = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== path) window.history.pushState({}, '', path);
     setCurrentPage(page);
     setActiveTool(null);
     setIsMenuOpen(false);
     window.scrollTo(0, 0);
   };
+
+  const navigateToTool = (tool: Tool) => {
+    const path = `/tool/${encodeURIComponent(tool.id)}`;
+    if (window.location.pathname !== path) window.history.pushState({}, '', path);
+    setActiveTool(tool);
+    setCurrentPage('home');
+    setIsMenuOpen(false);
+    setOpenMegaMenu(null);
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const route = getRouteFromLocation();
+      setCurrentPage(route.page);
+      setActiveTool(route.tool);
+      setIsMenuOpen(false);
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const renderTool = () => {
     if (!activeTool) return null;
@@ -213,7 +292,7 @@ export default function App() {
         title={activeTool.name} 
         description={activeTool.description} 
         toolId={activeTool.id}
-        onToolNavigate={(tool) => setActiveTool(tool)}
+        onToolNavigate={navigateToTool}
       >
         {component}
       </ToolLayout>
@@ -437,7 +516,7 @@ export default function App() {
           {visibleTools.length ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {visibleTools.map((tool) => (
-                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: .99 }} onClick={() => { setActiveTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: .99 }} onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
                   <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", tool.category === 'PDF' ? "bg-rose-50 text-rose-600" : tool.category === 'Image' ? "bg-blue-50 text-blue-600" : "bg-violet-50 text-violet-600")}><tool.icon size={23} /></span>
                   <span className="min-w-0 flex-1"><span className="block text-base font-bold tracking-tight text-slate-900 transition group-hover:text-blue-700">{tool.name}</span><span className="mt-2 block text-sm leading-6 text-slate-500">{tool.description}</span><span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-blue-600">Open tool <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span></span>
                 </motion.button>
@@ -527,7 +606,7 @@ export default function App() {
                 {openMegaMenu === group.id && (
                   <div className="absolute left-0 top-full z-50 mt-2 grid w-[min(92vw,560px)] grid-cols-1 gap-1 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl sm:grid-cols-2">
                     {groupTools.map((tool) => (
-                      <button key={tool.id} onClick={() => { setActiveTool(tool); setOpenMegaMenu(null); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-start gap-3 rounded-xl p-3 text-left transition hover:bg-blue-50">
+                      <button key={tool.id} onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-start gap-3 rounded-xl p-3 text-left transition hover:bg-blue-50">
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600"><tool.icon size={18} /></span>
                         <span><span className="block text-sm font-semibold text-slate-800">{tool.name}</span><span className="mt-0.5 block text-xs leading-5 text-slate-500">{tool.description}</span></span>
                       </button>
@@ -603,10 +682,10 @@ export default function App() {
             <div>
               <h4 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h4>
               <ul className="space-y-4 text-slate-500 dark:text-slate-400">
-                <li><a href="/?tool=case-converter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
-                <li><a href="/?tool=image-placeholder" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
-                <li><a href="/?tool=pdf-metadata" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
-                <li><a href="/?tool=json-formatter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
+                <li><a href="/tool/case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
+                <li><a href="/tool/image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
+                <li><a href="/tool/pdf-metadata" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
+                <li><a href="/tool/json-formatter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
               </ul>
             </div>
 
@@ -650,24 +729,27 @@ export default function App() {
               <div className="space-y-1">
                 <h4 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  We use cookies to enhance your experience and serve personalized ads via Google AdSense. By using our site, you agree to our use of cookies.
+                  Essential site storage keeps the website working. Optional analytics and advertising scripts are enabled only if you choose to accept them.
                 </p>
               </div>
             </div>
             <div className="flex gap-3">
-              <button 
+              <button
+                onClick={rejectCookies}
+                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
+              >
+                Reject Optional
+              </button>
+              <button
                 onClick={acceptCookies}
                 className="flex-1 py-3 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all font-sans"
               >
                 Accept All
               </button>
-              <button 
-                onClick={() => navigateTo('privacy')}
-                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
-              >
-                Learn More
-              </button>
             </div>
+            <button onClick={() => navigateTo('privacy')} className="text-xs font-semibold text-indigo-600 hover:underline">
+              Read Privacy Policy
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
