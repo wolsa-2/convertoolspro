@@ -24,7 +24,11 @@ export default function JpgToPdf() {
   const handleFiles = async (files: FileList | null) => {
     if (!files) return;
     const selectedFiles = Array.from(files);
-    const validFiles = selectedFiles.filter(file => file.type === 'image/jpeg' || file.type === 'image/jpg');
+    const validFiles = selectedFiles.filter(file =>
+      file.type === 'image/jpeg' ||
+      file.type === 'image/jpg' ||
+      /\\.jpe?g$/i.test(file.name)
+    );
     if (validFiles.length !== selectedFiles.length) {
       alert('Only JPG/JPEG images are supported. Unsupported files were skipped.');
     }
@@ -83,6 +87,12 @@ export default function JpgToPdf() {
         const img = images[i];
         const tempImg = new Image();
         await new Promise<void>((resolve, reject) => {
+          const releaseTempImage = () => {
+            tempImg.onload = null;
+            tempImg.onerror = null;
+            tempImg.removeAttribute('src');
+          };
+
           tempImg.onload = () => {
             try {
               const imgProps = pdf.getImageProperties(tempImg);
@@ -96,18 +106,24 @@ export default function JpgToPdf() {
 
               if (i > 0) pdf.addPage();
               pdf.addImage(tempImg, 'JPEG', x, y, drawWidth, drawHeight);
-              // jsPDF has consumed the decoded image data; release the temporary
-              // browser image resource before decoding the next file in the batch.
-              tempImg.onload = null;
-              tempImg.onerror = null;
-              tempImg.removeAttribute('src');
+              // Release decoded image resources on both success and failure.
+              releaseTempImage();
               resolve();
             } catch (error) {
+              releaseTempImage();
               reject(error);
             }
           };
-          tempImg.onerror = () => reject(new Error(`Could not decode ${img.name}. Please choose a valid JPG image.`));
-          tempImg.src = img.preview;
+          tempImg.onerror = () => {
+            releaseTempImage();
+            reject(new Error(`Could not decode ${img.name}. Please choose a valid JPG image.`));
+          };
+          try {
+            tempImg.src = img.preview;
+          } catch (error) {
+            releaseTempImage();
+            reject(error);
+          }
         });
       }
 
