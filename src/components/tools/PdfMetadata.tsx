@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
-import { FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
+import { FileText, Info, Trash2, Calendar, User, Tag } from 'lucide-react';
 
 const MAX_METADATA_PDF_BYTES = 50 * 1024 * 1024;
 
@@ -44,8 +44,7 @@ export default function PdfMetadata() {
         producer: pdfDoc.getProducer() || 'N/A',
         creationDate: pdfDoc.getCreationDate()?.toLocaleString() || 'N/A',
         modificationDate: pdfDoc.getModificationDate()?.toLocaleString() || 'N/A',
-        pageCount: pdfDoc.getPageCount(),
-        isEncrypted: pdfDoc.isEncrypted
+        pageCount: pdfDoc.getPageCount()
       });
     } catch (err) {
       console.error(err);
@@ -123,7 +122,6 @@ export default function PdfMetadata() {
               { label: 'Producer', value: metadata.producer, icon: FileText },
               { label: 'Creation Date', value: metadata.creationDate, icon: Calendar },
               { label: 'Modification Date', value: metadata.modificationDate, icon: Calendar },
-              { label: 'Encryption', value: metadata.isEncrypted ? 'Encrypted' : 'Not encrypted', icon: Lock },
             ].map((item, idx) => (
               <div key={idx} className="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-start gap-4">
                 <div className="p-3 bg-slate-50 text-slate-400 rounded-xl">
