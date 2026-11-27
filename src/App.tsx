@@ -175,7 +175,9 @@ export default function App() {
 
   const rejectCookies = () => {
     localStorage.setItem('cookie-consent', 'rejected');
-    setShowCookieConsent(false);
+    // Reload so any optional scripts loaded during an earlier accepted session
+    // are no longer active in the new page session.
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -695,7 +697,8 @@ export default function App() {
                 <li><a href="/privacy" onClick={(e) => { e.preventDefault(); navigateTo('privacy'); }} className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" onClick={(e) => { e.preventDefault(); navigateTo('terms'); }} className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
                 <li><a href="/disclaimer" onClick={(e) => { e.preventDefault(); navigateTo('disclaimer'); }} className="hover:text-indigo-600 transition-colors">Disclaimer</a></li>
-                <li><a href="/sitemap.xml" target="_blank" className="hover:text-emerald-600 transition-colors">XML Sitemap</a></li>
+                <li><button type="button" onClick={() => setShowCookieConsent(true)} className="text-left hover:text-indigo-600 transition-colors">Cookie Settings</button></li>
+                <li><a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition-colors">XML Sitemap</a></li>
                 <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">Web Documentation</a></li>
                 <li><a href="https://www.w3.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">W3C Standards</a></li>
               </ul>
