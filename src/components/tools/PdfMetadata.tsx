@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
-import { Upload, FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
+import { FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
 
 const MAX_METADATA_PDF_BYTES = 50 * 1024 * 1024;
 
@@ -49,7 +49,7 @@ export default function PdfMetadata() {
       });
     } catch (err) {
       console.error(err);
-      alert('Error reading PDF metadata. The file might be protected or corrupted.');
+      const reason = err instanceof Error ? err.message : String(err);\n      alert(`Could not read PDF metadata: ${reason}`);
     } finally {
       loadingRef.current = false;
       setLoading(false);
@@ -122,7 +122,7 @@ export default function PdfMetadata() {
               { label: 'Producer', value: metadata.producer, icon: FileText },
               { label: 'Creation Date', value: metadata.creationDate, icon: Calendar },
               { label: 'Modification Date', value: metadata.modificationDate, icon: Calendar },
-              { label: 'Encryption', value: metadata.isEncrypted ? 'Encrypted' : 'None', icon: Lock },
+              { label: 'Encryption', value: metadata.isEncrypted ? 'Encrypted' : 'Not encrypted', icon: Lock },
             ].map((item, idx) => (
               <div key={idx} className="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-start gap-4">
                 <div className="p-3 bg-slate-50 text-slate-400 rounded-xl">
