@@ -32,15 +32,37 @@ export default function ToolLayout({ children, title, description, toolId, onToo
                   <p className="text-slate-500 dark:text-slate-400 mt-2">{description}</p>
                 </div>
                 <button 
-                  onClick={() => {
-                    navigator.share({
-                      title: title,
+                  onClick={async () => {
+                    const shareData = {
+                      title,
                       text: description,
-                      url: window.location.href
-                    }).catch(() => {
-                      navigator.clipboard.writeText(window.location.href);
-                      alert('Link copied to clipboard!');
-                    });
+                      url: window.location.href,
+                    };
+
+                    try {
+                      if (typeof navigator.share === 'function') {
+                        await navigator.share(shareData);
+                        return;
+                      }
+
+                      if (navigator.clipboard?.writeText) {
+                        await navigator.clipboard.writeText(shareData.url);
+                        alert('Link copied to clipboard!');
+                        return;
+                      }
+
+                      window.prompt('Copy this link:', shareData.url);
+                    } catch (error) {
+                      // Closing the native share sheet is not an error.
+                      if (error instanceof Error && error.name === 'AbortError') return;
+
+                      try {
+                        await navigator.clipboard.writeText(shareData.url);
+                        alert('Link copied to clipboard!');
+                      } catch {
+                        window.prompt('Copy this link:', shareData.url);
+                      }
+                    }
                   }}
                   className="flex items-center gap-2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-4 py-3 font-semibold text-blue-700 shadow-sm transition hover:border-blue-200 hover:bg-blue-50"
                 >
