@@ -685,8 +685,11 @@ export default function App() {
               </button>
             </div>
 
-            <button 
+            <button
+              type="button"
               className="md:hidden p-2 text-slate-600"
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
