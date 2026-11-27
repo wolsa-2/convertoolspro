@@ -226,7 +226,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
           <div className="w-20 h-20 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 shadow-sm">
             <Upload size={32} />
           </div>
-          <h3 className="text-2xl font-black text-slate-800">Upload PDF Files</h3>
+          <h2 className="text-2xl font-black text-slate-800">Upload PDF Files</h2>
           <p className="text-slate-500 mt-2 mb-8 max-w-sm text-center font-medium">
             Drag and drop your PDF documents here or click to select files from your device.
           </p>
@@ -337,7 +337,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                 <ShieldCheck size={40} />
               </div>
               <div className="text-center space-y-2">
-                <h3 className="text-2xl font-black text-emerald-900">Successfully Processed!</h3>
+                <h2 className="text-2xl font-black text-emerald-900">Successfully Processed!</h2>
                 <p className="text-emerald-700 font-medium">{toolId === 'split-pdf' ? `${splitResults.length} separate PDF pages are ready to download.` : 'Your PDF is ready for download.'}</p>
               </div>
               <div className="flex flex-wrap justify-center gap-3">
