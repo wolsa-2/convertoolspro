@@ -50,8 +50,9 @@ export default function JpgToPdf() {
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
+    if (isConverting) return;
     handleFiles(e.dataTransfer.files);
-  }, []);
+  }, [isConverting]);
 
   const removeImage = (id: string) => {
     const image = images.find(img => img.id === id);
@@ -144,6 +145,7 @@ export default function JpgToPdf() {
             className="hidden"
             accept="image/jpeg, image/jpg"
             multiple
+            disabled={isConverting}
             onChange={(e) => { handleFiles(e.target.files); e.currentTarget.value = ''; }}
           />
         </label>
@@ -179,7 +181,7 @@ export default function JpgToPdf() {
                   <div className="absolute inset-0 bg-black/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     <button
                       onClick={() => moveImage(index, 'up')}
-                      disabled={index === 0}
+                      disabled={isConverting || index === 0}
                       className="p-2 bg-white/20 hover:bg-white/40 rounded-lg text-white disabled:opacity-30"
                       title="Move Up"
                     >
@@ -187,7 +189,7 @@ export default function JpgToPdf() {
                     </button>
                     <button
                       onClick={() => moveImage(index, 'down')}
-                      disabled={index === images.length - 1}
+                      disabled={isConverting || index === images.length - 1}
                       className="p-2 bg-white/20 hover:bg-white/40 rounded-lg text-white disabled:opacity-30"
                       title="Move Down"
                     >
@@ -195,7 +197,8 @@ export default function JpgToPdf() {
                     </button>
                     <button
                       onClick={() => removeImage(img.id)}
-                      className="p-2 bg-rose-500/80 hover:bg-rose-500 rounded-lg text-white"
+                      disabled={isConverting}
+                      className="p-2 bg-rose-500/80 hover:bg-rose-500 rounded-lg text-white disabled:opacity-40 disabled:cursor-not-allowed"
                       title="Remove"
                     >
                       <Trash2 size={18} />
