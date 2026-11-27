@@ -511,10 +511,10 @@ export default function App() {
 
         <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
           <img
-            src="/photosize-how-it-works.webp"
+            src="/photosize-how-it-works.svg"
             alt="PhotoSize workflow: choose a tool, add your content, and get your result"
-            width="1200"
-            height="648"
+            width="1600"
+            height="864"
             loading="lazy"
             decoding="async"
             className="block h-auto w-full"
