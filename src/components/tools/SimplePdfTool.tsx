@@ -25,6 +25,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
   const splitPdfRef = useRef<PDFDocumentType | null>(null);
   const splitDownloadLockRef = useRef(false);
+  const processLockRef = useRef(false);
   const [splitDownloading, setSplitDownloading] = useState(false);
 
   useEffect(() => () => {
@@ -53,7 +54,8 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   };
 
   const handleProcess = async () => {
-    if (files.length === 0) return;
+    if (files.length === 0 || processLockRef.current) return;
+    processLockRef.current = true;
     setLoading(true);
     setDownloadUrl(null);
     setSplitResults([]);
@@ -167,6 +169,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       console.error(err);
       alert(err instanceof Error ? err.message : 'Error processing PDF. Please try again.');
     } finally {
+      processLockRef.current = false;
       setLoading(false);
     }
   };
