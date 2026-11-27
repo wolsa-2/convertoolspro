@@ -95,6 +95,11 @@ export default function JpgToPdf() {
 
               if (i > 0) pdf.addPage();
               pdf.addImage(tempImg, 'JPEG', x, y, drawWidth, drawHeight);
+              // jsPDF has consumed the decoded image data; release the temporary
+              // browser image resource before decoding the next file in the batch.
+              tempImg.onload = null;
+              tempImg.onerror = null;
+              tempImg.removeAttribute('src');
               resolve();
             } catch (error) {
               reject(error);
