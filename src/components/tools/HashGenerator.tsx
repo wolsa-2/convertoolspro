@@ -3,18 +3,13 @@ import { Hash, Copy, Check, ShieldCheck } from 'lucide-react';
 
 export default function HashGenerator() {
   const [text, setText] = useState('');
-  const [hashes, setHashes] = useState({
-    md5: '',
-    sha1: '',
-    sha256: '',
-    sha512: ''
-  });
+  const [hashes, setHashes] = useState({ sha1: '', sha256: '', sha512: '' });
   const [copied, setCopied] = useState<string | null>(null);
 
   const generateHashes = async (val: string) => {
     setText(val);
     if (!val) {
-      setHashes({ md5: '', sha1: '', sha256: '', sha512: '' });
+      setHashes({ sha1: '', sha256: '', sha512: '' });
       return;
     }
 
@@ -27,14 +22,11 @@ export default function HashGenerator() {
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     };
 
-    // Note: MD5 is not natively supported in subtle crypto, we'll use SHA-1, 256, 512
-    // For a real app, we'd include a small MD5 lib, but for this demo we'll show SHA family
     const s1 = await getHash('SHA-1');
     const s256 = await getHash('SHA-256');
     const s512 = await getHash('SHA-512');
 
     setHashes({
-      md5: 'MD5 requires external lib (SHA family shown below)',
       sha1: s1,
       sha256: s256,
       sha512: s512
