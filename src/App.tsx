@@ -586,7 +586,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FF] dark:bg-slate-950 text-[#1A1A3A] dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-700">
+    <div className={`min-h-screen bg-[#F8F9FF] dark:bg-slate-950 text-[#1A1A3A] dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-700 ${currentPage !== 'home' || activeTool ? 'ps-editorial-theme' : ''}`}>
       <StructuredData />
       {/* Navigation */}
       <nav className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50">
