@@ -68,7 +68,7 @@ export default function PdfMetadata() {
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-6">
             <FileText size={40} />
           </div>
-          <h3 className="text-xl font-bold text-slate-900">Analyze PDF</h3>
+          <h2 className="text-xl font-bold text-slate-900">Analyze PDF</h2>
           <p className="text-slate-500 mt-2 mb-8 max-w-xs text-center">
             Upload a PDF to view its hidden metadata, page count, and more.
           </p>
