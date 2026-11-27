@@ -809,10 +809,10 @@ export default function App() {
           </div>
           
           <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-600 text-sm">
+            <p className="text-slate-600 dark:text-slate-300 text-sm">
               © 2026 PhotoSize. All rights reserved.
             </p>
-            <div className="flex items-center gap-1 text-slate-600 text-sm">
+            <div className="flex items-center gap-1 text-slate-600 dark:text-slate-300 text-sm">
               Made with <Heart size={14} className="text-rose-500 fill-rose-500" /> for the community.
             </div>
           </div>
