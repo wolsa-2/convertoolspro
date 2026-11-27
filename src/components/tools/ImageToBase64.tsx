@@ -41,13 +41,22 @@ export default function ImageToBase64() {
     reader.onload = (e) => {
       if (readerRef.current !== reader) return;
       const result = e.target?.result;
-      if (typeof result === 'string') setBase64(result);
-      else alert('The selected image could not be converted. Please try another file.');
+      if (typeof result === 'string') {
+        setBase64(result);
+      } else {
+        setBase64('');
+        setPreviewUrl('');
+        setFileName('');
+        setFileSize('');
+        alert('The selected image could not be converted. Please try another file.');
+      }
       readerRef.current = null;
     };
     reader.onerror = () => {
       if (readerRef.current !== reader) return;
       readerRef.current = null;
+      setBase64('');
+      setPreviewUrl('');
       setFileName('');
       setFileSize('');
       alert('The selected image could not be read. Please try another file.');
