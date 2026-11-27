@@ -4,6 +4,7 @@ import { Zap, Copy, Check, Trash2 } from 'lucide-react';
 export default function BionicReading() {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState('');
 
   const processText = (input: string) => {
     if (!input) return '';
@@ -68,6 +69,7 @@ export default function BionicReading() {
         </div>
       </div>
 
+      {copyError && <p role="alert" className="text-sm text-rose-600">{copyError}</p>}
       <div className="flex justify-end gap-3">
         <button
           onClick={() => setText('')}
@@ -78,6 +80,7 @@ export default function BionicReading() {
         </button>
         <button
           onClick={handleCopy}
+          disabled={!text.trim()}
           className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all"
         >
           {copied ? <Check size={18} /> : <Copy size={18} />}
