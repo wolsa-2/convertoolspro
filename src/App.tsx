@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
+import { Search, Menu, X, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -367,14 +367,6 @@ export default function App() {
                 <a href="mailto:b605649@gmail.com" className="block text-lg font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
               </div>
 
-              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
-                  <Github size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
-                <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
-                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-block text-lg font-black text-emerald-600 hover:underline">View on GitHub</a>
-              </div>
             </div>
 
             <div className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100 space-y-4">
@@ -692,12 +684,7 @@ export default function App() {
               <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
                 Disclaimer: Tools are provided as is. Processing behavior can vary by tool; review the relevant tool details before using sensitive files or information.
               </p>
-              <div className="flex gap-4">
-                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-all" aria-label="Github">
-                  <Github size={20} />
-                </a>
 
-              </div>
             </div>
             
             <div>
