@@ -13,6 +13,10 @@ export default function ImageToBase64() {
       alert('Please upload an image file.');
       return;
     }
+    if (file.size > 20 * 1024 * 1024) {
+      alert('Please choose an image smaller than 20 MB for reliable browser processing.');
+      return;
+    }
 
     setBase64('');
     setFileName(file.name);
@@ -39,10 +43,16 @@ export default function ImageToBase64() {
     if (file) handleFile(file);
   }, []);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(base64);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (!base64) return;
+    try {
+      if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(base64);
+      else { window.prompt('Copy Base64 data:', base64); }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.prompt('Copy Base64 data:', base64);
+    }
   };
 
   return (
@@ -69,7 +79,7 @@ export default function ImageToBase64() {
               type="file"
               className="hidden"
               accept="image/*"
-              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+              onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); e.currentTarget.value = ''; }}
             />
           </label>
         </div>
