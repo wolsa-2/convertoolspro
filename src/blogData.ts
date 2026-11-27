@@ -1,225 +1,151 @@
 export interface BlogPost {
-  id: number;
-  title: string;
-  date: string;
-  author: string;
-  category: string;
-  excerpt: string;
-  image: string;
-  content: string;
-  metaDescription: string;
-  keywords: string[];
+  id: number; title: string; date: string; author: string; category: string;
+  excerpt: string; image: string; content: string; metaDescription: string; keywords: string[];
 }
 
 export const BLOG_POSTS: BlogPost[] = [
   {
-    id: 1,
-    title: "The Evolution of Developer Productivity Tools in 2026",
-    date: "March 6, 2026",
-    author: "PhotoSize Team",
-    category: "Productivity",
-    metaDescription: "Explore how developer productivity tools have evolved in 2026. Learn about AI integration, local-first processing, and the rise of unified utility hubs.",
-    keywords: ["developer tools", "productivity", "software development", "utility hub", "2026 trends"],
-    excerpt: "The landscape of software development is shifting. In 2026, productivity isn't just about speed—it's about the intelligence and privacy of the tools we use every day.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>The Evolution of Developer Productivity Tools in 2026</h1>
-      <p>As we navigate through 2026, the definition of a "productive developer" has undergone a radical transformation. Gone are the days when productivity was measured solely by lines of code or the number of tickets closed. Today, productivity is defined by the efficiency of the workflow, the quality of the output, and the security of the data being handled.</p>
-
-      <h2>The Rise of Unified Utility Hubs</h2>
-      <p>One of the most significant trends in 2026 is the consolidation of fragmented utilities into unified hubs. Platforms like <strong>PhotoSize</strong> have solved this problem by providing a comprehensive suite of utilities in a single, cohesive interface.</p>
-      
-      <h2>Privacy-First: The Shift to Local Processing</h2>
-      <p>In 2026, data privacy is no longer an afterthought. The new standard is local-first processing. Tools like those found on <strong>PhotoSize</strong> leverage modern browser capabilities to perform complex operations directly on the user's machine, ensuring sensitive data never leaves the device.</p>
-    `
+    "id": 1,
+    "title": "How to Convert JPG to PDF: A Step-by-Step Guide",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "PDF Guides",
+    "metaDescription": "Learn how to turn JPG images into a PDF, arrange pages, prepare scans and avoid common image-to-PDF problems with this practical guide.",
+    "keywords": [
+      "JPG to PDF",
+      "convert JPG to PDF online",
+      "images to PDF",
+      "photo to PDF",
+      "combine pictures into PDF"
+    ],
+    "excerpt": "Turn one or more image files into a PDF that is easier to share, print and organise. Understand page order, image quality and the checks to make before sending your document.",
+    "image": "/blog/jpg-to-pdf-guide.svg",
+    "content": "<p>Need to send several photos or scanned pages as one document? Converting JPG images to PDF is a practical way to keep pages together for applications, invoices, notes, receipts and work documents. A PDF is generally easier to share and print as a single file than a folder of separate images.</p>\n<h2>When should you convert JPG images to PDF?</h2>\n<p>Use a PDF when the recipient needs a document rather than a collection of loose pictures. Common examples include scanned forms, classroom notes, receipts, identity-document copies where permitted, product photos for a report, and multi-page handouts. A PDF keeps the pages in one container, but it does not automatically make a scan searchable or guarantee that the text is readable.</p>\n<h2>How to convert JPG to PDF with PhotoSize</h2>\n<ol><li>Open the <a href=\"/tool/jpg-to-pdf\">JPG to PDF tool</a>.</li><li>Select the image files you want to include.</li><li>Check the selected files and arrange them in the intended reading order if the tool provides ordering controls.</li><li>Start the conversion and wait for the PDF to be created.</li><li>Open the downloaded PDF and review every page before sharing it.</li></ol>\n<p>For a multi-page document, choose a clear filename and check that the first and last pages are in the correct positions. If the tool version you are using does not offer a setting you need, do not assume it has been applied.</p>\n<h2>How to keep the PDF clear and readable</h2>\n<ul><li>Start with sharp, well-lit images. Conversion cannot restore detail that was missing from the original photo.</li><li>Keep text pages upright and avoid shadows across the writing.</li><li>Crop unnecessary background before conversion using an image editor you trust.</li><li>Zoom in on small text after conversion. A page that looks fine as a thumbnail may be difficult to read when printed.</li><li>Keep a copy of the original JPG files until you have checked the final PDF.</li></ul>\n<h2>Common JPG-to-PDF problems</h2>\n<h3>Pages appear in the wrong order</h3><p>File names and selection order can affect the sequence. Rename files with leading numbers such as 01, 02 and 03 before selecting them, then inspect the finished PDF.</p>\n<h3>The PDF looks blurry</h3><p>Usually the source image is too small, compressed or out of focus. Use the original image at a suitable resolution rather than a screenshot of a screenshot.</p>\n<h3>The page is sideways</h3><p>Rotate the source image before conversion, or use a PDF rotation tool after creating the document. PhotoSize also provides a <a href=\"/tool/rotate-pdf\">Rotate PDF tool</a> for supported PDF files.</p>\n<h2>What to check before sharing</h2>\n<p>Confirm that all expected pages are present, the order is correct, the text is readable and the file opens on another device or PDF reader. If the document contains sensitive information, share it only with the intended recipient and use an appropriate secure channel. A PDF is a file format, not a privacy or encryption guarantee.</p>\n<h2>Related PhotoSize tools</h2><p>Need to combine existing PDF documents? Try <a href=\"/tool/merge-pdf\">Merge PDF</a>. Need to separate pages from a large document? See <a href=\"/tool/split-pdf\">Split PDF</a>. To inspect document properties, use <a href=\"/tool/pdf-metadata\">PDF Metadata</a>.</p>\n<h2>Frequently asked questions</h2><h3>Can I put multiple JPG files into one PDF?</h3><p>Yes. Use a JPG-to-PDF converter that supports multiple input images, then verify the page sequence in the resulting PDF.</p><h3>Does converting JPG to PDF improve image quality?</h3><p>No. Conversion changes the container format; it cannot add detail that the original image did not contain.</p><h3>Will the PDF always have one image per page?</h3><p>That depends on the converter's layout behaviour. Always inspect the output to confirm how images were placed.</p>"
   },
   {
-    id: 2,
-    title: "Why Local-First Web Tools are the Future of Data Privacy",
-    date: "March 5, 2026",
-    author: "Privacy Advocate",
-    category: "Security",
-    metaDescription: "Discover why local-first web tools are essential for data privacy in 2026. Learn how browser-based processing protects your sensitive information.",
-    keywords: ["data privacy", "local-first", "web security", "browser processing", "privacy tools"],
-    excerpt: "In an era of constant data breaches, the way we use online tools is changing. Local-first processing is the new gold standard for privacy-conscious users.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>Why Local-First Web Tools are the Future of Data Privacy</h1>
-      <p>The digital landscape of 2026 is one of extreme contrast. On one hand, we have more powerful web applications than ever before. On the other, we face a constant barrage of privacy scandals and data leaks.</p>
-
-      <h2>The Problem with Cloud-Centric Utilities</h2>
-      <p>For years, the standard for online utilities was simple: you upload your file, the server processes it, and you download the result. While convenient, this model has a fatal flaw: your data is out of your control the moment you hit "upload."</p>
-
-      <h2>How Local-First Tools Work</h2>
-      <p>Local-first tools use WebAssembly, JavaScript, and Client-side APIs to perform tasks that previously required a server. Many browser-based tools on <strong>PhotoSize</strong> perform supported operations locally. Review each tool's description for its processing behavior.</p>
-    `
+    "id": 2,
+    "title": "How to Merge PDF Files into One Document",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "PDF Guides",
+    "metaDescription": "Learn how to combine PDF files into one document, organise file order and check page quality before sharing or printing.",
+    "keywords": [
+      "merge PDF",
+      "combine PDF files",
+      "join PDF online",
+      "PDF merger",
+      "combine documents"
+    ],
+    "excerpt": "Combine separate PDF files into one organised document. Follow a simple workflow for ordering files, checking pages and avoiding common merge mistakes.",
+    "image": "/blog/merge-pdf-files.svg",
+    "content": "<p>When a report, application or project is split across several PDF files, merging them can make the material easier to review and share. A merged PDF places the selected documents into one file, while keeping their pages together in a single sequence.</p>\n<h2>Good reasons to merge PDF files</h2><p>You might combine chapters of a report, supporting documents for an application, meeting handouts, scanned pages or separate sections of a project. Merge only documents that belong together and that you are allowed to combine and distribute.</p>\n<h2>How to merge PDFs with PhotoSize</h2><ol><li>Open the <a href=\"/tool/merge-pdf\">Merge PDF tool</a>.</li><li>Select the PDF files you want to combine.</li><li>Arrange the files in the order they should appear in the final document.</li><li>Run the merge operation.</li><li>Open the output and check the beginning, middle and end of the document, as well as the total page sequence.</li></ol>\n<h2>Get the file order right</h2><p>Before merging, give files meaningful names. For example, use 01-cover.pdf, 02-report.pdf and 03-appendix.pdf. If the interface provides a reorder control, use it and confirm the order before processing. Do not rely on the order files happen to appear in a folder.</p>\n<h2>Checks to make after merging</h2><ul><li>Confirm that every source file is represented.</li><li>Check page orientation and page boundaries.</li><li>Open pages containing tables, diagrams and small text to make sure they remain legible.</li><li>Look for duplicate pages or missing sections.</li><li>Check the final filename and file size before sending.</li></ul>\n<h2>Merging is not the same as editing or compressing</h2><p>A merge operation combines documents; it does not necessarily reduce file size, edit text, remove passwords or redact confidential information. If the output is too large, use a dedicated compression workflow that clearly states what it changes. If you need only selected pages, a <a href=\"/tool/split-pdf\">Split PDF tool</a> may be more suitable.</p>\n<h2>Common PDF merge issues</h2><h3>One source file is missing</h3><p>Check whether it was selected and whether it was a supported PDF. Retry with a smaller set if you need to identify a problematic file.</p><h3>Pages are in the wrong sequence</h3><p>Reorder the input files before merging. Then inspect the final output instead of assuming the sequence was preserved.</p><h3>The final document is unexpectedly large</h3><p>Image-heavy PDFs can be large. Merging does not automatically optimise embedded images. Keep the original files and use an appropriate compression process only if the resulting quality remains acceptable.</p>\n<h2>Related PhotoSize tools</h2><p>Convert image pages first with <a href=\"/tool/jpg-to-pdf\">JPG to PDF</a>, separate a document with <a href=\"/tool/split-pdf\">Split PDF</a>, or inspect file details using <a href=\"/tool/pdf-metadata\">PDF Metadata</a>.</p>\n<h2>Frequently asked questions</h2><h3>Can I merge more than two PDFs?</h3><p>Use a merger that accepts multiple PDF inputs. Check the tool's current file limits and verify all pages in the result.</p><h3>Does merging PDF files reduce their size?</h3><p>Not necessarily. A merged file may be larger because it contains the content of all source files.</p><h3>Can I change page order after merging?</h3><p>That requires a page-reordering or PDF editing feature. If the current tool does not provide it, arrange files before merging or use a dedicated editor.</p>"
   },
   {
-    id: 3,
-    title: "Mastering JSON: How to Format, Validate, and Optimize Your Data",
-    date: "March 4, 2026",
-    author: "Data Architect",
-    category: "Development",
-    metaDescription: "Learn how to master JSON data in 2026. This guide covers formatting, validation, and optimization techniques for modern web development.",
-    keywords: ["JSON", "data formatting", "JSON validation", "web development", "API optimization"],
-    excerpt: "JSON is the backbone of the modern web. Mastering how to handle it efficiently is a must-have skill for every developer in 2026.",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>Mastering JSON: How to Format, Validate, and Optimize Your Data</h1>
-      <p>In 2026, JSON (JavaScript Object Notation) remains the undisputed king of data exchange. However, as data structures become more complex, the risk of errors and inefficiencies grows.</p>
-
-      <h2>The Importance of Clean JSON</h2>
-      <p>Formatting isn't just about aesthetics; it's about clarity. A well-formatted JSON structure allows you to quickly identify hierarchy and spot missing commas. Our <strong>JSON Formatter</strong> provides instant beautification for complex objects.</p>
-
-      <h2>Validation: The First Line of Defense</h2>
-      <p>A single missing bracket can crash an entire application. Validation ensures that your JSON adheres to the official specification. Having a quick, browser-based validator for manual checks is incredibly useful for developers.</p>
-    `
+    "id": 3,
+    "title": "How to Reduce Image File Size Without Guessing",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "Image Guides",
+    "metaDescription": "Understand image dimensions, formats and compression so you can prepare smaller image files for websites, forms and sharing without unnecessary quality loss.",
+    "keywords": [
+      "reduce image file size",
+      "image size",
+      "compress image",
+      "image dimensions",
+      "photo file size"
+    ],
+    "excerpt": "A practical guide to image dimensions, file formats and compression. Learn what actually changes file size and how to choose the right output for your use case.",
+    "image": "/blog/reduce-image-file-size.svg",
+    "content": "<p>A photo can look perfectly clear on your phone and still be too large to upload to a form, attach to an email or use on a web page. Reducing image file size is about choosing appropriate dimensions and encoding—not simply making every image as small as possible.</p>\n<h2>Image dimensions and file size are different</h2><p>Dimensions describe the width and height in pixels. File size describes how much storage the encoded image uses. A 4000 × 3000 image contains far more pixels than a 1200 × 900 version, so resizing dimensions can reduce the amount of image data. Compression and file format also affect the final size.</p>\n<h2>Choose dimensions for the destination</h2><ul><li><strong>Website content:</strong> use dimensions close to the maximum size the image will actually be displayed at.</li><li><strong>Email and messaging:</strong> avoid sending a full-resolution original when a smaller preview is sufficient.</li><li><strong>Online forms:</strong> follow the portal's stated pixel dimensions and file-size limit exactly.</li><li><strong>Print:</strong> do not shrink an image without considering the required print size and resolution.</li></ul>\n<h2>Understand common image formats</h2><p>JPEG is widely used for photographs. PNG is useful when you need lossless image data or transparency. WebP can provide efficient compression in supported workflows, but compatibility requirements still matter. Changing a file extension does not convert the underlying image; use a real image conversion tool.</p>\n<h2>A sensible image preparation workflow</h2><ol><li>Keep an untouched copy of the original photo.</li><li>Check the destination's exact file-size and dimension requirements.</li><li>Resize to a suitable pixel width and height when the original is unnecessarily large.</li><li>Choose an output format that supports the visual content and destination.</li><li>Compare the new file at normal viewing size and inspect fine details.</li><li>Confirm the output file opens and meets the upload limit.</li></ol>\n<h2>What if you only need a placeholder?</h2><p>For a wireframe, mockup or test layout, do not use a large photograph at all. Create a correctly sized placeholder with the <a href=\"/tool/image-placeholder\">PhotoSize Image Placeholder tool</a>. For developers who need an image represented as text data, the <a href=\"/tool/image-to-base64\">Image to Base64 tool</a> serves a different purpose.</p>\n<h2>Common mistakes to avoid</h2><ul><li>Repeatedly saving a JPEG can introduce additional compression artefacts.</li><li>Changing .jpg to .png in the filename does not change the format.</li><li>Making an image tiny can make text and fine details unreadable.</li><li>Assuming a smaller file is always better can cause poor print or display quality.</li><li>Deleting the original before checking the converted file can make recovery difficult.</li></ul>\n<h2>Frequently asked questions</h2><h3>Does resizing always reduce file size?</h3><p>Reducing pixel dimensions often reduces file size, but the result also depends on format, compression settings and image content.</p><h3>Which format is best for every image?</h3><p>There is no universal best format. Choose based on whether the image is a photograph, graphic, needs transparency and where it will be used.</p><h3>Can I meet an upload limit without losing quality?</h3><p>Sometimes, by removing unnecessary dimensions or choosing a more efficient format. If the limit is very strict, some quality trade-off may be unavoidable.</p>"
   },
   {
-    id: 4,
-    title: "The Ultimate Guide to Image Optimization for Modern Web Apps",
-    date: "March 3, 2026",
-    author: "Performance Expert",
-    category: "Performance",
-    metaDescription: "Learn the latest image optimization techniques for 2026. Improve your site speed, SEO, and user experience with this comprehensive guide.",
-    keywords: ["image optimization", "web performance", "SEO", "site speed", "WebP", "AVIF"],
-    excerpt: "Images are the heaviest part of most websites. In 2026, optimizing them is the fastest way to improve your Core Web Vitals.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>The Ultimate Guide to Image Optimization for Modern Web Apps</h1>
-      <p>In 2026, the web is more visual than ever. However, these visuals come at a cost: bandwidth. If you're not optimizing your images, you're slowing down your site and hurting your SEO rankings.</p>
-
-      <h2>Next-Gen Formats: WebP and AVIF</h2>
-      <p>Standard JPEGs are being replaced by WebP and AVIF. These formats offer superior compression without sacrificing quality. Most modern browsers now offer native support for these high-efficiency formats.</p>
-
-      <h2>The Role of Content Delivery Networks</h2>
-      <p>CDNs play a vital role in delivering optimized images globally. By caching images closer to the user, you can significantly reduce latency and improve the Largest Contentful Paint metric.</p>
-    `
+    "id": 4,
+    "title": "Image to Base64: What It Is and When to Use It",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "Image & Developer Guides",
+    "metaDescription": "Learn what Base64 image encoding does, how data URLs work, when embedding images makes sense and why large images can increase page weight.",
+    "keywords": [
+      "image to Base64",
+      "Base64 image",
+      "convert image to Base64",
+      "data URI",
+      "Base64 encoder"
+    ],
+    "excerpt": "Understand how an image becomes a Base64 string, where data URLs are useful and why encoding a large photo is usually not a performance shortcut.",
+    "image": "/blog/image-to-base64-explained.svg",
+    "content": "<p>Base64 is a way to represent binary data using text characters. When an image is encoded as Base64, the output can be included in a data URL or passed through systems that expect text. It does not make the image smaller, and it is not encryption.</p>\n<h2>What does an image Base64 string look like?</h2><p>A data URL commonly begins with a media type and an encoding marker, followed by the encoded data. For example, a PNG data URL starts with a prefix similar to <code>data:image/png;base64,</code>. The exact prefix depends on the image format.</p>\n<h2>When is Base64 useful?</h2><ul><li>Embedding small icons or tiny graphics directly in HTML or CSS.</li><li>Sending image data through an API field that expects text.</li><li>Testing data-URL handling in a front-end application.</li><li>Creating a self-contained example for documentation or debugging.</li></ul>\n<h2>When should you avoid it?</h2><p>Base64 representation is typically larger than the original binary file—often by roughly one third before other overhead. Putting large photos into HTML, CSS or JSON can increase document size, slow parsing and make caching less efficient. For ordinary website photography, a normal image file delivered with appropriate caching is often a better choice.</p>\n<h2>How to convert an image to Base64 with PhotoSize</h2><ol><li>Open the <a href=\"/tool/image-to-base64\">Image to Base64 tool</a>.</li><li>Select the image you want to encode.</li><li>Review the generated output and its data-URL prefix if one is provided.</li><li>Copy the result only if the destination actually expects Base64 text.</li><li>Test the data in the target application before using it in production.</li></ol>\n<h2>Base64 is encoding, not security</h2><p>Anyone who receives a Base64 string can decode it back into the original data. Do not use Base64 to hide private photos, passwords, tokens or confidential documents. If data needs protection, use an appropriate security mechanism rather than a text encoding.</p>\n<h2>Image Base64 vs text Base64</h2><p>PhotoSize also includes a <a href=\"/tool/base64-codec\">Base64 Encode/Decode tool</a> for text workflows. The image-specific tool is intended for image data; the text codec is for encoding or decoding text. Choose the one that matches the input you have.</p>\n<h2>Frequently asked questions</h2><h3>Does Base64 reduce image size?</h3><p>No. Base64 changes the representation into text and usually increases the data size.</p><h3>Is a Base64 image a URL?</h3><p>A data URL can contain Base64 image data, but a raw Base64 string by itself is not necessarily a complete URL.</p><h3>Can Base64 be decoded?</h3><p>Yes. Base64 is reversible encoding, not encryption.</p>"
   },
   {
-    id: 5,
-    title: "How to Use QR Codes to Bridge the Gap Between Physical and Digital",
-    date: "March 2, 2026",
-    author: "Marketing Strategist",
-    category: "Marketing",
-    metaDescription: "Explore the innovative uses of QR codes in 2026. Learn how to generate and use QR codes to connect with your audience in the physical world.",
-    keywords: ["QR codes", "digital marketing", "QR code generator", "contactless", "2026 marketing"],
-    excerpt: "QR codes have seen a massive resurgence. In 2026, they are an essential tool for connecting physical experiences with digital content.",
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>How to Use QR Codes to Bridge the Gap Between Physical and Digital</h1>
-      <p>If you thought QR codes were a passing fad, think again. In 2026, QR codes are more prevalent than ever. From contactless menus to secure two-factor authentication, they are the universal bridge.</p>
-
-      <h2>Creative Use Cases in 2026</h2>
-      <p>Interactive packaging, smart business cards, and direct payments are just the beginning. At <strong>PhotoSize</strong>, our QR Code Generator helps you create high-quality, scannable codes for any use case in seconds.</p>
-
-      <h2>Best Practices for Scanning</h2>
-      <p>Contrast is key—always use a dark code on a light background. Ensure the size is appropriate for the scanning distance, and always test before publishing your codes.</p>
-    `
+    "id": 5,
+    "title": "How to Generate a QR Code for a Website or Text",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "Everyday Tools",
+    "metaDescription": "Learn how to create a QR code for a website link or text, test it on phones and choose print sizes that remain easy to scan.",
+    "keywords": [
+      "QR code generator",
+      "create QR code",
+      "QR code for website",
+      "make QR code online",
+      "QR code scanning tips"
+    ],
+    "excerpt": "Create a QR code for a link or short text, then test it before printing or sharing. This guide covers contrast, size, destination checks and common scanning problems.",
+    "image": "/blog/qr-code-guide.svg",
+    "content": "<p>A QR code gives people a quick way to open a website or read short information using a phone camera. It is useful on posters, menus, packaging, event material, business cards and printed instructions. The important part is not just generating the code—it is making sure the destination works and the code scans reliably.</p>\n<h2>How to make a QR code with PhotoSize</h2><ol><li>Open the <a href=\"/tool/qr-generator\">QR Code Generator</a>.</li><li>Enter the website URL or text you want the code to represent.</li><li>Generate the code using the available options.</li><li>Download or save the result if the tool offers that option.</li><li>Scan it with at least one phone before publishing or printing it.</li></ol>\n<h2>Choose the right content</h2><p>For a website QR code, use the final public URL—not a temporary preview or private editing link. Check spelling, redirects and mobile usability. For a text QR code, keep the message concise so the resulting pattern remains practical for the intended size.</p>\n<h2>Make QR codes easier to scan</h2><ul><li>Use strong contrast between the code and its background.</li><li>Keep a clear margin around the code; do not crop the quiet zone.</li><li>Avoid stretching the image or placing it on a busy photograph.</li><li>Print it large enough for the expected scanning distance.</li><li>Test a printed proof, not only the on-screen version.</li></ul>\n<h2>Where QR codes commonly fail</h2><h3>The code will not scan</h3><p>It may be too small, blurred, low contrast or damaged by cropping. Export a clean version and test at the final printed size.</p><h3>The code opens the wrong page</h3><p>Check the original URL before generating the code. A QR code faithfully represents the content you provide; it does not verify whether that destination is correct or safe.</p><h3>The code scans but the page is hard to use</h3><p>Test the destination on a phone. Make sure the page loads, text is readable and the important action is easy to find.</p>\n<h2>QR code safety tips</h2><p>Before scanning a code from an unknown source, check the destination shown by your phone. Be cautious with unexpected payment requests, login pages and shortened links. A QR code is simply a way to encode information; it does not make a link trustworthy.</p>\n<h2>Frequently asked questions</h2><h3>Can a QR code contain plain text?</h3><p>Yes. A QR code can represent text as well as a website link, depending on the generator's supported input types.</p><h3>Does a QR code expire?</h3><p>A basic QR code containing a fixed URL does not inherently expire, but the destination website can change or stop working.</p><h3>Should I test before printing?</h3><p>Always. Scan a proof at the intended size and from a realistic distance before ordering a large print run.</p>"
   },
   {
-    id: 6,
-    title: "PDF Security: How to Remove Metadata and Protect Sensitive Info",
-    date: "March 1, 2026",
-    author: "Security Analyst",
-    category: "Security",
-    metaDescription: "Learn how to protect your PDF documents by removing hidden metadata. A comprehensive guide to PDF security and privacy in 2026.",
-    keywords: ["PDF security", "metadata removal", "data privacy", "PDF tools", "confidential documents"],
-    excerpt: "Every PDF you share contains hidden data about you and your computer. In 2026, stripping this metadata is a critical step for document security.",
-    image: "https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>PDF Security: How to Remove Metadata and Protect Sensitive Info</h1>
-      <p>Metadata is "data about data." While useful for organization, it can reveal more than intended—like the author's name, software version, and file paths. For professionals, this is a major security risk.</p>
-
-      <h2>The Importance of Sanitizing Documents</h2>
-      <p>Sanitizing a document means removing all non-essential information before it's shared. In 2026, this is standard practice for legal firms and government agencies. Our <strong>PDF Metadata</strong> tools allow you to strip this data locally without uploading the file.</p>
-
-      <h2>Encryption and Redaction</h2>
-      <p>True security requires properly redacting sensitive text, not just covering it with black boxes. Combining metadata removal with strong password protection ensures your confidential files stay truly confidential.</p>
-    `
+    "id": 6,
+    "title": "How to Check PDF Metadata Before Sharing a Document",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "PDF & Privacy",
+    "metaDescription": "Find out what PDF metadata can reveal, how to inspect document properties and what to check before sharing a PDF file.",
+    "keywords": [
+      "PDF metadata",
+      "check PDF properties",
+      "PDF author metadata",
+      "document metadata",
+      "PDF privacy"
+    ],
+    "excerpt": "PDF files can contain properties such as title, author and creation details. Learn how to inspect metadata and understand what it does—and does not—tell you.",
+    "image": "/blog/pdf-metadata-guide.svg",
+    "content": "<p>PDF metadata is information about a document rather than the visible text on its pages. Depending on how a PDF was created, its properties may include a title, author, subject, keywords, creator application and timestamps. Reviewing these fields is a useful step before distributing a document.</p>\n<h2>What information can PDF metadata contain?</h2><p>Common document properties include title, author, subject, keywords, creator and producer application, and creation or modification dates. The fields present vary by file and software. Metadata is not the same as the visible content of the PDF, and not every PDF contains every field.</p>\n<h2>How to inspect a PDF with PhotoSize</h2><ol><li>Open the <a href=\"/tool/pdf-metadata\">PDF Metadata tool</a>.</li><li>Select the PDF you want to inspect.</li><li>Review the document properties shown by the tool.</li><li>Decide whether any displayed information should be changed or removed before sharing.</li><li>Keep the original file until you have verified any separately edited copy.</li></ol>\n<h2>Why metadata review matters</h2><p>Metadata can help teams organise files and identify document versions. It can also expose an author name, an outdated title or internal keywords that were not intended for a public copy. The right response depends on the document and the information shown.</p>\n<h2>Important limits: viewing is not removing</h2><p>Inspecting metadata does not automatically remove it. Do not assume that a metadata viewer sanitises a PDF unless the tool clearly provides a removal operation and confirms the output. Likewise, changing metadata does not redact visible text, remove hidden attachments or secure a document with a password.</p>\n<h2>PDF privacy checklist</h2><ul><li>Review visible pages for personal or confidential information.</li><li>Inspect document properties and confirm that the title and author fields are appropriate.</li><li>Use true redaction for sensitive text; drawing a black rectangle over text may leave the underlying text selectable.</li><li>Check links, comments, attachments and form fields if the document contains them.</li><li>Share only the final copy with the intended recipients.</li></ul>\n<h2>Related PhotoSize tools</h2><p>Use <a href=\"/tool/merge-pdf\">Merge PDF</a> to combine documents, <a href=\"/tool/split-pdf\">Split PDF</a> to separate pages, or <a href=\"/tool/watermark-pdf\">Watermark PDF</a> to add a visible text watermark when appropriate.</p>\n<h2>Frequently asked questions</h2><h3>Does every PDF have metadata?</h3><p>Many PDFs contain some document properties, but the fields and their values vary.</p><h3>Does removing metadata make a PDF anonymous?</h3><p>No. Visible content, embedded images, links, annotations and other document features may still reveal information.</p><h3>Can metadata show who created a PDF?</h3><p>It may contain an author or creator field, but that value can be missing, generic or editable. It should not be treated as proof of identity.</p>"
   },
   {
-    id: 7,
-    title: "The Power of Base64: When and Why to Use Image to Base64 Encoding",
-    date: "February 28, 2026",
-    author: "Web Developer",
-    category: "Development",
-    metaDescription: "Understand the benefits and use cases of Base64 encoding for images. Learn how to use Image to Base64 to optimize your web applications in 2026.",
-    keywords: ["Base64 encoding", "Image to Base64", "web optimization", "HTTP requests", "data URI"],
-    excerpt: "Base64 encoding is a powerful tool in a developer's arsenal. Learn when to use it to reduce HTTP requests and improve your site's performance.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>The Power of Base64: When and Why to Use Image to Base64 Encoding</h1>
-      <p>Base64 encoding represents binary data as an ASCII string. This allows embedding images directly into HTML or CSS using Data URIs, potentially reducing the number of costly HTTP requests during page load.</p>
-
-      <h2>Strategic Implementation</h2>
-      <p>Base64 is perfect for small assets like social media icons or critical UI elements that should load instantly. However, avoid encoding large photos as it increases file size by roughly 33% compared to binary.</p>
-      
-      <h2>Efficiency vs. Payload</h2>
-      <p>The goal is finding the "sweet spot" where reducing an HTTP request outweighs the larger text file size. Use the <strong>Image to Base64</strong> tool for surgical optimizations in your critical rendering path.</p>
-    `
+    "id": 7,
+    "title": "How to Format JSON and Find Syntax Errors",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "Developer Guides",
+    "metaDescription": "Learn how to format JSON, understand common syntax errors and validate structured data before using it in an application or API.",
+    "keywords": [
+      "JSON formatter",
+      "format JSON online",
+      "JSON syntax errors",
+      "JSON validator",
+      "pretty print JSON"
+    ],
+    "excerpt": "Make nested JSON easier to read and catch common syntax mistakes. This guide explains formatting, valid JSON syntax and safe ways to inspect structured data.",
+    "image": "/blog/json-formatter-guide.svg",
+    "content": "<p>JSON (JavaScript Object Notation) is a text format used to represent structured data. APIs, configuration files and web applications often exchange JSON. When the data is minified or deeply nested, reading it becomes difficult. Formatting adds indentation and line breaks so the structure is easier to inspect.</p>\n<h2>What a JSON formatter does</h2><p>A formatter takes valid JSON and presents it with consistent spacing and indentation. It does not change the meaning of the data. Minifying does the opposite: it removes unnecessary whitespace to make the text more compact. Neither operation automatically checks whether the values are correct for your application.</p>\n<h2>How to format JSON with PhotoSize</h2><ol><li>Open the <a href=\"/tool/json-formatter\">JSON Formatter</a>.</li><li>Paste your JSON into the input area.</li><li>Use the available format or beautify action.</li><li>Review the output and fix any syntax errors reported by the tool.</li><li>Copy the formatted result into your editor or test environment.</li></ol>\n<h2>Common JSON syntax mistakes</h2><ul><li><strong>Trailing commas:</strong> standard JSON does not allow a comma after the last item in an object or array.</li><li><strong>Single quotes:</strong> JSON strings and property names use double quotes.</li><li><strong>Unquoted property names:</strong> object keys must be quoted strings.</li><li><strong>Comments:</strong> standard JSON does not support JavaScript-style comments.</li><li><strong>Invalid values:</strong> use true, false and null in lowercase; values such as undefined and NaN are not valid JSON.</li></ul>\n<h2>Example: minified vs readable JSON</h2><p>A compact object such as <code>{\"name\":\"PhotoSize\",\"tools\":18,\"active\":true}</code> is valid but harder to scan when it grows. A formatter lays the object out on separate lines and indents nested values, making missing brackets and unexpected nesting easier to spot.</p>\n<h2>Formatting is not schema validation</h2><p>Valid JSON can still contain the wrong field names, data types or values for a particular API. After formatting, validate the structure against the API documentation or schema used by your project. Never paste production secrets, access tokens or private customer records into a tool unless you have confirmed that the processing and privacy terms are appropriate.</p>\n<h2>Related PhotoSize tools</h2><p>For HTML text, use <a href=\"/tool/html-entities\">HTML Entities</a>. To transform text casing, use <a href=\"/tool/case-converter\">Case Converter</a>. For a cryptographic digest of text, see <a href=\"/tool/hash-generator\">Hash Generator</a>.</p>\n<h2>Frequently asked questions</h2><h3>Does formatting JSON fix errors?</h3><p>A formatter can make valid JSON easier to read and may report syntax problems, but it cannot infer the correct business logic or missing data.</p><h3>Is JSON the same as a JavaScript object?</h3><p>No. JSON is a text data format with stricter syntax than JavaScript object literals.</p><h3>Why does my API reject formatted JSON?</h3><p>Check the exact error, content type, required schema and value types. Whitespace is normally insignificant in JSON, but the structure and values must match the API contract.</p>"
   },
   {
-    id: 8,
-    title: "Wireframing Made Easy: Using Image Placeholders for Rapid Prototyping",
-    date: "February 27, 2026",
-    author: "UX Designer",
-    category: "Design",
-    metaDescription: "Learn how to speed up your design process with image placeholders. A guide to rapid prototyping and wireframing in 2026.",
-    keywords: ["wireframing", "prototyping", "image placeholder", "UX design", "UI development"],
-    excerpt: "Don't let missing assets slow down your design process. In 2026, image placeholders are the secret weapon for rapid prototyping.",
-    image: "https://images.unsplash.com/photo-1508921234172-b68ed335b3e6?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>Wireframing Made Easy: Using Image Placeholders for Rapid Prototyping</h1>
-      <p>Speed is just as important as quality. When in the early stages of a project, you need to iterate quickly. Waiting for final photography before building the layout can bring momentum to a screeching halt.</p>
-
-      <h2>The Benefits of Placeholders</h2>
-      <p>Placeholders allow you to focus on the structure without getting distracted by visual polish. Using dynamic tools like our <strong>Image Placeholder</strong> lets you generate boxes with exact dimensions and helpful labels to communicate with stakeholders.</p>
-      
-      <h2>Bridging Design and Development</h2>
-      <p>Giving developers wireframes with exact placeholder dimensions provides a clear blueprint. Teams can work in parallel, building components before final assets are even handed over.</p>
-    `
-  },
-  {
-    id: 9,
-    title: "Text Manipulation for Developers: Beyond Simple Character Counting",
-    date: "February 26, 2026",
-    author: "Software Engineer",
-    category: "Productivity",
-    metaDescription: "Explore advanced text manipulation techniques for developers. Learn how to use character counters and case converters to improve your code quality.",
-    keywords: ["text manipulation", "character counter", "case converter", "coding standards", "developer productivity"],
-    excerpt: "Text is the raw material of software. Mastering how to manipulate it efficiently is a core skill for every developer in 2026.",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>Text Manipulation for Developers: Beyond Simple Character Counting</h1>
-      <p>Programming is the art of manipulating text. Whether refactoring code or processing raw data, string manipulation is a constant task. Modern tools make this faster, but knowing the principles is key.</p>
-
-      <h2>Case Conversion Consistency</h2>
-      <p>Consistency is soul of readable code. Systems often move between camelCase, snake_case, and PascalCase. Using a <strong>Case Converter</strong> saves hours of manual refactoring and ensures adherence to project style guides.</p>
-      
-      <h2>Sanitizing Raw Data</h2>
-      <p>Developers often deal with "dirty" data—extra spaces and inconsistent line breaks. Leveraging utilities like <strong>Character Counters</strong> and whitespace strippers ensures data is clean before it enters your database.</p>
-    `
-  },
-  {
-    id: 10,
-    title: "Why Every Web Developer Needs a Swiss Army Knife of Online Utilities",
-    date: "February 25, 2026",
-    author: "Tech Lead",
-    category: "Productivity",
-    metaDescription: "Discover why a unified utility hub is essential for modern web development. Learn how PhotoSize can streamline your workflow in 2026.",
-    keywords: ["developer tools", "online utilities", "workflow optimization", "web development", "productivity hub"],
-    excerpt: "In 2026, the best developers aren't just the ones who write the best code—they're the ones with the best tools. Here's why you need a utility hub.",
-    image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80",
-    content: `
-      <h1>Why Every Web Developer Needs a Swiss Army Knife of Online Utilities</h1>
-      <p>The life of a developer is a juggling act. Fragments tools spread across dozens of bookmarks lead to context switching and fatigue. A unified command center like <strong>PhotoSize</strong> centralizes your essential utilities.</p>
-
-      <h2>The Advantage of Unified Workflow</h2>
-      <p>Building muscle memory for a single interface makes you faster. Whether it's formatting JSON, generating QR codes, or optimizing images, having them all in one place allows you to stay in the flow longer.</p>
-      
-      <h2>Security and Privacy</h2>
-      <p>In 2026, security is paramount. Local-first tools ensure that your sensitive data—like proprietary code or customer info—never leaves your browser. You get full utility without the security risks of cloud-based competitors.</p>
-    `
+    "id": 8,
+    "title": "How to Create a Strong Random Password",
+    "date": "November 27, 2026",
+    "author": "PhotoSize Team",
+    "category": "Security Guides",
+    "metaDescription": "Learn how to create strong unique passwords, choose a suitable length and use a password manager to protect your online accounts.",
+    "keywords": [
+      "password generator",
+      "strong password",
+      "random password",
+      "secure password tips",
+      "password length"
+    ],
+    "excerpt": "A practical password guide covering length, uniqueness, randomness, password managers and the habits that make account security stronger.",
+    "image": "/blog/strong-password-guide.svg",
+    "content": "<p>A strong password should be difficult to guess and unique to the account it protects. Reusing one password across several websites creates risk: if one service is compromised, attackers may try the same credentials elsewhere.</p>\n<h2>What makes a password stronger?</h2><p>Length and unpredictability matter. A long password or passphrase generated randomly is generally harder to guess than a short, predictable pattern. Avoid names, birthdays, common phrases, keyboard sequences and small variations of an old password.</p>\n<h2>Generate a password with PhotoSize</h2><ol><li>Open the <a href=\"/tool/password-generator\">Password Generator</a>.</li><li>Choose a length that meets the account's requirements; longer is generally better when the service allows it.</li><li>Choose the character groups supported by the destination, such as uppercase letters, lowercase letters, numbers and symbols.</li><li>Generate a password and use it for one account only.</li><li>Save it in a reputable password manager rather than reusing or memorising the same password everywhere.</li></ol>\n<h2>Use a password manager</h2><p>A password manager can create and store a different password for each service. Protect the manager itself with a strong master password and enable multi-factor authentication where available. Keep recovery options up to date so you do not lose access to your vault.</p>\n<h2>Extra steps that improve account security</h2><ul><li>Turn on multi-factor authentication, preferably using a passkey or authenticator method when supported.</li><li>Never share one-time codes or recovery codes with someone who contacts you unexpectedly.</li><li>Change a password promptly if a service reports a breach or you suspect it has been exposed.</li><li>Use a unique password for your primary email account because it can be used to reset other accounts.</li><li>Be alert for fake login pages and unexpected password-reset messages.</li></ul>\n<h2>What a password generator cannot do</h2><p>Generating a strong password does not secure a compromised device, protect against phishing or replace multi-factor authentication. Do not send generated passwords through public chats or store them in plain text documents. Check the tool's behaviour and your browser environment before using it for sensitive credentials.</p>\n<h2>Frequently asked questions</h2><h3>How long should a password be?</h3><p>Use the longest length the service supports without creating usability problems, and follow the service's current requirements.</p><h3>Should I include symbols?</h3><p>Symbols can add variety, but length and randomness are important. Some services restrict certain characters, so follow their rules.</p><h3>Is changing passwords every month necessary?</h3><p>Routine changes without a reason can encourage predictable patterns. Use unique passwords and change them when they may have been exposed or when a service requires it.</p>"
   }
 ];
