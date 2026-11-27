@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, Copy, Check, Trash2, FileImage, FileCode } from 'lucide-react';
 
 export default function ImageToBase64() {
@@ -8,11 +8,17 @@ export default function ImageToBase64() {
   const [fileSize, setFileSize] = useState('');
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const readerRef = useRef<FileReader | null>(null);
 
   useEffect(() => {
     if (!previewUrl) return;
     return () => URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
+
+  useEffect(() => () => {
+    readerRef.current?.abort();
+    readerRef.current = null;
+  }, []);
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith('image/')) {
@@ -24,21 +30,30 @@ export default function ImageToBase64() {
       return;
     }
 
+    readerRef.current?.abort();
+    const reader = new FileReader();
+    readerRef.current = reader;
     setBase64('');
     setPreviewUrl(URL.createObjectURL(file));
     setFileName(file.name);
     setFileSize((file.size / 1024).toFixed(2) + ' KB');
 
-    const reader = new FileReader();
     reader.onload = (e) => {
+      if (readerRef.current !== reader) return;
       const result = e.target?.result;
       if (typeof result === 'string') setBase64(result);
       else alert('The selected image could not be converted. Please try another file.');
+      readerRef.current = null;
     };
     reader.onerror = () => {
+      if (readerRef.current !== reader) return;
+      readerRef.current = null;
       setFileName('');
       setFileSize('');
       alert('The selected image could not be read. Please try another file.');
+    };
+    reader.onabort = () => {
+      if (readerRef.current === reader) readerRef.current = null;
     };
     reader.readAsDataURL(file);
   };
@@ -103,7 +118,7 @@ export default function ImageToBase64() {
                   <p className="text-sm text-slate-500">{fileSize}</p>
                 </div>
                 <button
-                  onClick={() => { setBase64(''); setPreviewUrl(''); setFileName(''); setFileSize(''); }}
+                  onClick={() => { readerRef.current?.abort(); readerRef.current = null; setBase64(''); setPreviewUrl(''); setFileName(''); setFileSize(''); }}
                   className="p-2 text-slate-400 hover:text-rose-600 transition-colors"
                 >
                   <Trash2 size={20} />
