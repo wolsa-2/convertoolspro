@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, Trash2, FileImage, Download, MoveUp, MoveDown, Plus } from 'lucide-react';
 import { jsPDF } from 'jspdf';
-import { motion, Reorder } from 'motion/react';
 
 interface ImageFile {
   id: string;
@@ -15,6 +14,12 @@ export default function JpgToPdf() {
   const [images, setImages] = useState<ImageFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
+  const previewUrlsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => () => {
+    previewUrlsRef.current.forEach(url => URL.revokeObjectURL(url));
+    previewUrlsRef.current.clear();
+  }, []);
 
   const handleFiles = async (files: FileList | null) => {
     if (!files) return;
@@ -25,25 +30,17 @@ export default function JpgToPdf() {
     }
 
     try {
-      const loadedImages = await Promise.all(validFiles.map(file => new Promise<ImageFile>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const preview = event.target?.result;
-          if (typeof preview !== 'string') {
-            reject(new Error(`Could not read ${file.name}. Please choose the file again.`));
-            return;
-          }
-          resolve({
-            id: `${file.name}-${file.lastModified}-${crypto.randomUUID?.() || Date.now().toString(36)}`,
-            file,
-            preview,
-            name: file.name,
-            size: (file.size / 1024).toFixed(2) + ' KB',
-          });
+      const loadedImages = validFiles.map(file => {
+        const preview = URL.createObjectURL(file);
+        previewUrlsRef.current.add(preview);
+        return {
+          id: `${file.name}-${file.lastModified}-${crypto.randomUUID?.() || Date.now().toString(36)}`,
+          file,
+          preview,
+          name: file.name,
+          size: (file.size / 1024).toFixed(2) + ' KB',
         };
-        reader.onerror = () => reject(new Error(`Could not read ${file.name}. Please try another file.`));
-        reader.readAsDataURL(file);
-      })));
+      });
       setImages(prev => [...prev, ...loadedImages]);
     } catch (error) {
       alert(error instanceof Error ? error.message : 'One or more images could not be read.');
@@ -57,7 +54,12 @@ export default function JpgToPdf() {
   }, []);
 
   const removeImage = (id: string) => {
-    setImages((prev) => prev.filter((img) => img.id !== id));
+    const image = images.find(img => img.id === id);
+    if (image) {
+      URL.revokeObjectURL(image.preview);
+      previewUrlsRef.current.delete(image.preview);
+    }
+    setImages(prev => prev.filter(img => img.id !== id));
   };
 
   const moveImage = (index: number, direction: 'up' | 'down') => {
@@ -78,14 +80,11 @@ export default function JpgToPdf() {
       
       for (let i = 0; i < images.length; i++) {
         const img = images[i];
-        const imgData = img.preview;
-        
-        // Create a temporary image element to get dimensions
         const tempImg = new Image();
         await new Promise<void>((resolve, reject) => {
           tempImg.onload = () => {
             try {
-              const imgProps = pdf.getImageProperties(imgData);
+              const imgProps = pdf.getImageProperties(tempImg);
               const pageWidth = pdf.internal.pageSize.getWidth();
               const pageHeight = pdf.internal.pageSize.getHeight();
               const scale = Math.min(pageWidth / imgProps.width, pageHeight / imgProps.height);
@@ -95,14 +94,14 @@ export default function JpgToPdf() {
               const y = (pageHeight - drawHeight) / 2;
 
               if (i > 0) pdf.addPage();
-              pdf.addImage(imgData, 'JPEG', x, y, drawWidth, drawHeight);
+              pdf.addImage(tempImg, 'JPEG', x, y, drawWidth, drawHeight);
               resolve();
             } catch (error) {
               reject(error);
             }
           };
           tempImg.onerror = () => reject(new Error(`Could not decode ${img.name}. Please choose a valid JPG image.`));
-          tempImg.src = imgData;
+          tempImg.src = img.preview;
         });
       }
 
@@ -166,11 +165,8 @@ export default function JpgToPdf() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {images.map((img, index) => (
-              <motion.div
+              <div
                 key={img.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
                 className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
               >
                 <div className="aspect-[4/3] rounded-xl overflow-hidden bg-slate-50 mb-4 relative">
@@ -208,7 +204,7 @@ export default function JpgToPdf() {
                   <p className="text-sm font-bold text-slate-900 truncate" title={img.name}>{img.name}</p>
                   <p className="text-xs text-slate-400">{img.size}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
