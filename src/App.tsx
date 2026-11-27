@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Menu, X, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
@@ -62,6 +62,12 @@ import { Suspense } from 'react';
 
 
 type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | '404';
+
+const HOME_SECTION_CARDS = [
+  { label: 'Image tools', category: 'Image' as Category, description: 'Image utilities and file helpers', tone: 'blue' },
+  { label: 'PDF tools', category: 'PDF' as Category, description: 'Create, organize and inspect PDFs', tone: 'rose' },
+  { label: 'Text & web tools', category: 'Text & Lists' as Category, description: 'Writing, coding and everyday utilities', tone: 'violet' }
+];
 
 const getRouteFromLocation = (): { page: Page; tool: Tool | null } => {
   let pathname = window.location.pathname;
@@ -263,17 +269,15 @@ export default function App() {
     }
   }, []);
 
-  const filteredTools = TOOLS.filter(tool => {
-    const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         tool.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
-  });
-
-  const toolsByCategory = CATEGORIES.reduce((acc, cat) => {
-    const tools = filteredTools.filter(t => t.category === cat);
-    if (tools.length > 0) acc[cat] = tools;
-    return acc;
-  }, {} as Record<Category, Tool[]>);
+  // Recompute the tool directory only when its actual filters change.
+  const visibleTools = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return TOOLS.filter((tool) => {
+      const matchesSection = activeSection === 'All Tools' || tool.category === activeSection;
+      const matchesSearch = !query || tool.name.toLowerCase().includes(query) || tool.description.toLowerCase().includes(query);
+      return matchesSection && matchesSearch;
+    });
+  }, [activeSection, searchQuery]);
 
   const navigateTo = (page: Page) => {
     const path = page === 'home' ? '/' : `/${page}`;
@@ -551,19 +555,6 @@ export default function App() {
   };
 
   const renderHome = () => {
-    const visibleTools = TOOLS.filter((tool) => {
-      const matchesSection = activeSection === 'All Tools' || tool.category === activeSection;
-      const q = searchQuery.trim().toLowerCase();
-      const matchesSearch = !q || tool.name.toLowerCase().includes(q) || tool.description.toLowerCase().includes(q);
-      return matchesSection && matchesSearch;
-    });
-
-    const sectionCards = [
-      { label: 'Image tools', category: 'Image' as Category, description: 'Image utilities and file helpers', tone: 'blue' },
-      { label: 'PDF tools', category: 'PDF' as Category, description: 'Create, organize and inspect PDFs', tone: 'rose' },
-      { label: 'Text & web tools', category: 'Text & Lists' as Category, description: 'Writing, coding and everyday utilities', tone: 'violet' }
-    ];
-
     return (
       <div className="space-y-12 pb-12">
         <section className="ps-hero overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
@@ -588,7 +579,7 @@ export default function App() {
         </section>
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {sectionCards.map((item) => (
+          {HOME_SECTION_CARDS.map((item) => (
             <button key={item.category} onClick={() => navigateToTools(item.category)} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
               <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", item.tone === 'rose' ? "bg-rose-50 text-rose-600" : item.tone === 'violet' ? "bg-violet-50 text-violet-600" : "bg-blue-50 text-blue-600")}>
                 {item.category === 'Image' ? <ImageIcon size={23} /> : item.category === 'PDF' ? <FileText size={23} /> : <Code size={23} />}
