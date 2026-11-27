@@ -125,13 +125,32 @@ export default function App() {
       description = `Use the ${activeTool.name} tool on PhotoSize. ${activeTool.description} Review this tool's details for supported formats and processing behavior.`;
       canonical = `https://photosize.vercel.app/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
-      title = 'SEO & Productivity Blog | PhotoSize';
-      description = 'Read practical guides on photo and image workflows, digital productivity, and online utilities.';
-      canonical = 'https://photosize.vercel.app/blog';
-    } else if (currentPage !== 'home') {
-      title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | PhotoSize`;
-      description = `Learn more about PhotoSize, our available image and file utilities, and how to use the website.`;
-      canonical = `https://photosize.vercel.app/${currentPage}`;
+      // Blog.tsx owns listing and article metadata, including article-specific titles and descriptions.
+      return;
+    } else if (currentPage === 'about') {
+      title = 'About PhotoSize | PhotoSize';
+      description = 'Learn about PhotoSize, its image, PDF and everyday digital tools, and the project’s focus on simple, useful online workflows.';
+      canonical = 'https://photosize.vercel.app/about';
+    } else if (currentPage === 'contact') {
+      title = 'Contact PhotoSize | PhotoSize';
+      description = 'Contact PhotoSize for questions, technical support, bug reports, feedback or suggestions for new online tools.';
+      canonical = 'https://photosize.vercel.app/contact';
+    } else if (currentPage === 'privacy') {
+      title = 'Privacy Policy | PhotoSize';
+      description = 'Read the PhotoSize Privacy Policy about local browser processing, advertising cookies, log files and third-party privacy practices.';
+      canonical = 'https://photosize.vercel.app/privacy';
+    } else if (currentPage === 'terms') {
+      title = 'Terms of Service | PhotoSize';
+      description = 'Review the PhotoSize Terms of Service, including acceptable use, user content, warranties and liability limitations.';
+      canonical = 'https://photosize.vercel.app/terms';
+    } else if (currentPage === 'disclaimer') {
+      title = 'Disclaimer | PhotoSize';
+      description = 'Read the PhotoSize disclaimer about tool accuracy, general information, external links and use of the website at your own risk.';
+      canonical = 'https://photosize.vercel.app/disclaimer';
+    } else if (currentPage === '404') {
+      title = 'Page Not Found | PhotoSize';
+      description = 'The page you requested could not be found on PhotoSize.';
+      canonical = 'https://photosize.vercel.app/404';
     }
 
     // Apply basic metadata
