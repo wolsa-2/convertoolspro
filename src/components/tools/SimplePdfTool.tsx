@@ -24,6 +24,8 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [downloadName, setDownloadName] = useState('');
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
   const splitPdfRef = useRef<PDFDocument | null>(null);
+  const splitDownloadLockRef = useRef(false);
+  const [splitDownloading, setSplitDownloading] = useState(false);
 
   useEffect(() => () => {
     if (downloadUrl) URL.revokeObjectURL(downloadUrl);
@@ -161,25 +163,36 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   };
 
   const handleSplitDownload = async (result: SplitResult) => {
+    if (splitDownloadLockRef.current) return;
     if (!splitPdfRef.current) {
       alert('The source PDF is no longer available. Please upload it again.');
       return;
     }
 
+    splitDownloadLockRef.current = true;
+    setSplitDownloading(true);
+    let objectUrl: string | null = null;
     try {
+      const sourcePdf = splitPdfRef.current;
       const splitPdf = await PDFDocument.create();
-      const [page] = await splitPdf.copyPages(splitPdfRef.current, [result.pageIndex]);
+      const [page] = await splitPdf.copyPages(sourcePdf, [result.pageIndex]);
       splitPdf.addPage(page);
       const pdfBytes = await splitPdf.save();
-      const url = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+      objectUrl = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
       const anchor = document.createElement('a');
-      anchor.href = url;
+      anchor.href = objectUrl;
       anchor.download = result.name;
       anchor.click();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      const urlToRevoke = objectUrl;
+      objectUrl = null;
+      window.setTimeout(() => URL.revokeObjectURL(urlToRevoke), 1000);
     } catch (err) {
       console.error(err);
       alert('Could not create this page. Please try again.');
+    } finally {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      splitDownloadLockRef.current = false;
+      setSplitDownloading(false);
     }
   };
 
@@ -326,7 +339,8 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   <button
                     key={result.name}
                     onClick={() => handleSplitDownload(result)}
-                    className="flex items-center gap-2 px-5 py-3 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-lg"
+                    disabled={splitDownloading}
+                    className="flex items-center gap-2 px-5 py-3 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-wait"
                   >
                     <Download size={18} />
                     {result.name}
