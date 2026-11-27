@@ -52,9 +52,11 @@ export default function JpgToPdf() {
     }
     if (acceptedFiles.length === 0) return;
 
+    const createdPreviewUrls: string[] = [];
     try {
       const loadedImages = acceptedFiles.map(file => {
         const preview = URL.createObjectURL(file);
+        createdPreviewUrls.push(preview);
         previewUrlsRef.current.add(preview);
         return {
           id: `${file.name}-${file.lastModified}-${crypto.randomUUID?.() || Date.now().toString(36)}`,
@@ -67,6 +69,10 @@ export default function JpgToPdf() {
       totalImageBytesRef.current += acceptedFiles.reduce((total, file) => total + file.size, 0);
       setImages(prev => [...prev, ...loadedImages]);
     } catch (error) {
+      createdPreviewUrls.forEach(url => {
+        URL.revokeObjectURL(url);
+        previewUrlsRef.current.delete(url);
+      });
       alert(error instanceof Error ? error.message : 'One or more images could not be read.');
     }
   };
