@@ -1,12 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Upload, Copy, Check, Trash2, FileImage, FileCode } from 'lucide-react';
 
 export default function ImageToBase64() {
   const [base64, setBase64] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
   const [fileName, setFileName] = useState('');
   const [fileSize, setFileSize] = useState('');
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    if (!previewUrl) return;
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith('image/')) {
@@ -19,6 +25,7 @@ export default function ImageToBase64() {
     }
 
     setBase64('');
+    setPreviewUrl(URL.createObjectURL(file));
     setFileName(file.name);
     setFileSize((file.size / 1024).toFixed(2) + ' KB');
 
@@ -96,14 +103,14 @@ export default function ImageToBase64() {
                   <p className="text-sm text-slate-500">{fileSize}</p>
                 </div>
                 <button
-                  onClick={() => { setBase64(''); setFileName(''); setFileSize(''); }}
+                  onClick={() => { setBase64(''); setPreviewUrl(''); setFileName(''); setFileSize(''); }}
                   className="p-2 text-slate-400 hover:text-rose-600 transition-colors"
                 >
                   <Trash2 size={20} />
                 </button>
               </div>
               <div className="aspect-video rounded-2xl overflow-hidden border border-slate-200 bg-white">
-                <img src={base64} alt="Preview" className="w-full h-full object-contain" />
+                <img src={previewUrl} alt="Preview" className="w-full h-full object-contain" />
               </div>
             </div>
           </div>
