@@ -214,7 +214,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       window.setTimeout(() => URL.revokeObjectURL(urlToRevoke), 60_000);
     } catch (err) {
       console.error(err);
-      alert('Could not create this page. Please try again.');
+      alert(err instanceof Error ? `Could not create this page: ${err.message}` : 'Could not create this page. Please try again.');
     } finally {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
       splitDownloadLockRef.current = false;
