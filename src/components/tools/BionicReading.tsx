@@ -12,11 +12,11 @@ export default function BionicReading() {
     const escapeHtml = (value: string) => value.replace(/[&<>"']/g, character => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[character] || character));
-    const html = text.split('\n').map(line => \`<p>\${line.split(/(\s+)/).map(word => {
+    const html = text.split('\n').map(line => `<p>${line.split(/(\s+)/).map(word => {
       if (/^\s+$/.test(word)) return word;
       const splitAt = Math.max(1, Math.ceil(word.length / 2));
-      return \`<strong>\${escapeHtml(word.slice(0, splitAt))}</strong>\${escapeHtml(word.slice(splitAt))}\`;
-    }).join('')}</p>\`).join('');
+      return `<strong>${escapeHtml(word.slice(0, splitAt))}</strong>${escapeHtml(word.slice(splitAt))}`;
+    }).join('')}</p>`).join('');
     try {
       if (navigator.clipboard && typeof ClipboardItem !== 'undefined' && navigator.clipboard.write) {
         await navigator.clipboard.write([new ClipboardItem({
