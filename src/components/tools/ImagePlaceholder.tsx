@@ -14,6 +14,7 @@ export default function ImagePlaceholder() {
   const placeholderUrl = `https://placehold.co/${width}x${height}/${bgColor.replace('#', '')}/${textColor.replace('#', '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 
   useEffect(() => {
+    setPreviewUrl('');
     if (!Number.isFinite(width) || !Number.isFinite(height) || width < 1 || height < 1 || width > 4096 || height > 4096) {
       setPreviewUrl('');
       return;
