@@ -372,7 +372,8 @@ main .prose blockquote {
 .ps-editorial-theme > footer p,
 .ps-editorial-theme > footer li,
 .ps-editorial-theme > footer a,
-.ps-editorial-theme > footer .text-slate-500 {
+.ps-editorial-theme > footer .text-slate-500,
+.ps-editorial-theme > footer .text-slate-600 {
   color: #C8CDD4 !important;
 }
 .ps-editorial-theme > footer a:hover,
