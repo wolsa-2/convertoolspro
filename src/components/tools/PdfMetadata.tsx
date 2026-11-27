@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Upload, FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 
@@ -8,6 +8,7 @@ export default function PdfMetadata() {
   const [fileSize, setFileSize] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
+  const loadingRef = useRef(false);
 
   const handleFile = async (file: File) => {
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
@@ -15,6 +16,8 @@ export default function PdfMetadata() {
       return;
     }
 
+    if (loadingRef.current) return;
+    loadingRef.current = true;
     setLoading(true);
     setFileName(file.name);
     setFileSize((file.size / 1024 / 1024).toFixed(2) + ' MB');
@@ -38,6 +41,7 @@ export default function PdfMetadata() {
       console.error(err);
       alert('Error reading PDF metadata. The file might be protected or corrupted.');
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
   };
@@ -45,6 +49,7 @@ export default function PdfMetadata() {
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
+    if (loadingRef.current) return;
     const file = e.dataTransfer.files[0];
     if (file) handleFile(file);
   }, []);
