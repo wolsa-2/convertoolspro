@@ -1,6 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, Trash2, FileImage, Download, MoveUp, MoveDown, Plus } from 'lucide-react';
 
+const MAX_JPG_FILE_BYTES = 25 * 1024 * 1024;
+const MAX_JPG_TOTAL_BYTES = 100 * 1024 * 1024;
+
 interface ImageFile {
   id: string;
   file: File;
@@ -32,9 +35,25 @@ export default function JpgToPdf() {
     if (validFiles.length !== selectedFiles.length) {
       alert('Only JPG/JPEG images are supported. Unsupported files were skipped.');
     }
+    const sizeValidFiles = validFiles.filter(file => file.size <= MAX_JPG_FILE_BYTES);
+    if (sizeValidFiles.length !== validFiles.length) {
+      alert('Images larger than 25 MB were skipped.');
+    }
+    const currentTotalBytes = images.reduce((total, image) => total + image.file.size, 0);
+    const acceptedFiles: File[] = [];
+    let acceptedBytes = currentTotalBytes;
+    for (const file of sizeValidFiles) {
+      if (acceptedBytes + file.size > MAX_JPG_TOTAL_BYTES) continue;
+      acceptedFiles.push(file);
+      acceptedBytes += file.size;
+    }
+    if (acceptedFiles.length !== sizeValidFiles.length) {
+      alert('The total JPG image size cannot exceed 100 MB. Some images were skipped.');
+    }
+    if (acceptedFiles.length === 0) return;
 
     try {
-      const loadedImages = validFiles.map(file => {
+      const loadedImages = acceptedFiles.map(file => {
         const preview = URL.createObjectURL(file);
         previewUrlsRef.current.add(preview);
         return {
