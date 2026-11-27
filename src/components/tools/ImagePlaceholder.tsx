@@ -172,7 +172,7 @@ export default function ImagePlaceholder() {
             referrerPolicy="no-referrer"
           />
         </div>
-        <p className="text-slate-400 text-sm font-medium">Live local preview · {width} × {height} px</p>
+        <p className="text-slate-600 text-sm font-medium">Live local preview · {width} × {height} px</p>
       </div>
     </div>
   );
