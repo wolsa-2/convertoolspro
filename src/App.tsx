@@ -16,8 +16,8 @@ const StructuredData = () => {
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Any",
     "author": {
-      "@type": "Person",
-      "name": "Shivam Kumar"
+      "@type": "Organization",
+      "name": "PhotoSize"
     },
     "offers": {
       "@type": "Offer",
@@ -153,6 +153,43 @@ export default function App() {
     if (ogDesc) ogDesc.setAttribute('content', description);
     if (twitterTitle) twitterTitle.setAttribute('content', title);
     if (twitterDesc) twitterDesc.setAttribute('content', description);
+
+    // Keep share previews aligned with the active route.
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const twitterUrl = document.querySelector('meta[property="twitter:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', canonical);
+    if (twitterUrl) twitterUrl.setAttribute('content', canonical);
+
+    // Unknown routes should not become search results.
+    let robots = document.querySelector('meta[name="robots"]');
+    if (!robots) {
+      robots = document.createElement('meta');
+      robots.setAttribute('name', 'robots');
+      document.head.appendChild(robots);
+    }
+    robots.setAttribute('content', currentPage === '404' ? 'noindex, follow' : 'index, follow');
+
+    // Add route-aware application data for individual tool landing pages.
+    const previousToolSchema = document.getElementById('photosize-tool-schema');
+    previousToolSchema?.remove();
+    if (activeTool) {
+      const schema = document.createElement('script');
+      schema.id = 'photosize-tool-schema';
+      schema.type = 'application/ld+json';
+      schema.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: activeTool.name,
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'Any',
+        description,
+        url: canonical,
+        isAccessibleForFree: true,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        publisher: { '@type': 'Organization', name: 'PhotoSize', url: 'https://photosize.vercel.app/' }
+      });
+      document.head.appendChild(schema);
+    }
     
     // Fix Issue 2: Branded OG Image
     const brandedImage = 'https://photosize.vercel.app/og-image.svg';
