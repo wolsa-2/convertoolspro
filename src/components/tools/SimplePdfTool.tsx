@@ -19,7 +19,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [processed, setProcessed] = useState(false);
-  const [watermarkText, setWatermarkText] = useState('Convertools');
+  const [watermarkText, setWatermarkText] = useState('PhotoSize');
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState('');
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
@@ -71,7 +71,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('merged_convertools.pdf');
+        setDownloadName('merged_photosize.pdf');
         setProcessed(true);
       } else if (toolId === 'rotate-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Rotate one PDF at a time.');
@@ -86,7 +86,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('rotated_convertools.pdf');
+        setDownloadName('rotated_photosize.pdf');
         setProcessed(true);
       } else if (toolId === 'protect-pdf' && files.length > 0) {
         throw new Error('PDF password protection is not supported by the current browser-only engine. Your original file has not been changed.');
@@ -141,7 +141,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
-        setDownloadName('watermarked_convertools.pdf');
+        setDownloadName('watermarked_photosize.pdf');
         setProcessed(true);
       } else {
         throw new Error('This PDF operation is not available yet. Your original file has not been changed.');
@@ -321,7 +321,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                     setProcessed(false);
                     setDownloadUrl(null);
                     setSplitResults([]);
-                    setWatermarkText('Convertools');
+                    setWatermarkText('PhotoSize');
                   }}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
                 >
