@@ -259,7 +259,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                 </div>
                 <button
                   onClick={() => removeFile(idx)}
-                  disabled={loading}
+                  disabled={loading || splitDownloading}
                   aria-label={`Remove ${file.name}`}
                   className="p-3 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all opacity-0 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
@@ -280,8 +280,9 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   multiple
                   disabled={loading}
                   onChange={(e) => {
-                    const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(f => f.type === 'application/pdf');
+                    const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(isPdfFile);
                     if (uploadedFiles.length > 0) setFiles(prev => [...prev, ...uploadedFiles]);
+                    e.target.value = '';
                   }}
                 />
               </label>
@@ -363,6 +364,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                     splitPdfRef.current = null;
                     setWatermarkText('PhotoSize');
                   }}
+                  disabled={splitDownloading}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
                 >
                   Start Over
