@@ -100,7 +100,7 @@ for (const tool of tools) {
   const seoSection = detailedContent ? '<section class="seo-content">' + detailedContent + '</section>' : fallbackContent;
   const relatedSection = '<section><h2>Related ' + esc(tool.category) + ' Tools</h2><ul>' + relatedTools.map((item) => '<li><a href="/tool/' + esc(item.id) + '">' + esc(item.name) + '</a> — ' + esc(item.description) + '</li>').join('') + '</ul><p><a href="/">Browse all PhotoSize tools</a> · <a href="/blog">Read practical guides</a></p></section>';
   const toolBody = '<article><header><h1>' + esc(tool.name) + ' Online Tool</h1><p>' + esc(tool.description) + '</p></header>' + seoSection + relatedSection + '</article>';
-  writeRoute(route, { title, description },  writeRoute(route, { title, description }, '<h1>' + esc(tool.name) + '</h1><p>' + esc(tool.description) + '</p><p>Use this browser-based utility on PhotoSize. Check the tool interface for supported inputs and available options.</p><p><a href="/">Explore all PhotoSize tools</a> · <a href="/blog">Read our guides</a></p>', {
+  writeRoute(route, { title, description }, toolBody, {
     '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: tool.name, applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any', description, url: baseUrl + route, isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, publisher: { '@type': 'Organization', name: 'PhotoSize' }
