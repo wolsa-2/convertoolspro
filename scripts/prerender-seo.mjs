@@ -12,7 +12,7 @@ const blogSource = fs.readFileSync(path.join(root, 'src/blogData.ts'), 'utf8');
 
 const tools = [...constants.matchAll(/\{ id: '([^']+)', name: '([^']+)', description: '([^']+)'/g)]
   .map((m) => ({ id: m[1], name: m[2], description: m[3] }));
-const blogArrayStart = blogSource.indexOf('[', blogSource.indexOf('export const BLOG_POSTS'));
+const blogArrayStart = blogSource.indexOf('= [', blogSource.indexOf('export const BLOG_POSTS')) + 2;
 const blogArrayEnd = blogSource.lastIndexOf('];');
 if (blogArrayStart < 0 || blogArrayEnd < blogArrayStart) throw new Error('Could not locate BLOG_POSTS array.');
 const posts = JSON.parse(blogSource.slice(blogArrayStart, blogArrayEnd + 1).replace(/,\s*\]$/, ']'));
