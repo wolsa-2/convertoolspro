@@ -6,7 +6,7 @@
         "http://localhost:4173/blog",
         "http://localhost:4173/about"
       ],
-      "numberOfRuns": 3,
+      "numberOfRuns": 1,
       "startServerCommand": "npm run preview -- --host 127.0.0.1",
       "startServerReadyPattern": "Local:"
     },
