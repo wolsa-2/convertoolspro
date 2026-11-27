@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Search, Menu, X, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
-import { motion, AnimatePresence } from 'motion/react';
 import { STATIC_PAGES_CONTENT } from './content';
 import { AdUnit } from './components/AdUnit';
 
@@ -527,13 +526,9 @@ export default function App() {
             <div className="relative">
               <h1 className="text-[10rem] md:text-[15rem] font-black text-slate-50 leading-none select-none">404</h1>
               <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div 
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 12 }}
-                  className="w-24 h-24 md:w-40 md:h-40 bg-indigo-600 rounded-[2.5rem] flex items-center justify-center text-white shadow-2xl"
-                >
+                <div className="w-24 h-24 md:w-40 md:h-40 bg-indigo-600 rounded-[2.5rem] flex items-center justify-center text-white shadow-2xl rotate-12">
                   <Zap size={64} fill="currentColor" />
-                </motion.div>
+                </div>
               </div>
             </div>
             <div className="space-y-6 max-w-2xl mx-auto">
@@ -570,7 +565,7 @@ export default function App() {
     ];
 
     return (
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} className="space-y-12 pb-12">
+      <div className="space-y-12 pb-12">
         <section className="ps-hero overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
           <img
             src="/photosize-brand-hero.svg"
@@ -621,10 +616,10 @@ export default function App() {
           {visibleTools.length ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {visibleTools.map((tool) => (
-                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: .99 }} onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                <button key={tool.id} type="button" onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
                   <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", tool.category === 'PDF' ? "bg-rose-50 text-rose-600" : tool.category === 'Image' ? "bg-blue-50 text-blue-600" : "bg-violet-50 text-violet-600")}><tool.icon size={23} /></span>
                   <span className="min-w-0 flex-1"><span className="block text-base font-bold tracking-tight text-slate-900 transition group-hover:text-blue-700">{tool.name}</span><span className="mt-2 block text-sm leading-6 text-slate-500">{tool.description}</span><span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-blue-600">Open tool <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span></span>
-                </motion.button>
+                </button>
               ))}
             </div>
           ) : <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center"><Search size={25} className="mx-auto text-slate-400" /><p className="mt-3 font-semibold text-slate-800">No matching tools</p><p className="mt-1 text-sm text-slate-500">Try a different search or category.</p></div>}
@@ -641,7 +636,7 @@ export default function App() {
             className="block h-auto w-full"
           />
         </section>
-      </motion.div>
+      </div>
     );
   };
 
@@ -740,14 +735,8 @@ export default function App() {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
-          >
+      {isMenuOpen && (
+          <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40">
             <div className="flex flex-col gap-2">
               <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Home</button>
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
@@ -756,9 +745,8 @@ export default function App() {
               <button onClick={() => navigateToTools('All Tools')} className="p-4 text-left font-bold text-blue-700 hover:bg-blue-50 rounded-xl">All Tools</button>
               {CATEGORIES.map(category => <button key={category} onClick={() => navigateToTools(category)} className="p-4 text-left font-semibold text-slate-600 hover:bg-slate-50 rounded-xl">{category} Tools</button>)}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {renderPage()}
@@ -836,14 +824,8 @@ export default function App() {
       </footer>
 
       {/* Cookie Consent */}
-      <AnimatePresence>
-        {showCookieConsent && (
-          <motion.div 
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl rounded-3xl p-6 z-[60] space-y-4"
-          >
+      {showCookieConsent && (
+          <div className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl rounded-3xl p-6 z-[60] space-y-4">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
                 <Shield size={20} />
@@ -872,9 +854,8 @@ export default function App() {
             <button onClick={() => navigateTo('privacy')} className="text-xs font-semibold text-indigo-600 hover:underline">
               Read Privacy Policy
             </button>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </div>
   );
 }
