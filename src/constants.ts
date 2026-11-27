@@ -49,7 +49,7 @@ export const TOOLS: Tool[] = [
   { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert multiple images into a single PDF.', category: 'PDF', icon: FileUp },
   { id: 'merge-pdf', name: 'Merge PDF', description: 'Combine multiple PDF files into one document.', category: 'PDF', icon: Layers },
   { id: 'split-pdf', name: 'Split PDF', description: 'Separate one PDF file into multiple documents.', category: 'PDF', icon: Scissors },
-  { id: 'rotate-pdf', name: 'Rotate PDF', description: 'Rotate one or all pages in your PDF.', category: 'PDF', icon: RotateCw },
+  { id: 'rotate-pdf', name: 'Rotate PDF', description: 'Rotate every page in your PDF by 90 degrees.', category: 'PDF', icon: RotateCw },
   { id: 'watermark-pdf', name: 'Watermark PDF', description: 'Add a text watermark to your PDF in your browser.', category: 'PDF', icon: ImageIcon },
   { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View PDF metadata, page count, and document details in your browser.', category: 'PDF', icon: Settings },
   
