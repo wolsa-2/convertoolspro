@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://photosize.vercel.app/</loc><lastmod>2026-11-24</lastmod><priority>1.0</priority></url>
+  <url><loc>https://photosize.vercel.app/</loc><lastmod>2026-11-27</lastmod><priority>1.0</priority></url>
   <url><loc>https://photosize.vercel.app/blog</loc><lastmod>2026-11-27</lastmod><priority>0.8</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/the-evolution-of-developer-productivity-tools-in-2026</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/why-local-first-web-tools-are-the-future-of-data-privacy</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/mastering-json-how-to-format-validate-and-optimize-your-data</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/the-ultimate-guide-to-image-optimization-for-modern-web-apps</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/how-to-use-qr-codes-to-bridge-the-gap-between-physical-and-digital</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/pdf-security-how-to-remove-metadata-and-protect-sensitive-info</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/the-power-of-base64-when-and-why-to-use-image-to-base64-encoding</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/wireframing-made-easy-using-image-placeholders-for-rapid-prototyping</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/text-manipulation-for-developers-beyond-simple-character-counting</loc><priority>0.6</priority></url>
-  <url><loc>https://photosize.vercel.app/blog/why-every-web-developer-needs-a-swiss-army-knife-of-online-utilities</loc><priority>0.6</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-convert-jpg-to-pdf-a-step-by-step-guide</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-merge-pdf-files-into-one-document</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-reduce-image-file-size-without-guessing</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/image-to-base64-what-it-is-and-when-to-use-it</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-generate-a-qr-code-for-a-website-or-text</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-check-pdf-metadata-before-sharing-a-document</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-format-json-and-find-syntax-errors</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-create-a-strong-random-password</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/how-to-count-words-and-characters-for-writing</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://photosize.vercel.app/blog/base64-vs-hashing-know-which-tool-you-need</loc><lastmod>2026-11-27</lastmod><priority>0.7</priority></url>
   <url><loc>https://photosize.vercel.app/about</loc><lastmod>2026-11-24</lastmod><priority>0.5</priority></url>
   <url><loc>https://photosize.vercel.app/contact</loc><lastmod>2026-11-24</lastmod><priority>0.5</priority></url>
   <url><loc>https://photosize.vercel.app/privacy</loc><lastmod>2026-11-24</lastmod><priority>0.5</priority></url>
   <url><loc>https://photosize.vercel.app/terms</loc><lastmod>2026-11-24</lastmod><priority>0.5</priority></url>
   <url><loc>https://photosize.vercel.app/disclaimer</loc><lastmod>2026-11-24</lastmod><priority>0.5</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/image-placeholder</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/image-to-base64</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/jpg-to-pdf</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/merge-pdf</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/split-pdf</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/rotate-pdf</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/watermark-pdf</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/pdf-metadata</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/tweet-generator</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/character-counter</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/case-converter</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/password-generator</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/bionic-reading</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/base64-codec</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/hash-generator</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/json-formatter</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/html-entities</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
-  <url><loc>https://photosize.vercel.app/tool/qr-generator</loc><lastmod>2026-11-24</lastmod><priority>0.7</priority></url>
 </urlset>
