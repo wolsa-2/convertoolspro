@@ -343,10 +343,60 @@ export default function App() {
       case 'blog': return <Blog />;
       case 'about':
         return (
-          <div className="max-w-4xl mx-auto space-y-8 py-12">
-            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
-                 dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.about }} />
-          </div>
+          <main className="bg-white dark:bg-slate-950">
+            <section className="relative isolate overflow-hidden bg-[#101b36] text-white">
+              <div className="absolute inset-0 -z-10 opacity-25" style={{ backgroundImage: 'radial-gradient(circle at 15% 20%, #5b8cff 0, transparent 34%), radial-gradient(circle at 85% 70%, #21c7a8 0, transparent 30%)' }} />
+              <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.1fr_.9fr] lg:gap-16">
+                <div>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[.18em] text-blue-100"><Info size={14}/> About PhotoSize</span>
+                  <h1 className="mt-6 max-w-2xl text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">A simpler space for your everyday digital work.</h1>
+                  <p className="mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">PhotoSize brings useful image, PDF and everyday web tools together in one clean workspace—so you can spend less time switching tabs and more time getting things done.</p>
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <button onClick={() => navigateTo('home')} className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-blue-50">Explore tools <ArrowRight size={16}/></button>
+                    <button onClick={() => navigateTo('contact')} className="rounded-xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">Get in touch</button>
+                  </div>
+                </div>
+                <div className="relative mx-auto w-full max-w-lg">
+                  <div className="absolute -inset-5 rounded-[2rem] bg-gradient-to-br from-blue-500/30 to-emerald-400/20 blur-2xl"/>
+                  <div className="relative rounded-[2rem] border border-white/15 bg-white/[0.08] p-5 shadow-2xl backdrop-blur-xl sm:p-7">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-blue-700"><ImageIcon size={21}/></span><div><p className="font-bold">PhotoSize</p><p className="text-xs text-slate-300">Your everyday utility workspace</p></div></div><span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-semibold text-emerald-200">Simple by design</span></div>
+                    <div className="mt-5 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl bg-white/10 p-4"><Camera className="text-blue-200" size={22}/><p className="mt-3 font-bold">Image tools</p><p className="mt-1 text-xs leading-5 text-slate-300">Prepare and work with images</p></div>
+                      <div className="rounded-2xl bg-white/10 p-4"><FileText className="text-emerald-200" size={22}/><p className="mt-3 font-bold">PDF tools</p><p className="mt-1 text-xs leading-5 text-slate-300">Handle everyday documents</p></div>
+                      <div className="rounded-2xl bg-white/10 p-4"><Code className="text-violet-200" size={22}/><p className="mt-3 font-bold">Developer tools</p><p className="mt-1 text-xs leading-5 text-slate-300">Useful helpers for digital work</p></div>
+                      <div className="rounded-2xl bg-white/10 p-4"><Shield className="text-amber-200" size={22}/><p className="mt-3 font-bold">Privacy aware</p><p className="mt-1 text-xs leading-5 text-slate-300">Clear, browser-first workflows</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-20">
+              <div className="max-w-2xl"><p className="text-xs font-black uppercase tracking-[.2em] text-blue-600">Why PhotoSize exists</p><h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">Useful tools. Less friction.</h2><p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">We believe helpful digital utilities should be easy to find, straightforward to use and accessible without unnecessary complexity.</p></div>
+              <div className="mt-10 grid gap-5 md:grid-cols-3">
+                <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300"><Zap size={23}/></span><h3 className="mt-5 text-xl font-extrabold text-slate-900 dark:text-white">Our mission</h3><p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">Bring practical tools for creators, students, developers and everyday users into one accessible workspace—without making simple tasks feel complicated.</p></article>
+                <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300"><Shield size={23}/></span><h3 className="mt-5 text-xl font-extrabold text-slate-900 dark:text-white">Privacy matters</h3><p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">We favour browser-based processing wherever a tool supports it. Check each tool's details for its specific processing behaviour, and keep control of the files you choose to work with.</p></article>
+                <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300"><Heart size={23}/></span><h3 className="mt-5 text-xl font-extrabold text-slate-900 dark:text-white">Built with purpose</h3><p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">PhotoSize started as an independent project to make common digital tasks feel more organised, approachable and less scattered across the web.</p></article>
+              </div>
+            </section>
+
+            <section className="border-y border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/60">
+              <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:py-20">
+                <div><p className="text-xs font-black uppercase tracking-[.2em] text-blue-600">The story</p><h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">Made to make the web feel a little easier.</h2></div>
+                <div className="space-y-5 text-base leading-8 text-slate-600 dark:text-slate-300"><p>Too many everyday tasks require opening a different website, learning a new interface or navigating unnecessary steps. PhotoSize is our attempt to bring those small but frequent jobs into one consistent place.</p><p>We keep improving the experience, refining existing tools and adding practical guides based on what people need. The goal is not to add features for the sake of a longer list—it is to make the tools genuinely useful.</p></div>
+              </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-20">
+              <div className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#172746] to-[#263f70] p-7 text-white shadow-xl sm:p-10 lg:p-14">
+                <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+                  <div><p className="text-xs font-black uppercase tracking-[.2em] text-blue-200">The creator</p><h2 className="mt-3 text-3xl font-black sm:text-4xl">An independent project, built with care.</h2><p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">PhotoSize was created by <strong className="text-white">Shivam Kumar</strong>, who focuses on clean design, intuitive user experiences and practical technical solutions. The project continues to evolve through iteration and user feedback.</p></div>
+                  <div className="flex h-24 w-24 items-center justify-center rounded-3xl border border-white/20 bg-white/10 text-4xl font-black shadow-inner sm:h-32 sm:w-32">SK</div>
+                </div>
+              </div>
+              <div className="mt-10 flex flex-col items-start justify-between gap-5 rounded-3xl border border-slate-200 p-7 dark:border-slate-800 sm:flex-row sm:items-center"><div><h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Have an idea or feedback?</h3><p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Tell us what would make PhotoSize more useful.</p></div><button onClick={() => navigateTo('contact')} className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700">Contact us <ArrowRight size={16}/></button></div>
+            </section>
+          </main>
         );
       case 'contact':
         return (
