@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#20242B" />
     
+    <!-- Preload the homepage hero image because React inserts it after the app bundle executes. -->
+    <link rel="preload" as="image" href="/photosize-brand-hero.svg" type="image/svg+xml" fetchpriority="high">
     <!-- The app font is loaded directly from the font file declared in index.css. -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin>
