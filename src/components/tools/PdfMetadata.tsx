@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Upload, FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
 
+const MAX_METADATA_PDF_BYTES = 50 * 1024 * 1024;
+
 export default function PdfMetadata() {
   const [metadata, setMetadata] = useState<any>(null);
   const [fileName, setFileName] = useState('');
@@ -12,6 +14,11 @@ export default function PdfMetadata() {
   const handleFile = async (file: File) => {
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
       alert('Please upload a PDF file.');
+      return;
+    }
+
+    if (file.size > MAX_METADATA_PDF_BYTES) {
+      alert('Please choose a PDF smaller than 50 MB for reliable browser processing.');
       return;
     }
 
