@@ -29,13 +29,13 @@ function setMeta(html, selector, attrs) {
 }
 function setCanonical(html, url) {
   const tag = '<link rel="canonical" href="' + esc(url) + '" />';
-  const re = /<link\\b[^>]*rel=["']canonical["'][^>]*>/i;
+  const re = /<link\b[^>]*rel=["']canonical["'][^>]*>/i;
   return re.test(html) ? html.replace(re, tag) : html.replace('</head>', '  ' + tag + '\\n</head>');
 }
 function writeRoute(route, meta, body, schema) {
   const url = baseUrl + route;
   const image = meta.image || baseUrl + '/og-image.svg';
-  let html = template.replace(/<title>[^<]*<\\/title>/i, '<title>' + esc(meta.title) + '</title>');
+  let html = template.replace(/<title>[^<]*<\/title>/i, '<title>' + esc(meta.title) + '</title>');
   html = setMeta(html, "name=[\\"']description[\\"']", { name: 'description', content: meta.description });
   html = setMeta(html, "name=[\\"']robots[\\"']", { name: 'robots', content: 'index, follow' });
   html = setMeta(html, "property=[\\"']og:type[\\"']", { property: 'og:type', content: meta.type || 'website' });
@@ -51,7 +51,7 @@ function writeRoute(route, meta, body, schema) {
   html = setCanonical(html, url);
   html = html.replace('<div id="root"></div>', '<div id="root"><main data-seo-prerender="true">' + body + '</main></div>');
   html = html.replace('</head>', '  <script type="application/ld+json">' + jsonLd(schema) + '</script>\\n</head>');
-  const output = route === '/' ? indexPath : path.join(dist, route.replace(/^\\//, ''), 'index.html');
+  const output = route === '/' ? indexPath : path.join(dist, route.replace(/^\//, ''), 'index.html');
   fs.mkdirSync(path.dirname(output), { recursive: true });
   fs.writeFileSync(output, html);
 }
