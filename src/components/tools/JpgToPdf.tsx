@@ -154,7 +154,7 @@ export default function JpgToPdf() {
       pdf.save('converted-images.pdf');
     } catch (error) {
       console.error('PDF conversion failed:', error);
-      alert('Failed to convert images to PDF. Please try again.');
+      alert(error instanceof Error ? error.message : 'Failed to convert images to PDF. Please try again.');
     } finally {
       conversionLockRef.current = false;
       setIsConverting(false);
