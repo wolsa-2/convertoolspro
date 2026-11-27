@@ -343,3 +343,114 @@ main .prose blockquote {
 .dark .ps-editorial-theme .photosize-tool-page h1,
 .dark .ps-editorial-theme .photosize-tool-page h2,
 .dark .ps-editorial-theme .photosize-tool-page h3 { color: var(--ps-text) !important; }
+
+
+/* Preview refresh: Coral + Cream + Charcoal editorial system.
+   Scoped only to non-home routes and tool workspaces. */
+.ps-editorial-theme {
+  --ps-accent: #FF684A;
+  --ps-accent-soft: #FFF0EB;
+  --ps-background: #FAF8F5;
+  --ps-surface: #FFFFFF;
+  --ps-text: #20242B;
+  --ps-muted: #666D76;
+  --ps-border: #E8E2DA;
+}
+.ps-editorial-theme > main {
+  background: transparent !important;
+}
+.ps-editorial-theme > footer {
+  background: #20242B !important;
+  color: #F8F6F2 !important;
+  border-top: 4px solid #FF684A !important;
+}
+.ps-editorial-theme > footer h4,
+.ps-editorial-theme > footer .text-\[\#20242B\],
+.ps-editorial-theme > footer .text-slate-900 {
+  color: #FFFFFF !important;
+}
+.ps-editorial-theme > footer p,
+.ps-editorial-theme > footer li,
+.ps-editorial-theme > footer a,
+.ps-editorial-theme > footer .text-slate-500 {
+  color: #C8CDD4 !important;
+}
+.ps-editorial-theme > footer a:hover,
+.ps-editorial-theme > footer button:hover {
+  color: #FF8A70 !important;
+}
+.ps-editorial-theme nav button[class*="bg-indigo-600"],
+.ps-editorial-theme nav button[class*="bg-blue-600"],
+.ps-editorial-theme main button[class*="bg-rose-600"],
+.ps-editorial-theme main button[class*="bg-orange-600"] {
+  background: #FF684A !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 20px rgb(255 104 74 / 18%) !important;
+}
+.ps-editorial-theme nav button[class*="bg-indigo-600"]:hover,
+.ps-editorial-theme nav button[class*="bg-blue-600"]:hover,
+.ps-editorial-theme main button[class*="bg-rose-600"]:hover,
+.ps-editorial-theme main button[class*="bg-orange-600"]:hover {
+  background: #E9573B !important;
+}
+.ps-editorial-theme main a:not([class*="bg-"]) {
+  text-underline-offset: 3px;
+}
+.ps-editorial-theme main h1,
+.ps-editorial-theme main h2 {
+  letter-spacing: -.045em;
+}
+.ps-editorial-theme main h1 span,
+.ps-editorial-theme main h2 span {
+  color: #FF684A;
+}
+.ps-editorial-theme .photosize-blog article,
+.ps-editorial-theme .faq-item,
+.ps-editorial-theme .photosize-tool-page .bg-white,
+.ps-editorial-theme main .prose > div,
+.ps-editorial-theme main section > div[class*="rounded"] {
+  border-color: #E8E2DA !important;
+  box-shadow: 0 8px 26px rgb(32 36 43 / 5%) !important;
+}
+.ps-editorial-theme .photosize-blog article:hover,
+.ps-editorial-theme .faq-item:hover {
+  border-color: #FFB6A5 !important;
+  box-shadow: 0 12px 30px rgb(255 104 74 / 10%) !important;
+}
+.ps-editorial-theme .photosize-blog button,
+.ps-editorial-theme .photosize-blog a[class*="bg-"] {
+  border-radius: 999px !important;
+}
+.ps-editorial-theme .photosize-tool-page .tool-container {
+  background: #FFFFFF !important;
+  border: 1px solid #E8E2DA !important;
+  border-radius: 22px !important;
+  box-shadow: 0 12px 32px rgb(32 36 43 / 5%) !important;
+}
+.ps-editorial-theme .photosize-tool-page button[class*="bg-indigo-600"],
+.ps-editorial-theme .photosize-tool-page button[class*="bg-blue-600"] {
+  background: #0066CC !important;
+  box-shadow: 0 8px 18px rgb(0 102 204 / 16%) !important;
+}
+.ps-editorial-theme main .prose blockquote {
+  background: #FFF0EB !important;
+  border-left: 4px solid #FF684A !important;
+}
+.ps-editorial-theme .faq-item h3::before {
+  color: #FF684A !important;
+}
+.ps-editorial-theme .ps-mega-bar button:hover,
+.ps-editorial-theme nav button:hover {
+  color: #FF684A;
+}
+.dark .ps-editorial-theme > footer {
+  background: #111315 !important;
+  border-top-color: #FF684A !important;
+}
+.dark .ps-editorial-theme main .prose blockquote {
+  background: #33231F !important;
+}
+@media (max-width: 767px) {
+  .ps-editorial-theme > footer { border-top-width: 3px !important; }
+  .ps-editorial-theme .photosize-tool-page .tool-container { border-radius: 16px !important; }
+}
