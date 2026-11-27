@@ -236,7 +236,6 @@ export default function App() {
 
   // Open the tool directory from any page, then scroll after the home view renders.
   const navigateToTools = (category: 'All Tools' | Category = 'All Tools') => {
-    const route = getRouteFromLocation();
     if (window.location.pathname !== '/') window.history.pushState({}, '', '/');
     setCurrentPage('home');
     setActiveTool(null);
