@@ -373,7 +373,7 @@ export default function App() {
                 </div>
                 <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
                 <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
-                <button className="text-lg font-black text-emerald-600 hover:underline">View on GitHub</button>
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-block text-lg font-black text-emerald-600 hover:underline">View on GitHub</a>
               </div>
             </div>
 
@@ -582,8 +582,13 @@ export default function App() {
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    if (currentPage !== 'home') navigateTo('home');
+                    const query = e.target.value;
+                    if (currentPage !== 'home' || activeTool) {
+                      navigateTo('home');
+                      setSearchQuery(query);
+                    } else {
+                      setSearchQuery(query);
+                    }
                   }}
                 />
               </div>
@@ -710,7 +715,7 @@ export default function App() {
               <ul className="space-y-4 text-slate-500 dark:text-slate-400">
                 <li><a href="/tool/case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
                 <li><a href="/tool/image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
-                <li><a href="/tool/pdf-metadata" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
+                <li><a href="/tool/pdf-metadata" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Metadata</a></li>
                 <li><a href="/tool/json-formatter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
               </ul>
             </div>
