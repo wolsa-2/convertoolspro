@@ -234,6 +234,23 @@ export default function App() {
     window.scrollTo(0, 0);
   };
 
+  // Open the tool directory from any page, then scroll after the home view renders.
+  const navigateToTools = (category: 'All Tools' | Category = 'All Tools') => {
+    const route = getRouteFromLocation();
+    if (window.location.pathname !== '/') window.history.pushState({}, '', '/');
+    setCurrentPage('home');
+    setActiveTool(null);
+    setActiveSection(category);
+    setSearchQuery('');
+    setIsMenuOpen(false);
+    setOpenMegaMenu(null);
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  };
+
   useEffect(() => {
     const handlePopState = () => {
       const route = getRouteFromLocation();
@@ -618,7 +635,7 @@ export default function App() {
               </div>
             );
           })}
-          <button onClick={() => { setActiveSection('All Tools'); setOpenMegaMenu(null); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="ml-auto shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50">View all tools <ArrowRight size={14} className="ml-1 inline" /></button>
+          <button type="button" onClick={() => navigateToTools('All Tools')} className="ml-auto shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50">View all tools <ArrowRight size={14} className="ml-1 inline" /></button>
         </div>
       </div>
 
