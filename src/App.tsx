@@ -220,8 +220,11 @@ export default function App() {
     if (window.location.pathname !== path) window.history.pushState({}, '', path);
     setCurrentPage(page);
     setActiveTool(null);
+    setActiveSection('All Tools');
+    setSearchQuery('');
     setIsMenuOpen(false);
-    window.scrollTo(0, 0);
+    setOpenMegaMenu(null);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   const navigateToTool = (tool: Tool) => {
@@ -231,7 +234,7 @@ export default function App() {
     setCurrentPage('home');
     setIsMenuOpen(false);
     setOpenMegaMenu(null);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   // Open the tool directory from any page, then scroll after the home view renders.
@@ -255,8 +258,11 @@ export default function App() {
       const route = getRouteFromLocation();
       setCurrentPage(route.page);
       setActiveTool(route.tool);
+      setActiveSection('All Tools');
+      setSearchQuery('');
       setIsMenuOpen(false);
-      window.scrollTo(0, 0);
+      setOpenMegaMenu(null);
+      window.scrollTo({ top: 0, behavior: 'auto' });
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -469,10 +475,10 @@ export default function App() {
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
-                <button onClick={() => document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
+                <button onClick={() => navigateToTools('All Tools')} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
                   Explore all tools <ArrowRight size={17} />
                 </button>
-                <button onClick={() => setActiveSection('Image')} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50">
+                <button onClick={() => navigateToTools('Image')} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50">
                   Browse image tools
                 </button>
               </div>
@@ -507,7 +513,7 @@ export default function App() {
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {sectionCards.map((item) => (
-            <button key={item.category} onClick={() => { setActiveSection(item.category); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
+            <button key={item.category} onClick={() => navigateToTools(item.category)} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
               <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", item.tone === 'rose' ? "bg-rose-50 text-rose-600" : item.tone === 'violet' ? "bg-violet-50 text-violet-600" : "bg-blue-50 text-blue-600")}>
                 {item.category === 'Image' ? <ImageIcon size={23} /> : item.category === 'PDF' ? <FileText size={23} /> : <Code size={23} />}
               </span>
@@ -609,7 +615,7 @@ export default function App() {
       </nav>
 
       <div className="ps-mega-bar sticky top-20 z-40 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-1 px-4 py-2 sm:px-6 lg:px-8">
           {[
             { id: 'image', label: 'Image Tools', category: 'Image' as Category },
             { id: 'pdf', label: 'PDF Tools', category: 'PDF' as Category },
@@ -652,6 +658,8 @@ export default function App() {
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
               <button onClick={() => navigateTo('about')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">About</button>
               <button onClick={() => navigateTo('contact')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Contact</button>
+              <button onClick={() => navigateToTools('All Tools')} className="p-4 text-left font-bold text-blue-700 hover:bg-blue-50 rounded-xl">All Tools</button>
+              {CATEGORIES.map(category => <button key={category} onClick={() => navigateToTools(category)} className="p-4 text-left font-semibold text-slate-600 hover:bg-slate-50 rounded-xl">{category} Tools</button>)}
             </div>
           </motion.div>
         )}
