@@ -64,6 +64,7 @@ const getRouteFromLocation = (): { page: Page; tool: Tool | null } => {
   let pathname = window.location.pathname;
   while (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
   const toolPrefix = '/tool/';
+  if (pathname === '/blog' || pathname.startsWith('/blog/')) return { page: 'blog', tool: null };
   if (pathname.startsWith(toolPrefix)) {
     let id = '';
     try {
