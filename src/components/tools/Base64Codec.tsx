@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRightLeft, Copy, Check, Trash2 } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 const encodeUtf8Base64 = (value: string) => {
   const bytes = new TextEncoder().encode(value);
@@ -50,10 +51,13 @@ export default function Base64Codec() {
     process(temp, newMode);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(output);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (await copyTextToClipboard(output)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy result:', output);
+    }
   };
 
   return (
