@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Copy, Check, RefreshCw, Shield, ShieldAlert, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function PasswordGenerator() {
   const [password, setPassword] = useState('');
@@ -60,16 +61,15 @@ export default function PasswordGenerator() {
     generatePassword();
   }, [length, options]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(password);
-    setCopied(true);
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#4F46E5', '#10B981', '#F59E0B']
-    });
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (!password) return;
+    if (await copyTextToClipboard(password)) {
+      setCopied(true);
+      confetti({ particleCount: 60, spread: 55, origin: { y: 0.6 } });
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy generated password:', password);
+    }
   };
 
   const getStrength = () => {
