@@ -245,3 +245,13 @@ main .prose blockquote {
 
 /* Keep the mobile drawer aligned with the compact navigation height. */
 #root > .min-h-screen > div[class*='fixed'][class*='top-20'] { top: 60px !important; }
+
+/* Unify legacy utility colors with the PhotoSize blue-and-neutral palette. */
+.bg-indigo-600, .bg-blue-600 { background-color: var(--ps-primary) !important; }
+.text-indigo-600, .text-indigo-700, .text-blue-600, .text-blue-700 { color: var(--ps-primary) !important; }
+.bg-indigo-50, .bg-indigo-100, .bg-blue-50, .bg-blue-100 { background-color: #eff6ff !important; }
+.border-indigo-100, .border-indigo-200, .border-blue-100, .border-blue-200 { border-color: #dbeafe !important; }
+.hover\\:bg-indigo-500:hover, .hover\\:bg-blue-700:hover { background-color: var(--ps-primary-hover) !important; }
+.hover\\:text-indigo-600:hover, .hover\\:text-blue-700:hover { color: var(--ps-primary-hover) !important; }
+.bg-violet-50, .bg-rose-50 { background-color: var(--ps-surface) !important; }
+.text-violet-600, .text-rose-600 { color: var(--ps-muted) !important; }
