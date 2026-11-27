@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">PhotoSize — Photo and PDF tools made simple</title>
+<desc id="desc">PhotoSize branding with image and PDF tools displayed on a laptop, in a clean blue and white design.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".55" stop-color="#f4f8ff"/><stop offset="1" stop-color="#dbeafe"/></linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1684ff"/><stop offset="1" stop-color="#0752d8"/></linearGradient>
+  <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9ecff"/><stop offset=".55" stop-color="#8fc6f8"/><stop offset="1" stop-color="#d4efff"/></linearGradient>
+  <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2b92d6"/><stop offset="1" stop-color="#123c78"/></linearGradient>
+  <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f8fbff"/><stop offset="1" stop-color="#9baec8"/></linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="18"/></filter>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="36"/></filter>
+  <clipPath id="photoClip"><rect x="925" y="335" width="300" height="300" rx="14"/></clipPath>
+</defs>
+<rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+<circle cx="1430" cy="80" r="390" fill="#9fc7ff" opacity=".32"/>
+<circle cx="1500" cy="300" r="270" fill="#2e82ed" opacity=".13"/>
+<path d="M0 785 Q310 690 620 810 T1240 790 T1600 730 V900 H0Z" fill="#dbeafe" opacity=".8"/>
+<path d="M0 842 Q310 735 630 846 T1260 825 T1600 780 V900 H0Z" fill="#8dbdff" opacity=".35"/>
+<ellipse cx="1110" cy="770" rx="420" ry="54" fill="#356fb6" opacity=".16" filter="url(#soft)"/>
+<!-- Brand mark -->
+<g transform="translate(80 92)">
+  <rect width="126" height="126" rx="26" fill="url(#blue)"/>
+  <path d="M30 38h65v65H30z" fill="none" stroke="#fff" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M39 91l18-21 14 15 12-15 16 21" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="82" cy="55" r="7" fill="#fff"/>
+  <path d="M19 19v26M19 19h26M107 107v-26M107 107H81" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+</g>
+<text x="235" y="181" font-family="Inter,Arial,sans-serif" font-size="82" font-weight="800" fill="#101d35" letter-spacing="-4">Photo<tspan fill="#0874ef">Size</tspan></text>
+<!-- Main copy -->
+<text x="80" y="370" font-family="Inter,Arial,sans-serif" font-size="72" font-weight="800" fill="#101d35" letter-spacing="-3">Photo &amp; PDF tools,</text>
+<text x="80" y="458" font-family="Inter,Arial,sans-serif" font-size="82" font-weight="800" fill="#0874ef" letter-spacing="-4">made simple.</text>
+<path d="M84 495 Q240 465 415 492" stroke="#0874ef" stroke-width="8" fill="none" stroke-linecap="round"/>
+<text x="82" y="565" font-family="Inter,Arial,sans-serif" font-size="32" fill="#435674">Resize, compress, convert and prepare</text>
+<text x="82" y="610" font-family="Inter,Arial,sans-serif" font-size="32" fill="#435674">your files with simple online tools.</text>
+<!-- Feature pills -->
+<g font-family="Inter,Arial,sans-serif" font-size="23" fill="#15294b">
+  <rect x="80" y="670" width="250" height="76" rx="38" fill="#e5efff"/>
+  <rect x="350" y="670" width="230" height="76" rx="38" fill="#e5efff"/>
+  <rect x="600" y="670" width="260" height="76" rx="38" fill="#e5efff"/>
+  <g transform="translate(105 688)" stroke="#0874ef" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="0" y="0" width="34" height="34" rx="5"/><path d="M5 27l10-12 8 8 6-7 5 11"/></g>
+  <text x="158" y="718">Image tools</text>
+  <path d="M382 688h27l12 12v34h-39z" fill="#ed3434"/><path d="M409 688v13h12" fill="none" stroke="#fff" stroke-width="3"/><text x="389" y="718" font-size="15" font-weight="700" fill="#fff">PDF</text>
+  <text x="433" y="718">PDF tools</text>
+  <path d="M635 704l15-17v16h15l-22 26v-17h-14z" fill="#0874ef"/>
+  <text x="678" y="718">Easy workflow</text>
+</g>
+<!-- Laptop shadow and body -->
+<ellipse cx="1130" cy="770" rx="410" ry="34" fill="#234c7e" opacity=".18" filter="url(#shadow)"/>
+<path d="M858 275 Q858 245 892 242 L1517 242 Q1550 242 1550 277 L1550 710 L858 710Z" fill="#172033"/>
+<rect x="875" y="260" width="658" height="432" rx="20" fill="#f8fbff"/>
+<circle cx="1204" cy="251" r="4" fill="#63758d"/>
+<rect x="890" y="278" width="628" height="394" rx="12" fill="#fff"/>
+<rect x="890" y="278" width="628" height="42" rx="12" fill="#edf4ff"/>
+<circle cx="911" cy="299" r="6" fill="#ff655b"/><circle cx="932" cy="299" r="6" fill="#ffc145"/><circle cx="953" cy="299" r="6" fill="#27c76f"/>
+<!-- Screen photo -->
+<g clip-path="url(#photoClip)">
+  <rect x="925" y="335" width="300" height="300" fill="url(#screen)"/>
+  <circle cx="1150" cy="380" r="40" fill="#fff" opacity=".5"/>
+  <path d="M900 495 L1000 390 L1064 460 L1120 382 L1260 520 L1260 650 L900 650Z" fill="#355c8d"/>
+  <path d="M900 515 L1000 410 L1064 480 L1120 402 L1260 540 L1260 650 L900 650Z" fill="#f4f8ff"/>
+  <path d="M900 540 L1000 435 L1064 505 L1120 427 L1260 565 L1260 650 L900 650Z" fill="#527ca4"/>
+  <path d="M900 548 Q1020 530 1110 548 T1260 540 V650 H900Z" fill="url(#lake)"/>
+  <path d="M900 560 Q1020 575 1110 557 T1260 565" stroke="#b6e3ff" stroke-width="4" opacity=".65" fill="none"/>
+  <g fill="#164d39"><path d="M930 550l20-80 20 80zM962 555l18-70 18 70zM1190 550l22-83 22 83z"/></g>
+  <g stroke="#fff" stroke-width="3" opacity=".35"><path d="M950 575h240M940 592h260M960 610h210"/></g>
+</g>
+<!-- Tool cards on screen -->
+<g font-family="Inter,Arial,sans-serif">
+  <rect x="1245" y="335" width="250" height="78" rx="14" fill="#fff" stroke="#dce7f6" stroke-width="2"/>
+  <rect x="1262" y="352" width="44" height="44" rx="10" fill="#e9f2ff"/>
+  <path d="M1274 362h20v22h-20zM1278 378l6-7 5 5 4-5 4 7" stroke="#0874ef" stroke-width="3" fill="none" stroke-linejoin="round"/>
+  <text x="1320" y="369" font-size="18" font-weight="700" fill="#17233b">Compress to</text><text x="1320" y="393" font-size="18" fill="#17233b">50 KB</text>
+  <rect x="1245" y="427" width="250" height="70" rx="14" fill="#fff" stroke="#dce7f6" stroke-width="2"/>
+  <circle cx="1284" cy="451" r="10" fill="#0874ef"/><path d="M1268 480q2-21 16-21t16 21" fill="#0874ef"/>
+  <text x="1320" y="469" font-size="18" font-weight="700" fill="#17233b">Passport Photo</text>
+  <rect x="1245" y="511" width="250" height="70" rx="14" fill="#fff" stroke="#dce7f6" stroke-width="2"/>
+  <path d="M1270 560l26-28 7 7-26 28-10 3z" fill="none" stroke="#0874ef" stroke-width="5" stroke-linejoin="round"/>
+  <text x="1320" y="553" font-size="18" font-weight="700" fill="#17233b">Signature Cleaner</text>
+  <rect x="1245" y="595" width="250" height="62" rx="14" fill="#fff" stroke="#dce7f6" stroke-width="2"/>
+  <path d="M1270 610h24l9 9v27h-33z" fill="#ed3434"/><text x="1277" y="635" font-size="12" font-weight="700" fill="#fff">PDF</text>
+  <text x="1320" y="633" font-size="18" font-weight="700" fill="#17233b">PDF Tools</text>
+</g>
+<!-- Laptop base -->
+<path d="M832 710 H1574 L1534 770 Q1528 781 1506 781 H895 Q876 781 866 766Z" fill="url(#silver)" stroke="#8194ae" stroke-width="3"/>
+<path d="M1080 716h245l-18 26h-210z" fill="#9aaec8" opacity=".65"/>
+<path d="M900 728h600" stroke="#fff" stroke-width="3" opacity=".8"/>
+<!-- Floating icons -->
+<g transform="translate(855 172) rotate(-12)"><rect width="150" height="128" rx="25" fill="#fff" stroke="#d7e8ff" stroke-width="4"/><rect x="24" y="25" width="102" height="78" rx="12" fill="#e7f2ff"/><path d="M38 87l26-32 21 22 17-18 17 28" fill="none" stroke="#0874ef" stroke-width="8" stroke-linejoin="round"/></g>
+<g transform="translate(1390 80) rotate(10)"><rect width="132" height="146" rx="22" fill="#fff" stroke="#dce8f9" stroke-width="4"/><path d="M25 28h65l20 20v74H25z" fill="#f0f5ff"/><rect x="19" y="72" width="94" height="40" rx="8" fill="#ed3434"/><text x="34" y="100" font-family="Arial,sans-serif" font-size="25" font-weight="800" fill="#fff">PDF</text></g>
+<g transform="translate(805 590)"><circle cx="62" cy="62" r="65" fill="#0874ef" opacity=".15"/><path d="M62 0L115 23V70Q115 116 62 139Q9 116 9 70V23Z" fill="url(#blue)" stroke="#70b5ff" stroke-width="5"/><rect x="39" y="61" width="46" height="39" rx="8" fill="#fff"/><path d="M49 61V49a13 13 0 0 1 26 0v12" stroke="#fff" stroke-width="8" fill="none"/><circle cx="62" cy="78" r="5" fill="#0874ef"/></g>
+</svg>

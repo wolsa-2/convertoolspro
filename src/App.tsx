@@ -450,56 +450,24 @@ export default function App() {
 
     return (
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} className="space-y-12 pb-12">
-        <section className="ps-hero relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue-100/80 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-28 left-1/3 h-72 w-72 rounded-full bg-violet-100/70 blur-3xl" />
-          <div className="relative grid items-center gap-10 px-6 py-12 sm:px-10 md:grid-cols-[1.15fr_.85fr] md:px-14 md:py-16">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" /> Simple tools. Clear results.
-              </div>
-              <div className="space-y-4">
-                <h1 className="max-w-2xl text-4xl font-bold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl md:text-[3.7rem]">
-                  Your everyday <span className="text-blue-600">image & file tools.</span>
-                </h1>
-                <p className="max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
-                  Resize, convert, organize and create with a growing collection of straightforward online utilities.
-                </p>
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <button onClick={() => navigateToTools('All Tools')} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
-                  Explore all tools <ArrowRight size={17} />
-                </button>
-                <button onClick={() => navigateToTools('Image')} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50">
-                  Browse image tools
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-slate-500">
-                <span className="inline-flex items-center gap-1.5"><Shield size={14} className="text-emerald-600" /> No account required</span>
-                <span className="inline-flex items-center gap-1.5"><Smartphone size={14} className="text-blue-600" /> Mobile friendly</span>
-                <span className="inline-flex items-center gap-1.5"><Zap size={14} className="text-violet-600" /> Simple workflow</span>
-              </div>
-            </div>
-            <div className="mx-auto w-full max-w-md">
-              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-900/5">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white"><Camera size={20} /></div>
-                    <div><p className="text-sm font-bold text-slate-900">PhotoSize workspace</p><p className="text-xs text-slate-500">Pick a tool to get started</p></div>
-                  </div>
-                  <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700">Ready</span>
-                </div>
-                <div className="my-5 rounded-2xl border border-dashed border-blue-200 bg-blue-50/70 px-5 py-8 text-center">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-sm"><ImageIcon size={27} /></div>
-                  <p className="mt-4 text-sm font-semibold text-slate-800">A clean space for everyday tasks</p>
-                  <p className="mt-1 text-xs text-slate-500">Choose from the tools available below</p>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-slate-100 p-3"><ImageIcon size={19} className="mb-2 text-blue-600" /><p className="text-xs font-semibold text-slate-800">Image utilities</p><p className="mt-1 text-[11px] text-slate-500">Work with image files</p></div>
-                  <div className="rounded-xl border border-slate-100 p-3"><FileText size={19} className="mb-2 text-rose-600" /><p className="text-xs font-semibold text-slate-800">PDF utilities</p><p className="mt-1 text-[11px] text-slate-500">Manage documents</p></div>
-                </div>
-              </div>
-            </div>
+        <section className="ps-hero overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+          <img
+            src="/photosize-brand-hero.svg"
+            alt="PhotoSize — Photo and PDF tools made simple, with image utilities, PDF tools, and an easy workflow"
+            width="1600"
+            height="900"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="block h-auto w-full"
+          />
+          <div className="flex flex-col justify-center gap-3 bg-white px-5 py-5 sm:flex-row">
+            <button onClick={() => navigateToTools('All Tools')} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
+              Explore all tools <ArrowRight size={17} />
+            </button>
+            <button onClick={() => navigateToTools('Image')} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50">
+              Browse image tools
+            </button>
           </div>
         </section>
 
