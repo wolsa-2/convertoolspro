@@ -3,8 +3,16 @@
     "collect": {
       "url": [
         "http://localhost:4173/",
-        "http://localhost:4173/blog",
-        "http://localhost:4173/about"
+        "http://localhost:4173/about",
+        "http://localhost:4173/jpg-to-pdf",
+        "http://localhost:4173/merge-pdf",
+        "http://localhost:4173/split-pdf",
+        "http://localhost:4173/rotate-pdf",
+        "http://localhost:4173/watermark-pdf",
+        "http://localhost:4173/pdf-metadata",
+        "http://localhost:4173/image-placeholder",
+        "http://localhost:4173/image-to-base64",
+        "http://localhost:4173/blog"
       ],
       "numberOfRuns": 1,
       "startServerCommand": "npm run preview -- --host 127.0.0.1",
