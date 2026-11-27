@@ -6,32 +6,17 @@ export default function BionicReading() {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState('');
 
-  const processText = (input: string) => {
-    if (!input) return '';
-    
-    return input.split(/\s+/).map(word => {
-      if (word.length <= 3) {
-        return `**${word.slice(0, 1)}**${word.slice(1)}`;
-      }
-      const mid = Math.ceil(word.length / 2);
-      return `**${word.slice(0, mid)}**${word.slice(mid)}`;
-    }).join(' ');
-  };
-
-  const bionicText = processText(text);
-
   const handleCopy = async () => {
     if (!text.trim()) return;
     setCopyError('');
     const escapeHtml = (value: string) => value.replace(/[&<>"']/g, character => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[character] || character));
-    const html = text.split('\\n').map(line => `<p>${line.split(/(\\s+)/).map(word => {
-      if (/^\\s+$/.test(word)) return word;
-      const safeWord = escapeHtml(word);
+    const html = text.split('\n').map(line => \`<p>\${line.split(/(\s+)/).map(word => {
+      if (/^\s+$/.test(word)) return word;
       const splitAt = Math.max(1, Math.ceil(word.length / 2));
-      return `<strong>${escapeHtml(word.slice(0, splitAt))}</strong>${escapeHtml(word.slice(splitAt))}`;
-    }).join('')}</p>`).join('');
+      return \`<strong>\${escapeHtml(word.slice(0, splitAt))}</strong>\${escapeHtml(word.slice(splitAt))}\`;
+    }).join('')}</p>\`).join('');
     try {
       if (navigator.clipboard && typeof ClipboardItem !== 'undefined' && navigator.clipboard.write) {
         await navigator.clipboard.write([new ClipboardItem({
