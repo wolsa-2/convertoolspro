@@ -256,3 +256,90 @@ main .prose blockquote {
 .hover\:text-indigo-600:hover, .hover\:text-blue-700:hover { color: var(--ps-primary-hover) !important; }
 .bg-violet-50, .bg-rose-50 { background-color: var(--ps-surface) !important; }
 .text-violet-600, .text-rose-600 { color: var(--ps-muted) !important; }
+
+/* Shared PhotoSize palette for every route except the main homepage.
+   Blue is the primary action color; Journal coral is the accent. */
+.ps-editorial-theme {
+  --ps-primary: #0066cc;
+  --ps-primary-hover: #0057b8;
+  --ps-accent: #FF684A;
+  --ps-background: #FAF8F5;
+  --ps-surface: #ffffff;
+  --ps-text: #20242B;
+  --ps-muted: #666D76;
+  --ps-border: #E8E2DA;
+  background: var(--ps-background) !important;
+  color: var(--ps-text) !important;
+}
+.ps-editorial-theme > main { background: transparent; }
+.ps-editorial-theme > footer {
+  background: #ffffff !important;
+  border-color: var(--ps-border) !important;
+}
+.ps-editorial-theme > footer h4 { color: var(--ps-text) !important; }
+.ps-editorial-theme > footer a:hover,
+.ps-editorial-theme > footer button:hover { color: var(--ps-accent) !important; }
+.ps-editorial-theme nav,
+.ps-editorial-theme .ps-mega-bar {
+  background: rgb(255 255 255 / 94%) !important;
+  border-color: var(--ps-border) !important;
+}
+.ps-editorial-theme .photosize-tool-page > div > div > div,
+.ps-editorial-theme .photosize-tool-page .bg-white,
+.ps-editorial-theme .photosize-tool-page .bg-slate-50,
+.ps-editorial-theme .photosize-tool-page .bg-slate-50\/80,
+.ps-editorial-theme .photosize-tool-page .bg-slate-900 {
+  background-color: #ffffff !important;
+  border-color: var(--ps-border) !important;
+}
+.ps-editorial-theme .photosize-tool-page h1,
+.ps-editorial-theme .photosize-tool-page h2,
+.ps-editorial-theme .photosize-tool-page h3,
+.ps-editorial-theme main .prose h1,
+.ps-editorial-theme main .prose h2,
+.ps-editorial-theme main .prose h3 { color: var(--ps-text) !important; }
+.ps-editorial-theme .photosize-tool-page .text-indigo-600,
+.ps-editorial-theme .photosize-tool-page .text-indigo-700,
+.ps-editorial-theme .photosize-tool-page .text-blue-700 { color: var(--ps-primary) !important; }
+.ps-editorial-theme .photosize-tool-page button[class*="bg-indigo-600"],
+.ps-editorial-theme .photosize-tool-page button[class*="bg-blue-600"] {
+  background-color: var(--ps-primary) !important;
+  color: #ffffff !important;
+}
+.ps-editorial-theme main .prose a,
+.ps-editorial-theme main .seo-content a { color: var(--ps-primary); }
+.ps-editorial-theme main .prose blockquote { border-left-color: var(--ps-accent); }
+.ps-editorial-theme .faq-item { border-color: var(--ps-border); }
+.ps-editorial-theme .faq-item h3::before { color: var(--ps-accent); }
+.ps-editorial-theme .bg-indigo-600,
+.ps-editorial-theme .bg-blue-600 { background-color: var(--ps-primary) !important; }
+.ps-editorial-theme .text-indigo-600,
+.ps-editorial-theme .text-indigo-700,
+.ps-editorial-theme .text-blue-600,
+.ps-editorial-theme .text-blue-700 { color: var(--ps-primary) !important; }
+.ps-editorial-theme .bg-indigo-50,
+.ps-editorial-theme .bg-blue-50 { background-color: #EFF6FF !important; }
+.ps-editorial-theme .border-indigo-100,
+.ps-editorial-theme .border-blue-100 { border-color: #DBEAFE !important; }
+.ps-editorial-theme .text-rose-500,
+.ps-editorial-theme .text-rose-600 { color: var(--ps-accent) !important; }
+.ps-editorial-theme .bg-rose-50 { background-color: #FFF0EB !important; }
+.ps-editorial-theme .border-rose-100 { border-color: #FFD8CD !important; }
+.dark .ps-editorial-theme {
+  --ps-background: #18191B;
+  --ps-surface: #242629;
+  --ps-text: #F5F5F5;
+  --ps-muted: #B2B5BA;
+  --ps-border: #393B3F;
+  background: var(--ps-background) !important;
+  color: var(--ps-text) !important;
+}
+.dark .ps-editorial-theme > footer,
+.dark .ps-editorial-theme .photosize-tool-page .bg-white,
+.dark .ps-editorial-theme .photosize-tool-page .bg-slate-50 {
+  background: var(--ps-surface) !important;
+  border-color: var(--ps-border) !important;
+}
+.dark .ps-editorial-theme .photosize-tool-page h1,
+.dark .ps-editorial-theme .photosize-tool-page h2,
+.dark .ps-editorial-theme .photosize-tool-page h3 { color: var(--ps-text) !important; }
