@@ -53,6 +53,10 @@ const TweetGenerator = React.lazy(() => import('./components/tools/TweetGenerato
 const HtmlEntities = React.lazy(() => import('./components/tools/HtmlEntities'));
 
 const Blog = React.lazy(() => import('./components/Blog'));
+// Start loading the Blog route chunk as soon as the app module runs, rather than waiting for the first React render.
+if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog')) {
+  void import('./components/Blog');
+}
 const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
