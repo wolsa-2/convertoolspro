@@ -35,7 +35,18 @@ export default function ImagePlaceholder() {
       context.font = `600 ${Math.max(12, Math.min(48, Math.floor(Math.min(width, height) / 8)))}px Arial, sans-serif`;
       context.fillText(text, width / 2, height / 2, width * 0.9);
     }
-    setPreviewUrl(canvas.toDataURL('image/png'));
+    let objectUrl = '';
+    let cancelled = false;
+    canvas.toBlob((blob) => {
+      if (cancelled || !blob) return;
+      objectUrl = URL.createObjectURL(blob);
+      setPreviewUrl(objectUrl);
+    }, 'image/png');
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
   }, [width, height, text, bgColor, textColor]);
 
   const handleCopy = async () => {
