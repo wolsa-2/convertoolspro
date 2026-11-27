@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Download, Copy, Check, Palette, Type, Maximize } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function ImagePlaceholder() {
   const [width, setWidth] = useState(600);
@@ -37,10 +38,14 @@ export default function ImagePlaceholder() {
     setPreviewUrl(canvas.toDataURL('image/png'));
   }, [width, height, text, bgColor, textColor]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(placeholderUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (!previewUrl) return;
+    if (await copyTextToClipboard(placeholderUrl)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy placeholder URL:', placeholderUrl);
+    }
   };
 
   const handleDownload = () => {
