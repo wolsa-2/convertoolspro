@@ -532,10 +532,14 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
-              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 overflow-hidden">
-                <Camera size={26} strokeWidth={2.5} />
-              </div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A] dark:text-white">PhotoSize</span>
+              <img
+                src="/photosize-brand-icon.svg"
+                alt="PhotoSize"
+                width="48"
+                height="48"
+                className="h-12 w-12 shrink-0 rounded-2xl shadow-sm ring-1 ring-[#E8E2DA]"
+              />
+              <span className="text-2xl font-black tracking-tight text-[#20242B] dark:text-white">PhotoSize</span>
             </div>
 
             <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
@@ -646,10 +650,15 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-2 space-y-6">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
-                  <Camera size={18} strokeWidth={2.5} />
-                </div>
-                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">PhotoSize</span>
+                <img
+                  src="/photosize-brand-icon.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="32"
+                  height="32"
+                  className="h-8 w-8 shrink-0 rounded-lg ring-1 ring-[#E8E2DA]"
+                />
+                <span className="text-lg font-bold tracking-tight text-[#20242B] dark:text-white">PhotoSize</span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm">
                 PhotoSize brings simple online image utilities together in one focused, easy-to-use workspace.
