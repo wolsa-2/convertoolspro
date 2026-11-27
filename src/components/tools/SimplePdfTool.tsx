@@ -14,6 +14,9 @@ interface SplitResult {
 const isPdfFile = (file: File) =>
   file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
 
+const MAX_PDF_FILE_BYTES = 50 * 1024 * 1024;
+const MAX_MERGE_TOTAL_BYTES = 100 * 1024 * 1024;
+
 export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -55,6 +58,15 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
 
   const handleProcess = async () => {
     if (files.length === 0 || processLockRef.current) return;
+    const oversizedFile = files.find(file => file.size > MAX_PDF_FILE_BYTES);
+    if (oversizedFile) {
+      alert(`${oversizedFile.name} is larger than the 50 MB limit. Please choose a smaller PDF.`);
+      return;
+    }
+    if (toolId === 'merge-pdf' && files.reduce((total, file) => total + file.size, 0) > MAX_MERGE_TOTAL_BYTES) {
+      alert('The combined size of PDFs to merge must be 100 MB or less.');
+      return;
+    }
     processLockRef.current = true;
     setLoading(true);
     setDownloadUrl(null);
