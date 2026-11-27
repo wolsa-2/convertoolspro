@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Hash, Copy, Check, ShieldCheck } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function HashGenerator() {
   const [text, setText] = useState('');
@@ -33,10 +34,13 @@ export default function HashGenerator() {
     });
   };
 
-  const handleCopy = (val: string, id: string) => {
-    navigator.clipboard.writeText(val);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
+  const handleCopy = async (val: string, id: string) => {
+    if (await copyTextToClipboard(val)) {
+      setCopied(id);
+      window.setTimeout(() => setCopied(null), 2000);
+    } else {
+      window.prompt('Copy hash:', val);
+    }
   };
 
   return (
