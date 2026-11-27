@@ -401,33 +401,42 @@ export default function App() {
         );
       case 'contact':
         return (
-          <div className="max-w-3xl mx-auto space-y-12 py-12">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
-              <p className="text-slate-600 leading-relaxed text-lg">
-                We value your feedback and are always looking for ways to improve PhotoSize. Whether you have a question, a suggestion for a new tool, or need to report a bug, we're here to help.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
-                  <Mail size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-[#1A1A3A]">Email Support</h3>
-                <p className="text-sm text-slate-500">For general inquiries and technical support, reach out to us via email.</p>
-                <a href="mailto:b605649@gmail.com" className="block text-lg font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
+          <main className="mx-auto max-w-7xl px-5 py-8 text-[#20242B] sm:px-8 sm:py-12">
+            <section className="relative isolate overflow-hidden rounded-[30px] border border-[#E8E2DA] bg-[#FAF8F5] px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
+              <div className="pointer-events-none absolute -right-20 -top-24 -z-10 h-80 w-80 rounded-full bg-[#FF684A]/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-28 left-1/3 -z-10 h-72 w-72 rounded-full bg-[#FF684A]/[0.07] blur-3xl" />
+              <div className="max-w-3xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E8E2DA] bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-widest text-[#5B626B]"><Mail size={14} className="text-[#FF684A]"/> Contact PhotoSize</span>
+                <h1 className="mt-6 text-4xl font-bold leading-[1.04] tracking-[-.05em] text-[#20242B] sm:text-5xl lg:text-6xl">Let’s make your <span className="text-[#E65C40]">experience better.</span></h1>
+                <p className="mt-5 max-w-2xl text-base leading-8 text-[#666D76] sm:text-lg">Have a question, found a bug, or want to suggest a useful tool? We’d like to hear from you. Choose the contact option below and tell us how we can help.</p>
               </div>
+            </section>
 
-            </div>
+            <section className="grid gap-5 py-10 md:grid-cols-[1.15fr_.85fr] sm:py-12">
+              <article className="rounded-[26px] border border-[#E8E2DA] bg-white p-6 shadow-sm sm:p-8">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF0EB] text-[#D94F34]"><Mail size={24}/></span>
+                <p className="mt-6 text-xs font-bold uppercase tracking-widest text-[#D94F34]">Email support</p>
+                <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#20242B]">We’re just an email away.</h2>
+                <p className="mt-3 max-w-xl text-sm leading-7 text-[#707780]">For general questions, technical support, feedback or new tool suggestions, send us a message. Please include enough detail so we can understand and respond to your request.</p>
+                <a href="mailto:b605649@gmail.com" className="mt-6 inline-flex max-w-full items-center gap-2 break-all rounded-xl bg-[#FF684A] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#E95B3F]">b605649@gmail.com <ArrowRight size={16}/></a>
+              </article>
 
-            <div className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100 space-y-4">
-              <h3 className="text-xl font-bold text-[#1A1A3A]">Response Time</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Our team is based in India (IST). We typically respond to all inquiries within 24-48 hours. If you're suggesting a new tool, please provide as much detail as possible about the functionality you'd like to see.
-              </p>
-            </div>
-          </div>
+              <article className="rounded-[26px] border border-[#E8E2DA] bg-[#FAF8F5] p-6 sm:p-8">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#D94F34]"><Info size={24}/></span>
+                <p className="mt-6 text-xs font-bold uppercase tracking-widest text-[#D94F34]">What to expect</p>
+                <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#20242B]">Response time</h2>
+                <p className="mt-3 text-sm leading-7 text-[#707780]">PhotoSize operates on India Standard Time (IST). We typically respond to inquiries within 24–48 hours.</p>
+                <div className="mt-5 rounded-2xl border border-[#E8E2DA] bg-white p-4"><p className="text-xs font-bold uppercase tracking-wide text-[#858A91]">Helpful tip</p><p className="mt-1 text-sm leading-6 text-[#666D76]">Reporting a bug? Mention the tool name, what you were trying to do and what happened.</p></div>
+              </article>
+            </section>
+
+            <section className="rounded-[26px] bg-[#20242B] px-6 py-8 text-white sm:px-9 sm:py-10">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div><p className="text-xs font-bold uppercase tracking-widest text-[#FF9A83]">Your feedback matters</p><h2 className="mt-2 text-2xl font-bold tracking-tight">Help us make PhotoSize more useful.</h2><p className="mt-2 max-w-2xl text-sm leading-7 text-[#D4D6D9]">Every thoughtful suggestion helps us improve the tools and experience.</p></div>
+                <a href="mailto:b605649@gmail.com" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#FF684A] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#E95B3F]">Send feedback <ArrowRight size={16}/></a>
+              </div>
+            </section>
+          </main>
         );
       case 'privacy':
         return (
