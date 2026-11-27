@@ -4,6 +4,7 @@ import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { STATIC_PAGES_CONTENT } from './content';
 import { AdUnit } from './components/AdUnit';
+import ToolLayout from './components/ToolLayout';
 
 const StructuredData = () => {
   const schema = {
@@ -56,7 +57,6 @@ const Blog = React.lazy(() => import('./components/Blog'));
 if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog')) {
   void import('./components/Blog');
 }
-const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
 
