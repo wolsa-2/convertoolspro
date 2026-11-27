@@ -476,6 +476,53 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
       <p>Yes, we support a wide range of standard HTML5 entities, including common symbols and accented characters.</p>
     </div>
   `
+
+  "split-pdf": `
+    <h2>About Split PDF</h2>
+    <p>Split PDF separates a multi-page PDF into individual one-page PDF files. Upload one PDF, process it, and download the page files you need.</p>
+    <h2>How to Split a PDF</h2>
+    <ol>
+      <li>Select one PDF file from your device.</li>
+      <li>Review the selected file and start processing.</li>
+      <li>PhotoSize creates a separate PDF for each page.</li>
+      <li>Download the individual page files from the results.</li>
+    </ol>
+    <h2>Important limits</h2>
+    <p>The current browser-based splitter supports PDFs with up to 100 pages to help maintain mobile browser stability. A one-page PDF cannot be split into separate pages.</p>
+    <h2>Privacy and processing</h2>
+    <p>The current PDF operation uses browser-side PDF processing. Keep the original file until you have checked the downloaded pages.</p>
+  `,
+  "rotate-pdf": `
+    <h2>About Rotate PDF</h2>
+    <p>Rotate PDF changes the page orientation of a PDF by rotating every page 90 degrees at a time. It is useful when scanned or saved pages appear sideways.</p>
+    <h2>How to Rotate a PDF</h2>
+    <ol>
+      <li>Select one PDF file from your device.</li>
+      <li>Check that the correct document is selected.</li>
+      <li>Start processing to rotate each page by 90 degrees.</li>
+      <li>Download the rotated PDF and review its pages.</li>
+    </ol>
+    <h2>Supported workflow</h2>
+    <p>The current tool processes one PDF at a time and applies the rotation to every page in that document.</p>
+    <h2>Privacy and processing</h2>
+    <p>The current PDF operation uses browser-side PDF processing. Keep your original file until you have verified the rotated copy.</p>
+  `,
+  "watermark-pdf": `
+    <h2>About Watermark PDF</h2>
+    <p>Watermark PDF adds a text watermark to the pages of a PDF. You can edit the watermark text before processing; the default text is PhotoSize.</p>
+    <h2>How to Add a PDF Watermark</h2>
+    <ol>
+      <li>Select one PDF file from your device.</li>
+      <li>Enter the watermark text. The current input accepts up to 80 characters.</li>
+      <li>Start processing to apply the text to each page.</li>
+      <li>Download the watermarked PDF and check the result.</li>
+    </ol>
+    <h2>Watermark details</h2>
+    <p>The current tool applies semi-transparent text to each page and processes one PDF at a time.</p>
+    <h2>Privacy and processing</h2>
+    <p>The current PDF operation uses browser-side PDF processing. Keep your original document until you have reviewed the watermarked copy.</p>
+  `
+
 };
 
 export interface FAQItem {
