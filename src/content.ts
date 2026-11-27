@@ -475,8 +475,21 @@ export const TOOLS_SEO_CONTENT: Record<string, string> = {
       <h3>Does it support all HTML5 entities?</h3>
       <p>Yes, we support a wide range of standard HTML5 entities, including common symbols and accented characters.</p>
     </div>
-  `
+  `,
 
+  "merge-pdf": `
+    <h2>About Merge PDF</h2>
+    <p>Merge PDF combines two or more PDF documents into one file. Select the source PDFs, process them together, and download the combined document.</p>
+    <h2>How to Merge PDF Files</h2>
+    <ol>
+      <li>Select at least two PDF files from your device.</li>
+      <li>Add any additional PDF files you want to include.</li>
+      <li>Start processing to combine the documents in the selected order.</li>
+      <li>Download the merged PDF and check the resulting page sequence.</li>
+    </ol>
+    <h2>Privacy and processing</h2>
+    <p>The current PDF operation uses browser-side PDF processing. Keep the original files until you have checked the merged document.</p>
+  `,
   "split-pdf": `
     <h2>About Split PDF</h2>
     <p>Split PDF separates a multi-page PDF into individual one-page PDF files. Upload one PDF, process it, and download the page files you need.</p>
