@@ -100,7 +100,7 @@ export default function ImageToBase64() {
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-6">
             <Upload size={40} />
           </div>
-          <h3 className="text-xl font-bold text-slate-900">Upload Image</h3>
+          <h2 className="text-xl font-bold text-slate-900">Upload Image</h2>
           <p className="text-slate-500 mt-2 mb-8 max-w-xs text-center">
             Drag and drop your image here, or click to select a file.
           </p>
