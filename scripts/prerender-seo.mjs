@@ -81,7 +81,7 @@ const toolDirectory = categories.map((category) => {
   return '<section><h2 id="category-' + slugify(category) + '">' + esc(category) + ' Tools</h2><ul>' + categoryTools.map((tool) => '<li><a href="/tool/' + esc(tool.id) + '">' + esc(tool.name) + '</a> — ' + esc(tool.description) + '</li>').join('') + '</ul></section>';
 }).join(newline);
 const categoryNavigation = '<nav aria-label="Tool categories"><h2>Browse tool categories</h2><ul>' + categories.map((category) => '<li><a href="#category-' + slugify(category) + '">' + esc(category) + ' Tools</a></li>').join('') + '</ul></nav>';
-const homeBody = '<main><h1>Free Online Photo, Image, PDF and Utility Tools</h1><p>Use PhotoSize for practical browser-based image, PDF, text and developer utilities. Explore the available tools by category and open any tool directly.</p>' + categoryNavigation + '<h2>All PhotoSize Tools</h2>' + toolDirectory + '<p><a href="/blog">Read practical guides</a> · <a href="/about">About PhotoSize</a> · <a href="/contact">Contact support</a></p></main>';
+const homeBody = '<section><h1>Free Online Photo, Image, PDF and Utility Tools</h1><p>Use PhotoSize for practical browser-based image, PDF, text and developer utilities. Explore the available tools by category and open any tool directly.</p>' + categoryNavigation + '<h2>All PhotoSize Tools</h2>' + toolDirectory + '<p><a href="/blog">Read practical guides</a> · <a href="/about">About PhotoSize</a> · <a href="/contact">Contact support</a></p></section>';
 writeRoute('/', {
   title: 'PhotoSize | Free Online Photo, Image & Utility Tools',
   description: 'Free online photo and image utilities, plus useful PDF, text and developer tools. Simple browser-based tools with no account required.'
