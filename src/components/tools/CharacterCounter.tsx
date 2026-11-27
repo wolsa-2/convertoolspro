@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { Copy, Check, Trash2 } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function CharacterCounter() {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
 
   const stats = {
-    characters: text.length,
+    characters: Array.from(text).length,
     charactersNoSpaces: text.replace(/\s/g, '').length,
     words: text.trim() ? text.trim().split(/\s+/).length : 0,
     lines: text.trim() ? text.split('\n').length : 0,
     sentences: text.trim() ? text.split(/[.!?]+/).filter(Boolean).length : 0,
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (await copyTextToClipboard(text)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy your text:', text);
+    }
   };
 
   return (

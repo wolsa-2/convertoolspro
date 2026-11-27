@@ -57,11 +57,33 @@ const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
 
+
 type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | '404';
 
+const getRouteFromLocation = (): { page: Page; tool: Tool | null } => {
+  let pathname = window.location.pathname;
+  while (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
+  const toolPrefix = '/tool/';
+  if (pathname.startsWith(toolPrefix)) {
+    let id = '';
+    try {
+      id = decodeURIComponent(pathname.slice(toolPrefix.length));
+    } catch {
+      return { page: '404', tool: null };
+    }
+    const tool = TOOLS.find(item => item.id === id) || null;
+    return tool ? { page: 'home', tool } : { page: '404', tool: null };
+  }
+  const pageByPath: Record<string, Page> = {
+    '/': 'home', '/blog': 'blog', '/about': 'about', '/contact': 'contact',
+    '/privacy': 'privacy', '/terms': 'terms', '/disclaimer': 'disclaimer', '/404': '404',
+  };
+  return { page: pageByPath[pathname] || '404', tool: null };
+};
+
 export default function App() {
-  const [activeTool, setActiveTool] = useState<Tool | null>(null);
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [activeTool, setActiveTool] = useState<Tool | null>(() => getRouteFromLocation().tool);
+  const [currentPage, setCurrentPage] = useState<Page>(() => getRouteFromLocation().page);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSection, setActiveSection] = useState<'All Tools' | Category>('All Tools');
   const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null);
@@ -70,7 +92,12 @@ export default function App() {
     return localStorage.getItem('theme') === 'dark';
   });
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
-    return !localStorage.getItem('cookie-consent');
+    const savedConsent = localStorage.getItem('cookie-consent');
+    // Preserve consent already granted by earlier PhotoSize versions.
+    if (savedConsent === 'true') {
+      localStorage.setItem('cookie-consent', 'accepted');
+    }
+    return !savedConsent;
   });
 
   useEffect(() => {
@@ -142,9 +169,39 @@ export default function App() {
   }, [currentPage, activeTool]);
 
   const acceptCookies = () => {
-    localStorage.setItem('cookie-consent', 'true');
-    setShowCookieConsent(false);
+    localStorage.setItem('cookie-consent', 'accepted');
+    window.location.reload();
   };
+
+  const rejectCookies = () => {
+    localStorage.setItem('cookie-consent', 'rejected');
+    // Reload so any optional scripts loaded during an earlier accepted session
+    // are no longer active in the new page session.
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('cookie-consent') !== 'accepted') return;
+    const trackingWindow = window as Window & {
+      dataLayer?: unknown[];
+      gtag?: (...args: unknown[]) => void;
+    };
+    trackingWindow.dataLayer = trackingWindow.dataLayer || [];
+    trackingWindow.gtag = (...args: unknown[]) => {
+      trackingWindow.dataLayer?.push(args);
+    };
+    trackingWindow.gtag('js', new Date());
+    trackingWindow.gtag('config', 'G-E5M3FZVL7Q');
+    trackingWindow.gtag('config', 'AW-16905142948');
+
+    if (!document.getElementById('photosize-gtag-loader')) {
+      const script = document.createElement('script');
+      script.id = 'photosize-gtag-loader';
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E5M3FZVL7Q';
+      document.head.appendChild(script);
+    }
+  }, []);
 
   const filteredTools = TOOLS.filter(tool => {
     const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -159,11 +216,57 @@ export default function App() {
   }, {} as Record<Category, Tool[]>);
 
   const navigateTo = (page: Page) => {
+    const path = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== path) window.history.pushState({}, '', path);
     setCurrentPage(page);
     setActiveTool(null);
+    setActiveSection('All Tools');
+    setSearchQuery('');
     setIsMenuOpen(false);
-    window.scrollTo(0, 0);
+    setOpenMegaMenu(null);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
+
+  const navigateToTool = (tool: Tool) => {
+    const path = `/tool/${encodeURIComponent(tool.id)}`;
+    if (window.location.pathname !== path) window.history.pushState({}, '', path);
+    setActiveTool(tool);
+    setCurrentPage('home');
+    setIsMenuOpen(false);
+    setOpenMegaMenu(null);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
+  // Open the tool directory from any page, then scroll after the home view renders.
+  const navigateToTools = (category: 'All Tools' | Category = 'All Tools') => {
+    if (window.location.pathname !== '/') window.history.pushState({}, '', '/');
+    setCurrentPage('home');
+    setActiveTool(null);
+    setActiveSection(category);
+    setSearchQuery('');
+    setIsMenuOpen(false);
+    setOpenMegaMenu(null);
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const route = getRouteFromLocation();
+      setCurrentPage(route.page);
+      setActiveTool(route.tool);
+      setActiveSection('All Tools');
+      setSearchQuery('');
+      setIsMenuOpen(false);
+      setOpenMegaMenu(null);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const renderTool = () => {
     if (!activeTool) return null;
@@ -213,7 +316,7 @@ export default function App() {
         title={activeTool.name} 
         description={activeTool.description} 
         toolId={activeTool.id}
-        onToolNavigate={(tool) => setActiveTool(tool)}
+        onToolNavigate={navigateToTool}
       >
         {component}
       </ToolLayout>
@@ -270,7 +373,7 @@ export default function App() {
                 </div>
                 <h3 className="text-xl font-bold text-[#1A1A3A]">Open Source</h3>
                 <p className="text-sm text-slate-500">Found a bug? Open an issue on our GitHub repository to help us improve.</p>
-                <button className="text-lg font-black text-emerald-600 hover:underline">View on GitHub</button>
+                <a href="https://github.com/wolsa-2/convertoolspro" target="_blank" rel="noopener noreferrer" className="inline-block text-lg font-black text-emerald-600 hover:underline">View on GitHub</a>
               </div>
             </div>
 
@@ -329,8 +432,8 @@ export default function App() {
               <div className="pt-8">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 font-sans">Popular Destination</h3>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <button onClick={() => setCurrentPage('home')} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100">Home Hub</button>
-                  <button onClick={() => setCurrentPage('blog')} className="px-6 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm">Visit Blog</button>
+                  <button onClick={() => navigateTo('home')} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100">Home Hub</button>
+                  <button onClick={() => navigateTo('blog')} className="px-6 py-3 bg-white text-slate-900 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm">Visit Blog</button>
                 </div>
               </div>
             </div>
@@ -372,10 +475,10 @@ export default function App() {
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
-                <button onClick={() => document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
+                <button onClick={() => navigateToTools('All Tools')} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
                   Explore all tools <ArrowRight size={17} />
                 </button>
-                <button onClick={() => setActiveSection('Image')} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50">
+                <button onClick={() => navigateToTools('Image')} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50">
                   Browse image tools
                 </button>
               </div>
@@ -410,7 +513,7 @@ export default function App() {
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {sectionCards.map((item) => (
-            <button key={item.category} onClick={() => { setActiveSection(item.category); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
+            <button key={item.category} onClick={() => navigateToTools(item.category)} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
               <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", item.tone === 'rose' ? "bg-rose-50 text-rose-600" : item.tone === 'violet' ? "bg-violet-50 text-violet-600" : "bg-blue-50 text-blue-600")}>
                 {item.category === 'Image' ? <ImageIcon size={23} /> : item.category === 'PDF' ? <FileText size={23} /> : <Code size={23} />}
               </span>
@@ -437,7 +540,7 @@ export default function App() {
           {visibleTools.length ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {visibleTools.map((tool) => (
-                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: .99 }} onClick={() => { setActiveTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: .99 }} onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
                   <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", tool.category === 'PDF' ? "bg-rose-50 text-rose-600" : tool.category === 'Image' ? "bg-blue-50 text-blue-600" : "bg-violet-50 text-violet-600")}><tool.icon size={23} /></span>
                   <span className="min-w-0 flex-1"><span className="block text-base font-bold tracking-tight text-slate-900 transition group-hover:text-blue-700">{tool.name}</span><span className="mt-2 block text-sm leading-6 text-slate-500">{tool.description}</span><span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-blue-600">Open tool <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span></span>
                 </motion.button>
@@ -479,8 +582,13 @@ export default function App() {
                   className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm dark:text-white"
                   value={searchQuery}
                   onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    if (currentPage !== 'home') navigateTo('home');
+                    const query = e.target.value;
+                    if (currentPage !== 'home' || activeTool) {
+                      navigateTo('home');
+                      setSearchQuery(query);
+                    } else {
+                      setSearchQuery(query);
+                    }
                   }}
                 />
               </div>
@@ -512,7 +620,7 @@ export default function App() {
       </nav>
 
       <div className="ps-mega-bar sticky top-20 z-40 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-1 px-4 py-2 sm:px-6 lg:px-8">
           {[
             { id: 'image', label: 'Image Tools', category: 'Image' as Category },
             { id: 'pdf', label: 'PDF Tools', category: 'PDF' as Category },
@@ -527,7 +635,7 @@ export default function App() {
                 {openMegaMenu === group.id && (
                   <div className="absolute left-0 top-full z-50 mt-2 grid w-[min(92vw,560px)] grid-cols-1 gap-1 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl sm:grid-cols-2">
                     {groupTools.map((tool) => (
-                      <button key={tool.id} onClick={() => { setActiveTool(tool); setOpenMegaMenu(null); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-start gap-3 rounded-xl p-3 text-left transition hover:bg-blue-50">
+                      <button key={tool.id} onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-start gap-3 rounded-xl p-3 text-left transition hover:bg-blue-50">
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600"><tool.icon size={18} /></span>
                         <span><span className="block text-sm font-semibold text-slate-800">{tool.name}</span><span className="mt-0.5 block text-xs leading-5 text-slate-500">{tool.description}</span></span>
                       </button>
@@ -537,7 +645,7 @@ export default function App() {
               </div>
             );
           })}
-          <button onClick={() => { setActiveSection('All Tools'); setOpenMegaMenu(null); document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' }); }} className="ml-auto shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50">View all tools <ArrowRight size={14} className="ml-1 inline" /></button>
+          <button type="button" onClick={() => navigateToTools('All Tools')} className="ml-auto shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50">View all tools <ArrowRight size={14} className="ml-1 inline" /></button>
         </div>
       </div>
 
@@ -555,6 +663,8 @@ export default function App() {
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
               <button onClick={() => navigateTo('about')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">About</button>
               <button onClick={() => navigateTo('contact')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Contact</button>
+              <button onClick={() => navigateToTools('All Tools')} className="p-4 text-left font-bold text-blue-700 hover:bg-blue-50 rounded-xl">All Tools</button>
+              {CATEGORIES.map(category => <button key={category} onClick={() => navigateToTools(category)} className="p-4 text-left font-semibold text-slate-600 hover:bg-slate-50 rounded-xl">{category} Tools</button>)}
             </div>
           </motion.div>
         )}
@@ -603,10 +713,10 @@ export default function App() {
             <div>
               <h4 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h4>
               <ul className="space-y-4 text-slate-500 dark:text-slate-400">
-                <li><a href="/?tool=case-converter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
-                <li><a href="/?tool=image-placeholder" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
-                <li><a href="/?tool=pdf-metadata" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Editor</a></li>
-                <li><a href="/?tool=json-formatter" onClick={(e) => { e.preventDefault(); setActiveTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
+                <li><a href="/tool/case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
+                <li><a href="/tool/image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
+                <li><a href="/tool/pdf-metadata" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'pdf-metadata')!); }} className="hover:text-indigo-600 transition-colors">PDF Metadata</a></li>
+                <li><a href="/tool/json-formatter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'json-formatter')!); }} className="hover:text-indigo-600 transition-colors">JSON Formatter</a></li>
               </ul>
             </div>
 
@@ -616,7 +726,8 @@ export default function App() {
                 <li><a href="/privacy" onClick={(e) => { e.preventDefault(); navigateTo('privacy'); }} className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" onClick={(e) => { e.preventDefault(); navigateTo('terms'); }} className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
                 <li><a href="/disclaimer" onClick={(e) => { e.preventDefault(); navigateTo('disclaimer'); }} className="hover:text-indigo-600 transition-colors">Disclaimer</a></li>
-                <li><a href="/sitemap.xml" target="_blank" className="hover:text-emerald-600 transition-colors">XML Sitemap</a></li>
+                <li><button type="button" onClick={() => setShowCookieConsent(true)} className="text-left hover:text-indigo-600 transition-colors">Cookie Settings</button></li>
+                <li><a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition-colors">XML Sitemap</a></li>
                 <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">Web Documentation</a></li>
                 <li><a href="https://www.w3.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 transition-colors">W3C Standards</a></li>
               </ul>
@@ -650,24 +761,27 @@ export default function App() {
               <div className="space-y-1">
                 <h4 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  We use cookies to enhance your experience and serve personalized ads via Google AdSense. By using our site, you agree to our use of cookies.
+                  Essential site storage keeps the website working. Optional analytics and advertising scripts are enabled only if you choose to accept them.
                 </p>
               </div>
             </div>
             <div className="flex gap-3">
-              <button 
+              <button
+                onClick={rejectCookies}
+                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
+              >
+                Reject Optional
+              </button>
+              <button
                 onClick={acceptCookies}
                 className="flex-1 py-3 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 dark:shadow-none hover:bg-indigo-500 transition-all font-sans"
               >
                 Accept All
               </button>
-              <button 
-                onClick={() => navigateTo('privacy')}
-                className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all font-sans"
-              >
-                Learn More
-              </button>
             </div>
+            <button onClick={() => navigateTo('privacy')} className="text-xs font-semibold text-indigo-600 hover:underline">
+              Read Privacy Policy
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

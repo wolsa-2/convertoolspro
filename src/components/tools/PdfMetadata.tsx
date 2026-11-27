@@ -10,7 +10,7 @@ export default function PdfMetadata() {
   const [loading, setLoading] = useState(false);
 
   const handleFile = async (file: File) => {
-    if (file.type !== 'application/pdf') {
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
       alert('Please upload a PDF file.');
       return;
     }
@@ -73,7 +73,7 @@ export default function PdfMetadata() {
               type="file"
               className="hidden"
               accept=".pdf"
-              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+              onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); e.currentTarget.value = ''; }}
               disabled={loading}
             />
           </label>
@@ -91,7 +91,7 @@ export default function PdfMetadata() {
               </div>
             </div>
             <button
-              onClick={() => setMetadata(null)}
+              onClick={() => { setMetadata(null); setFileName(''); setFileSize(''); }}
               className="p-3 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
             >
               <Trash2 size={20} />

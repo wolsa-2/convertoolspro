@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Download, Copy, Check, Palette, Type, Maximize } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function ImagePlaceholder() {
   const [width, setWidth] = useState(600);
@@ -8,18 +9,49 @@ export default function ImagePlaceholder() {
   const [bgColor, setBgColor] = useState('#4F46E5');
   const [textColor, setTextColor] = useState('#FFFFFF');
   const [copied, setCopied] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const placeholderUrl = `https://placehold.co/${width}x${height}/${bgColor.replace('#', '')}/${textColor.replace('#', '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(placeholderUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  useEffect(() => {
+    if (!Number.isFinite(width) || !Number.isFinite(height) || width < 1 || height < 1 || width > 4096 || height > 4096) {
+      setPreviewUrl('');
+      return;
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    if (!context) {
+      setPreviewUrl('');
+      return;
+    }
+    context.fillStyle = bgColor;
+    context.fillRect(0, 0, width, height);
+    if (text.trim()) {
+      context.fillStyle = textColor;
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      context.font = `600 ${Math.max(12, Math.min(48, Math.floor(Math.min(width, height) / 8)))}px Arial, sans-serif`;
+      context.fillText(text, width / 2, height / 2, width * 0.9);
+    }
+    setPreviewUrl(canvas.toDataURL('image/png'));
+  }, [width, height, text, bgColor, textColor]);
+
+  const handleCopy = async () => {
+    if (!previewUrl) return;
+    if (await copyTextToClipboard(placeholderUrl)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy placeholder URL:', placeholderUrl);
+    }
   };
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = placeholderUrl;
+    if (!previewUrl) return;
+    link.href = previewUrl;
     link.download = `placeholder-${width}x${height}.png`;
     link.click();
   };
@@ -36,6 +68,8 @@ export default function ImagePlaceholder() {
               type="number"
               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
               value={width}
+              min={1}
+              max={4096}
               onChange={(e) => setWidth(parseInt(e.target.value) || 0)}
             />
           </div>
@@ -47,6 +81,8 @@ export default function ImagePlaceholder() {
               type="number"
               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
               value={height}
+              min={1}
+              max={4096}
               onChange={(e) => setHeight(parseInt(e.target.value) || 0)}
             />
           </div>
@@ -106,6 +142,7 @@ export default function ImagePlaceholder() {
           </button>
           <button
             onClick={handleDownload}
+            disabled={!previewUrl}
             className="flex-1 flex items-center justify-center gap-3 p-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all"
           >
             <Download size={20} />
@@ -117,13 +154,13 @@ export default function ImagePlaceholder() {
       <div className="flex flex-col items-center justify-center bg-slate-50 rounded-3xl border border-slate-200 p-8 space-y-6 min-h-[400px]">
         <div className="max-w-full overflow-hidden rounded-xl shadow-2xl border border-slate-200">
           <img
-            src={placeholderUrl}
-            alt="Placeholder Preview"
+            src={previewUrl}
+            alt="Locally generated placeholder preview"
             className="max-w-full h-auto"
             referrerPolicy="no-referrer"
           />
         </div>
-        <p className="text-slate-400 text-sm font-medium">Live Preview</p>
+        <p className="text-slate-400 text-sm font-medium">Live local preview · {width} × {height} px</p>
       </div>
     </div>
   );

@@ -1,50 +1,48 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Hash, Copy, Check, ShieldCheck } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function HashGenerator() {
   const [text, setText] = useState('');
-  const [hashes, setHashes] = useState({
-    md5: '',
-    sha1: '',
-    sha256: '',
-    sha512: ''
-  });
+  const [hashes, setHashes] = useState({ sha1: '', sha256: '', sha512: '' });
   const [copied, setCopied] = useState<string | null>(null);
+  const [error, setError] = useState('');
+  const requestId = useRef(0);
 
   const generateHashes = async (val: string) => {
+    const currentRequest = ++requestId.current;
     setText(val);
+    setError('');
     if (!val) {
-      setHashes({ md5: '', sha1: '', sha256: '', sha512: '' });
+      setHashes({ sha1: '', sha256: '', sha512: '' });
       return;
     }
 
-    const encoder = new TextEncoder();
-    const data = encoder.encode(val);
-
-    const getHash = async (algo: string) => {
-      const hashBuffer = await crypto.subtle.digest(algo, data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    };
-
-    // Note: MD5 is not natively supported in subtle crypto, we'll use SHA-1, 256, 512
-    // For a real app, we'd include a small MD5 lib, but for this demo we'll show SHA family
-    const s1 = await getHash('SHA-1');
-    const s256 = await getHash('SHA-256');
-    const s512 = await getHash('SHA-512');
-
-    setHashes({
-      md5: 'MD5 requires external lib (SHA family shown below)',
-      sha1: s1,
-      sha256: s256,
-      sha512: s512
-    });
+    try {
+      const data = new TextEncoder().encode(val);
+      const getHash = async (algo: string) => {
+        const hashBuffer = await crypto.subtle.digest(algo, data);
+        return Array.from(new Uint8Array(hashBuffer)).map(byte => byte.toString(16).padStart(2, '0')).join('');
+      };
+      const [sha1, sha256, sha512] = await Promise.all([
+        getHash('SHA-1'), getHash('SHA-256'), getHash('SHA-512')
+      ]);
+      if (currentRequest === requestId.current) setHashes({ sha1, sha256, sha512 });
+    } catch {
+      if (currentRequest === requestId.current) {
+        setHashes({ sha1: '', sha256: '', sha512: '' });
+        setError('Hash generation is unavailable in this browser context. Open PhotoSize over HTTPS and try again.');
+      }
+    }
   };
 
-  const handleCopy = (val: string, id: string) => {
-    navigator.clipboard.writeText(val);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
+  const handleCopy = async (val: string, id: string) => {
+    if (await copyTextToClipboard(val)) {
+      setCopied(id);
+      window.setTimeout(() => setCopied(null), 2000);
+    } else {
+      window.prompt('Copy hash:', val);
+    }
   };
 
   return (
@@ -59,6 +57,7 @@ export default function HashGenerator() {
         />
       </div>
 
+      {error && <p role="alert" className="text-sm text-rose-600">{error}</p>}
       <div className="space-y-4">
         {[
           { id: 'sha1', label: 'SHA-1', value: hashes.sha1 },

@@ -4,25 +4,36 @@ import { Zap, Copy, Check, Trash2 } from 'lucide-react';
 export default function BionicReading() {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState('');
 
-  const processText = (input: string) => {
-    if (!input) return '';
-    
-    return input.split(/\s+/).map(word => {
-      if (word.length <= 3) {
-        return `**${word.slice(0, 1)}**${word.slice(1)}`;
+  const handleCopy = async () => {
+    if (!text.trim()) return;
+    setCopyError('');
+    const escapeHtml = (value: string) => value.replace(/[&<>"']/g, character => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[character] || character));
+    const html = text.split('\n').map(line => `<p>${line.split(/(\s+)/).map(word => {
+      if (/^\s+$/.test(word)) return word;
+      const splitAt = Math.max(1, Math.ceil(word.length / 2));
+      return `<strong>${escapeHtml(word.slice(0, splitAt))}</strong>${escapeHtml(word.slice(splitAt))}`;
+    }).join('')}</p>`).join('');
+    try {
+      if (navigator.clipboard && typeof ClipboardItem !== 'undefined' && navigator.clipboard.write) {
+        await navigator.clipboard.write([new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })]);
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        window.prompt('Copy the Bionic Reading text:', text);
       }
-      const mid = Math.ceil(word.length / 2);
-      return `**${word.slice(0, mid)}**${word.slice(mid)}`;
-    }).join(' ');
-  };
-
-  const bionicText = processText(text);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      try { window.prompt('Copy the Bionic Reading text:', text); }
+      catch { setCopyError('Clipboard access is unavailable in this browser.'); }
+    }
   };
 
   return (
@@ -68,9 +79,10 @@ export default function BionicReading() {
         </div>
       </div>
 
+      {copyError && <p role="alert" className="text-sm text-rose-600">{copyError}</p>}
       <div className="flex justify-end gap-3">
         <button
-          onClick={() => setText('')}
+          onClick={() => { setText(''); setCopied(false); setCopyError(''); }}
           className="flex items-center gap-2 px-6 py-2.5 bg-white border border-slate-200 text-slate-500 rounded-xl font-bold hover:text-rose-600 hover:border-rose-200 transition-all"
         >
           <Trash2 size={18} />
@@ -78,10 +90,11 @@ export default function BionicReading() {
         </button>
         <button
           onClick={handleCopy}
+          disabled={!text.trim()}
           className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all"
         >
           {copied ? <Check size={18} /> : <Copy size={18} />}
-          Copy Original
+          Copy Bionic Text
         </button>
       </div>
     </div>

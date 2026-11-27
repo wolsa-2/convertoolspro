@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Trash2, FileJson, Minimize2, Maximize2 } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('');
@@ -20,10 +21,13 @@ export default function JsonFormatter() {
     }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(input);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (await copyTextToClipboard(input)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy JSON:', input);
+    }
   };
 
   return (

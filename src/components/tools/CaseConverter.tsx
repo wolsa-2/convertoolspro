@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Trash2, Type } from 'lucide-react';
+import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function CaseConverter() {
   const [text, setText] = useState('');
@@ -29,10 +30,13 @@ export default function CaseConverter() {
     setText(result);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (await copyTextToClipboard(text)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      window.prompt('Copy converted text:', text);
+    }
   };
 
   return (
