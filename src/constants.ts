@@ -64,7 +64,7 @@ export const TOOLS: Tool[] = [
   
   // Encryption Tools
   { id: 'base64-codec', name: 'Base64 Encode/Decode', description: 'Encode or decode text to/from Base64.', category: 'Encryption', icon: Lock },
-  { id: 'hash-generator', name: 'Hash Generator', description: 'Generate MD5, SHA-1, SHA-256 hashes.', category: 'Encryption', icon: Hash },
+  { id: 'hash-generator', name: 'Hash Generator', description: 'Generate SHA-1, SHA-256, and SHA-512 hashes.', category: 'Encryption', icon: Hash },
   
   // Web Tools
   { id: 'json-formatter', name: 'JSON Formatter', description: 'Beautify or minify JSON data.', category: 'Web', icon: FileJson },
