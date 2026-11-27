@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, FileText, Trash2, Download, Zap, ShieldCheck } from 'lucide-react';
-import { PDFDocument, degrees } from 'pdf-lib';
+import type { PDFDocument as PDFDocumentType } from 'pdf-lib';
 
 interface SimplePdfToolProps {
   toolId: string;
@@ -23,7 +23,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState('');
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
-  const splitPdfRef = useRef<PDFDocument | null>(null);
+  const splitPdfRef = useRef<PDFDocumentType | null>(null);
   const splitDownloadLockRef = useRef(false);
   const [splitDownloading, setSplitDownloading] = useState(false);
 
@@ -64,6 +64,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         if (files.length < 2) {
           throw new Error('Select at least two PDF files to merge.');
         }
+        const { PDFDocument } = await import('pdf-lib');
         const mergedPdf = await PDFDocument.create();
 
         // Keep each source document and its input buffer scoped to one iteration.
@@ -93,6 +94,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         setProcessed(true);
       } else if (toolId === 'rotate-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Rotate one PDF at a time.');
+        const { PDFDocument, degrees } = await import('pdf-lib');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pages = pdf.getPages();
@@ -110,6 +112,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         throw new Error('PDF password protection is not supported by the current browser-only engine. Your original file has not been changed.');
       } else if (toolId === 'split-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Split one PDF at a time.');
+        const { PDFDocument } = await import('pdf-lib');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pageCount = pdf.getPageCount();
@@ -135,6 +138,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         throw new Error('PDF unlocking is not supported by the current browser-only engine. Only process documents you own or are authorized to modify.');
       } else if (toolId === 'watermark-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Add a watermark to one PDF at a time.');
+        const { PDFDocument } = await import('pdf-lib');
         const label = watermarkText.trim();
         if (!label) throw new Error('Enter watermark text before processing.');
         const bytes = await files[0].arrayBuffer();
@@ -178,6 +182,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     setSplitDownloading(true);
     let objectUrl: string | null = null;
     try {
+      const { PDFDocument } = await import('pdf-lib');
       const sourcePdf = splitPdfRef.current;
       const splitPdf = await PDFDocument.create();
       const [page] = await splitPdf.copyPages(sourcePdf, [result.pageIndex]);
