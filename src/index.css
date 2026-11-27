@@ -222,6 +222,7 @@ main .prose blockquote {
 }
 
 /* Dark mode remains available; light mode is the default. */
+.dark { color-scheme: dark; }
 .dark body, .dark #root > .min-h-screen { background: #111113 !important; color: #f5f5f7; }
 .dark #root > .min-h-screen > nav,
 .dark .ps-mega-bar { background: rgb(28 28 30 / 92%) !important; border-color: #343438 !important; }
