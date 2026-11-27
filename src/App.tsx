@@ -509,11 +509,16 @@ export default function App() {
           ) : <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center"><Search size={25} className="mx-auto text-slate-400" /><p className="mt-3 font-semibold text-slate-800">No matching tools</p><p className="mt-1 text-sm text-slate-500">Try a different search or category.</p></div>}
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-10 sm:px-10">
-          <div className="mx-auto max-w-2xl text-center"><span className="text-xs font-bold uppercase tracking-[.18em] text-blue-600">How it works</span><h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-950">Three simple steps</h2><p className="mt-2 text-sm leading-6 text-slate-500">A clear workflow from choosing a tool to getting your result.</p></div>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[{n:'01',title:'Choose a tool',body:'Open the utility that matches your task.'},{n:'02',title:'Add your content',body:'Follow the controls and instructions on that tool page.'},{n:'03',title:'Get your result',body:'Use the available download, copy or export action.'}].map((step) => <div key={step.n} className="rounded-2xl bg-slate-50 p-6"><span className="text-xs font-bold tracking-widest text-blue-600">{step.n}</span><h3 className="mt-3 text-base font-bold text-slate-900">{step.title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{step.body}</p></div>)}
-          </div>
+        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <img
+            src="/photosize-how-it-works.webp"
+            alt="PhotoSize workflow: choose a tool, add your content, and get your result"
+            width="1200"
+            height="648"
+            loading="lazy"
+            decoding="async"
+            className="block h-auto w-full"
+          />
         </section>
       </motion.div>
     );
