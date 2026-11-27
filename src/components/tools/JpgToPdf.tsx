@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, Trash2, FileImage, Download, MoveUp, MoveDown, Plus } from 'lucide-react';
-import { jsPDF } from 'jspdf';
 
 interface ImageFile {
   id: string;
@@ -81,6 +80,8 @@ export default function JpgToPdf() {
     setIsConverting(true);
 
     try {
+      // Load the PDF engine only when the user starts conversion.
+      const { jsPDF } = await import('jspdf');
       const pdf = new jsPDF();
       
       for (let i = 0; i < images.length; i++) {
