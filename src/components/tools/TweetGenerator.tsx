@@ -3,21 +3,28 @@ import { Download, Share2, Heart, MessageCircle, Repeat2, Check, User, Calendar 
 import { toPng } from 'html-to-image';
 
 export default function TweetGenerator() {
-  const [name, setName] = useState('OmniTool User');
-  const [handle, setHandle] = useState('omnitool_app');
-  const [content, setContent] = useState('OmniTool is the best all-in-one utility hub I have ever used! 🚀 #productivity #tools');
+  const [name, setName] = useState('PhotoSize User');
+  const [handle, setHandle] = useState('photosize_app');
+  const [content, setContent] = useState('PhotoSize makes everyday image and file tasks easier! 🚀 #productivity #tools');
   const [date, setDate] = useState('12:20 PM · Mar 2, 2026');
   const [stats, setStats] = useState({ replies: '1.2K', retweets: '4.5K', likes: '12.8K' });
-  const [avatar, setAvatar] = useState('https://picsum.photos/seed/avatar/200/200');
+  const [avatar, setAvatar] = useState('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 rx=%22100%22 fill=%22%23e2e8f0%22/%3E%3Ccircle cx=%22100%22 cy=%2275%22 r=%2238%22 fill=%22%2394a3b8%22/%3E%3Cpath d=%22M25 190c5-45 35-68 75-68s70 23 75 68%22 fill=%22%2394a3b8%22/%3E%3C/svg%3E');
+  const [downloadError, setDownloadError] = useState('');
   const tweetRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
-    if (tweetRef.current === null) return;
-    const dataUrl = await toPng(tweetRef.current, { cacheBust: true });
-    const link = document.createElement('a');
-    link.download = 'omnitool-tweet.png';
-    link.href = dataUrl;
-    link.click();
+    if (!tweetRef.current) return;
+    setDownloadError('');
+    try {
+      const dataUrl = await toPng(tweetRef.current, { cacheBust: true, pixelRatio: 2 });
+      const link = document.createElement('a');
+      link.download = 'photosize-tweet-meme.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error('Tweet image export failed:', error);
+      setDownloadError('Could not export the preview. Try a smaller avatar image or a different browser.');
+    }
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +32,7 @@ export default function TweetGenerator() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => setAvatar(e.target?.result as string);
+      reader.onerror = () => setDownloadError('The selected avatar could not be read.');
       reader.readAsDataURL(file);
     }
   };
@@ -110,6 +118,7 @@ export default function TweetGenerator() {
         </button>
       </div>
 
+      {downloadError && <p role="alert" className="text-sm text-rose-600">{downloadError}</p>}
       <div className="flex flex-col items-center justify-center bg-slate-100 rounded-3xl p-8">
         <div 
           ref={tweetRef}
