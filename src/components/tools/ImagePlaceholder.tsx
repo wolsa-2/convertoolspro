@@ -73,10 +73,11 @@ export default function ImagePlaceholder() {
       <div className="space-y-8">
         <div className="grid grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+            <label htmlFor="placeholder-width" className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <Maximize size={14} /> Width (px)
             </label>
             <input
+              id="placeholder-width"
               type="number"
               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
               value={width}
@@ -86,10 +87,11 @@ export default function ImagePlaceholder() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+            <label htmlFor="placeholder-height" className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <Maximize size={14} /> Height (px)
             </label>
             <input
+              id="placeholder-height"
               type="number"
               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
               value={height}
@@ -101,10 +103,11 @@ export default function ImagePlaceholder() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+          <label htmlFor="placeholder-custom-text" className="text-sm font-bold text-slate-700 flex items-center gap-2">
             <Type size={14} /> Custom Text (Optional)
           </label>
           <input
+            id="placeholder-custom-text"
             type="text"
             className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
             placeholder="e.g. Hero Image"
@@ -115,11 +118,12 @@ export default function ImagePlaceholder() {
 
         <div className="grid grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+            <label htmlFor="placeholder-background-color" className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <Palette size={14} /> Background
             </label>
             <div className="flex gap-2 items-center p-2 bg-slate-50 border border-slate-200 rounded-xl">
               <input
+                id="placeholder-background-color"
                 type="color"
                 className="w-10 h-10 border-none bg-transparent cursor-pointer"
                 value={bgColor}
@@ -129,11 +133,12 @@ export default function ImagePlaceholder() {
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+            <label htmlFor="placeholder-text-color" className="text-sm font-bold text-slate-700 flex items-center gap-2">
               <Palette size={14} /> Text Color
             </label>
             <div className="flex gap-2 items-center p-2 bg-slate-50 border border-slate-200 rounded-xl">
               <input
+                id="placeholder-text-color"
                 type="color"
                 className="w-10 h-10 border-none bg-transparent cursor-pointer"
                 value={textColor}
