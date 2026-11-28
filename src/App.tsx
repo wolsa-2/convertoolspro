@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Menu, X, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
+import { Search, Menu, X, Heart, Zap, Home, Info, Mail, Shield, FileText, ArrowRight, Moon, Sun, Camera, Image as ImageIcon, ChevronDown, Code } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { STATIC_PAGES_CONTENT } from './content';
 import Blog from './components/Blog';
 import { AdUnit } from './components/AdUnit';
-import ToolLayout from './components/ToolLayout';
+
 
 const StructuredData = () => {
   const schema = {
@@ -35,6 +35,7 @@ const StructuredData = () => {
 };
 
 // Tool Components (Lazy Loaded)
+const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
 const CharacterCounter = React.lazy(() => import('./components/tools/CharacterCounter'));
 const PasswordGenerator = React.lazy(() => import('./components/tools/PasswordGenerator'));
 const Base64Codec = React.lazy(() => import('./components/tools/Base64Codec'));
@@ -48,7 +49,6 @@ const ImagePlaceholder = React.lazy(() => import('./components/tools/ImagePlaceh
 const ImageToBase64 = React.lazy(() => import('./components/tools/ImageToBase64'));
 const PdfMetadata = React.lazy(() => import('./components/tools/PdfMetadata'));
 const JpgToPdf = React.lazy(() => import('./components/tools/JpgToPdf'));
-const PdfToolsOverview = React.lazy(() => import('./components/tools/PdfToolsOverview'));
 const SimplePdfTool = React.lazy(() => import('./components/tools/SimplePdfTool'));
 const TweetGenerator = React.lazy(() => import('./components/tools/TweetGenerator'));
 const HtmlEntities = React.lazy(() => import('./components/tools/HtmlEntities'));
