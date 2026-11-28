@@ -781,7 +781,7 @@ export default function App() {
             </div>
             
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Quick Links</h4>
+              <h2 className="font-bold text-slate-900 dark:text-white mb-6">Quick Links</h2>
               <ul className="space-y-4">
                 <li><a href="/" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">Home Dashboard</a></li>
                 <li><a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">SEO & Tools Blog</a></li>
@@ -791,7 +791,7 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h4>
+              <h2 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h2>
               <ul className="space-y-4 text-slate-500 dark:text-slate-400">
                 <li><a href="/tool/case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
                 <li><a href="/tool/image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
@@ -801,7 +801,7 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Legal & Resources</h4>
+              <h2 className="font-bold text-slate-900 dark:text-white mb-6">Legal & Resources</h2>
               <ul className="space-y-4 text-slate-500">
                 <li><a href="/privacy" onClick={(e) => { e.preventDefault(); navigateTo('privacy'); }} className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" onClick={(e) => { e.preventDefault(); navigateTo('terms'); }} className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
@@ -833,7 +833,7 @@ export default function App() {
                 <Shield size={20} />
               </div>
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h4>
+                <h2 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                   Essential site storage keeps the website working. Optional analytics and advertising scripts are enabled only if you choose to accept them.
                 </p>
