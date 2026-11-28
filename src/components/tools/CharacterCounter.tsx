@@ -31,7 +31,7 @@ export default function CharacterCounter() {
         {Object.entries(stats).map(([label, value]) => (
           <div key={label} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
             <div className="text-2xl font-bold text-indigo-600">{value}</div>
-            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">
+            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wider mt-1">
               {label.replace(/([A-Z])/g, ' $1')}
             </div>
           </div>
