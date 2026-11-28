@@ -3,6 +3,7 @@ import { Search, Menu, X, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileTe
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { STATIC_PAGES_CONTENT } from './content';
+import Blog from './components/Blog';
 import { AdUnit } from './components/AdUnit';
 import ToolLayout from './components/ToolLayout';
 
@@ -52,11 +53,8 @@ const SimplePdfTool = React.lazy(() => import('./components/tools/SimplePdfTool'
 const TweetGenerator = React.lazy(() => import('./components/tools/TweetGenerator'));
 const HtmlEntities = React.lazy(() => import('./components/tools/HtmlEntities'));
 
-const Blog = React.lazy(() => import('./components/Blog'));
-// Start loading the Blog route chunk as soon as the app module runs, rather than waiting for the first React render.
-if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog')) {
-  void import('./components/Blog');
-}
+
+
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
 
