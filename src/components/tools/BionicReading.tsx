@@ -87,7 +87,7 @@ export default function BionicReading() {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-slate-300 italic">
+              <div className="flex flex-col items-center justify-center h-full text-slate-600 italic">
                 <Zap size={32} className="mb-2 opacity-20" aria-hidden="true" />
                 Preview will appear here
               </div>
