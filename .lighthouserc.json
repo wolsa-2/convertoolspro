@@ -12,7 +12,17 @@
         "http://localhost:4173/tool/pdf-metadata",
         "http://localhost:4173/tool/image-placeholder",
         "http://localhost:4173/tool/image-to-base64",
-        "http://localhost:4173/blog"
+        "http://localhost:4173/blog",
+        "http://localhost:4173/tool/tweet-generator",
+        "http://localhost:4173/tool/character-counter",
+        "http://localhost:4173/tool/case-converter",
+        "http://localhost:4173/tool/password-generator",
+        "http://localhost:4173/tool/bionic-reading",
+        "http://localhost:4173/tool/base64-codec",
+        "http://localhost:4173/tool/hash-generator",
+        "http://localhost:4173/tool/json-formatter",
+        "http://localhost:4173/tool/html-entities",
+        "http://localhost:4173/tool/qr-generator"
       ],
       "numberOfRuns": 1,
       "startServerCommand": "npm run preview -- --host 127.0.0.1",
