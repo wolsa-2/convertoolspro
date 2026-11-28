@@ -215,7 +215,7 @@ export default function TweetGenerator() {
             </div>
           </div>
         </div>
-        <p className="text-slate-400 text-sm font-medium mt-6">Preview (Meme format)</p>
+        <p className="text-slate-600 text-sm font-medium mt-6">Preview (Meme format)</p>
       </div>
     </div>
   );
