@@ -9,7 +9,8 @@ if (!fs.existsSync(indexPath)) throw new Error('dist/index.html is missing. Run 
 const template = fs.readFileSync(indexPath, 'utf8');
 const constants = fs.readFileSync(path.join(root, 'src/constants.ts'), 'utf8');
 const blogSource = fs.readFileSync(path.join(root, 'src/blogData.ts'), 'utf8');
-const contentSource = fs.readFileSync(path.join(root, 'src/content.ts'), 'utf8');
+const contentSource = fs.readFileSync(path.join(root, 'src/toolContent.ts'), 'utf8');
+const staticContentSource = fs.readFileSync(path.join(root, 'src/content.ts'), 'utf8');
 
 function parseTemplateMap(source, exportName) {
   const declaration = 'export const ' + exportName;
@@ -24,7 +25,7 @@ function parseTemplateMap(source, exportName) {
 }
 
 const toolSeoContent = parseTemplateMap(contentSource, 'TOOLS_SEO_CONTENT');
-const staticPageContent = parseTemplateMap(contentSource, 'STATIC_PAGES_CONTENT');
+const staticPageContent = parseTemplateMap(staticContentSource, 'STATIC_PAGES_CONTENT');
 
 const tools = [...constants.matchAll(/\{ id: '([^']+)', name: '([^']+)', description: '([^']+)', category: '([^']+)'/g)]
   .map((m) => ({ id: m[1], name: m[2], description: m[3], category: m[4] }));
