@@ -152,15 +152,22 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         throw new Error('PDF unlocking is not supported by the current browser-only engine. Only process documents you own or are authorized to modify.');
       } else if (toolId === 'watermark-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Add a watermark to one PDF at a time.');
-        const { PDFDocument } = await import('pdf-lib');
+        const { PDFDocument, StandardFonts } = await import('pdf-lib');
         const label = watermarkText.trim();
         if (!label) throw new Error('Enter watermark text before processing.');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
+        const watermarkFont = await pdf.embedFont(StandardFonts.Helvetica);
+        try {
+          watermarkFont.encodeText(label);
+        } catch {
+          throw new Error('This watermark tool currently supports standard Latin characters only. Hindi, Gujarati, emoji, and other unsupported characters cannot be embedded yet. Please use English/Latin text.');
+        }
         const pages = pdf.getPages();
         pages.forEach(page => {
           const { width, height } = page.getSize();
           page.drawText(label, {
+            font: watermarkFont,
             x: 40,
             y: Math.min(40, Math.max(10, height - 40)),
             size: 24,
