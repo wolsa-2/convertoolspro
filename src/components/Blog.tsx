@@ -6,7 +6,7 @@ const slugify=(s:string)=>s.toLowerCase().normalize('NFKD').replace(/[’']/g,''
 const fromPath=()=>{const s=location.pathname.replace(/^\/blog\/?/,'').replace(/\/$/,'');return s?BLOG_POSTS.find(p=>slugify(p.title)===s)??null:null};
 const minutes=(html:string)=>Math.max(1,Math.ceil(html.replace(/<[^>]*>/g,' ').trim().split(/\s+/).filter(Boolean).length/200));
 const headings=(html:string)=>[...html.matchAll(/<h2[^>]*>(.*?)<\/h2>/gis)].map(m=>m[1].replace(/<[^>]*>/g,'').trim());
-const imageDimensions=(src:string)=>src.endsWith('/jpg-to-pdf.jpg')?{width:998,height:738}:{width:1321,height:738};
+const imageDimensions=(src:string)=>src.endsWith('.svg')?{width:1200,height:675}:src.endsWith('/jpg-to-pdf.jpg')?{width:998,height:738}:{width:1321,height:738};
 function meta(selector:string,key:string,value:string){let el=document.head.querySelector(selector) as HTMLMetaElement|null;if(!el){el=document.createElement('meta');const prop=selector.match(/\[(?:property|name)=["']([^"']+)/)?.[1];el.setAttribute(selector.includes('property=')?'property':'name',prop||'');document.head.appendChild(el)}el.setAttribute(key,value)}
 export default function Blog(){
  const [post,setPost]=useState<(typeof BLOG_POSTS)[number]|null>(()=>fromPath());
