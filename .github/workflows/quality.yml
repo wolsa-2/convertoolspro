@@ -50,6 +50,14 @@ jobs:
         env:
           VITE_DISABLE_ADS: "true"
 
+      - name: Install browser smoke-test tooling
+        run: |
+          npm install --no-save --no-package-lock @playwright/test
+          npx playwright install --with-deps chromium
+
+      - name: Run image, PDF and QR browser smoke tests
+        run: npx playwright test
+
       - name: Lighthouse mobile audit (built preview)
         uses: treosh/lighthouse-ci-action@v12
         with:
