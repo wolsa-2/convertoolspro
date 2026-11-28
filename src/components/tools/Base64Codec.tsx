@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRightLeft, Copy, Check, Trash2 } from 'lucide-react';
+import { ArrowRightLeft, Copy, Check } from 'lucide-react';
 import { copyTextToClipboard } from '../../lib/clipboard';
 
 const encodeUtf8Base64 = (value: string) => {
@@ -36,7 +36,7 @@ export default function Base64Codec() {
       } else {
         setOutput(decodeUtf8Base64(val));
       }
-    } catch (e) {
+    } catch {
       setError('Invalid input for ' + currentMode + 'ing');
       setOutput('');
     }
@@ -45,10 +45,18 @@ export default function Base64Codec() {
   const toggleMode = () => {
     const newMode = mode === 'encode' ? 'decode' : 'encode';
     setMode(newMode);
-    // Swap input and output
-    const temp = output;
+
+    // If the previous operation failed, keep the user's input and retry it
+    // in the newly selected mode instead of swapping in an empty result.
+    if (error) {
+      process(input, newMode);
+      return;
+    }
+
+    // Swap input and output for a successful conversion.
+    const previousOutput = output;
     setOutput(input);
-    process(temp, newMode);
+    process(previousOutput, newMode);
   };
 
   const handleCopy = async () => {
