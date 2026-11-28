@@ -187,11 +187,11 @@ export default function QrGenerator() {
               includeMargin={includeMargin}
             />
           ) : (
-            <p className="text-sm text-slate-400 text-center">Enter text or a URL to generate your QR code.</p>
+            <p className="text-sm text-slate-600 text-center">Enter text or a URL to generate your QR code.</p>
           )}
         </div>
         <div className="text-center max-w-full">
-          <p className="text-slate-400 text-sm font-medium">Scan to preview</p>
+          <p className="text-slate-600 text-sm font-medium">Scan to preview</p>
           <p className="text-indigo-600 font-bold mt-1 truncate max-w-[200px] mx-auto">{hasContent ? value : 'No content'}</p>
         </div>
       </div>
