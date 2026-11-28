@@ -1,6 +1,6 @@
 import React from 'react';
 import { Share2 } from 'lucide-react';
-import { TOOLS_SEO_CONTENT, TOOLS_FAQ } from '../content';
+import { TOOLS_SEO_CONTENT, TOOLS_FAQ } from '../toolContent';
 import { TOOLS, Tool } from '../constants';
 import { AdUnit } from './AdUnit';
 import FAQSection from './FAQSection';
