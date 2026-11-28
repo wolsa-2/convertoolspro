@@ -405,6 +405,9 @@ main .prose blockquote {
 .ps-editorial-theme main h2 span {
   color: #FF684A;
 }
+.ps-editorial-theme .photosize-blog h1 span {
+  color: #B83D26 !important;
+}
 .ps-editorial-theme .photosize-blog article,
 .ps-editorial-theme .faq-item,
 .ps-editorial-theme .photosize-tool-page .bg-white,
