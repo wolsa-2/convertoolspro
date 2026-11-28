@@ -13,48 +13,67 @@ export default function PasswordGenerator() {
     symbols: true,
   });
   const [copied, setCopied] = useState(false);
+  const [generationError, setGenerationError] = useState('');
 
   const generatePassword = () => {
     const charset = {
       uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
       lowercase: 'abcdefghijklmnopqrstuvwxyz',
       numbers: '0123456789',
-      symbols: '!@#$%^&*()_+~\`|}{[]:;?><,./-=',
+      symbols: '!@#$%^&*()_+`|}{[]:;?><,./-=',
     };
 
     const enabledSets = Object.entries(options)
-      .filter(([key, enabled]) => enabled)
+      .filter(([, enabled]) => enabled)
       .map(([key]) => charset[key as keyof typeof charset]);
 
-    if (enabledSets.length === 0 || length < enabledSets.length) {
+    if (enabledSets.length === 0) {
       setPassword('');
+      setGenerationError('Select at least one character type.');
       return;
     }
 
-    const randomInt = (maxExclusive: number) => {
-      const range = 0x100000000;
-      const limit = range - (range % maxExclusive);
-      const values = new Uint32Array(1);
-      let value = limit;
-      while (value >= limit) {
-        crypto.getRandomValues(values);
-        value = values[0];
+    if (length < enabledSets.length) {
+      setPassword('');
+      setGenerationError('Increase the password length to match the selected character types.');
+      return;
+    }
+
+    try {
+      if (!globalThis.crypto?.getRandomValues) {
+        throw new Error('Secure random generation is unavailable in this browser.');
       }
-      return value % maxExclusive;
-    };
 
-    const pool = enabledSets.join('');
-    const characters = enabledSets.map(set => set[randomInt(set.length)]);
-    while (characters.length < length) {
-      characters.push(pool[randomInt(pool.length)]);
-    }
+      const randomInt = (maxExclusive: number) => {
+        const range = 0x100000000;
+        const limit = range - (range % maxExclusive);
+        const values = new Uint32Array(1);
+        let value = limit;
+        while (value >= limit) {
+          globalThis.crypto.getRandomValues(values);
+          value = values[0];
+        }
+        return value % maxExclusive;
+      };
 
-    // Shuffle so the guaranteed category characters are not predictable by position.
-    for (let i = characters.length - 1; i > 0; i--) {
-      const j = randomInt(i + 1);
-      [characters[i], characters[j]] = [characters[j], characters[i]];
+      const pool = enabledSets.join('');
+      const characters = enabledSets.map(set => set[randomInt(set.length)]);
+      while (characters.length < length) {
+        characters.push(pool[randomInt(pool.length)]);
+      }
+
+      // Shuffle so the guaranteed category characters are not predictable by position.
+      for (let i = characters.length - 1; i > 0; i--) {
+        const j = randomInt(i + 1);
+        [characters[i], characters[j]] = [characters[j], characters[i]];
+      }
+
+      setPassword(characters.join(''));
+      setGenerationError('');
+    } catch {
+      setPassword('');
+      setGenerationError('Secure password generation failed. Please use an up-to-date browser and try again.');
     }
-    setPassword(characters.join(''));
   };
 
   useEffect(() => {
@@ -73,15 +92,18 @@ export default function PasswordGenerator() {
   };
 
   const getStrength = () => {
-    let score = 0;
-    if (length > 12) score++;
-    if (length > 20) score++;
-    if (options.uppercase) score++;
-    if (options.numbers) score++;
-    if (options.symbols) score++;
-    
-    if (score <= 2) return { label: 'Weak', color: 'text-rose-500', icon: ShieldAlert, bg: 'bg-rose-50' };
-    if (score <= 4) return { label: 'Good', color: 'text-amber-500', icon: Shield, bg: 'bg-amber-50' };
+    const poolSize = Object.entries(options).reduce((total, [key, enabled]) => {
+      if (!enabled) return total;
+      const sizes = { uppercase: 26, lowercase: 26, numbers: 10, symbols: 29 };
+      return total + sizes[key as keyof typeof sizes];
+    }, 0);
+    const estimatedEntropy = password && poolSize > 1
+      ? password.length * Math.log2(poolSize)
+      : 0;
+
+    if (!password) return { label: 'Unavailable', color: 'text-slate-500', icon: ShieldAlert, bg: 'bg-slate-100' };
+    if (estimatedEntropy < 60) return { label: 'Weak', color: 'text-rose-500', icon: ShieldAlert, bg: 'bg-rose-50' };
+    if (estimatedEntropy < 80) return { label: 'Good', color: 'text-amber-500', icon: Shield, bg: 'bg-amber-50' };
     return { label: 'Strong', color: 'text-emerald-500', icon: ShieldCheck, bg: 'bg-emerald-50' };
   };
 
@@ -97,18 +119,22 @@ export default function PasswordGenerator() {
               onClick={generatePassword}
               className="p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all"
               title="Regenerate"
+              aria-label="Generate a new password"
             >
               <RefreshCw size={20} />
             </button>
             <button
               onClick={handleCopy}
-              className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all shadow-lg shadow-indigo-900/20"
+              disabled={!password}
+              className="p-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all shadow-lg shadow-indigo-900/20"
               title="Copy"
+              aria-label="Copy password"
             >
               {copied ? <Check size={20} /> : <Copy size={20} />}
             </button>
           </div>
         </div>
+        {generationError && <p role="alert" className="mt-3 text-sm text-rose-600">{generationError}</p>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -124,6 +150,7 @@ export default function PasswordGenerator() {
               value={length}
               onChange={(e) => setLength(parseInt(e.target.value))}
               className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+              aria-label="Password length"
             />
           </div>
 
@@ -131,10 +158,12 @@ export default function PasswordGenerator() {
             {Object.entries(options).map(([key, value]) => (
               <button
                 key={key}
+                type="button"
+                aria-pressed={value}
                 onClick={() => setOptions(prev => ({ ...prev, [key]: !value }))}
                 className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
-                  value 
-                    ? 'bg-indigo-50 border-indigo-200 text-indigo-700' 
+                  value
+                    ? 'bg-indigo-50 border-indigo-200 text-indigo-700'
                     : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
                 }`}
               >
@@ -152,13 +181,15 @@ export default function PasswordGenerator() {
         <div className={`p-8 rounded-3xl ${strength.bg} flex flex-col items-center justify-center text-center space-y-4 border border-transparent transition-all`}>
           <strength.icon size={48} className={strength.color} />
           <div>
-            <h4 className={`text-xl font-bold ${strength.color}`}>Security Level: {strength.label}</h4>
+            <h4 className={`text-xl font-bold ${strength.color}`}>Estimated strength: {strength.label}</h4>
             <p className="text-slate-500 text-sm mt-1">
-              {strength.label === 'Strong' 
-                ? 'This password is very secure and hard to crack.' 
-                : strength.label === 'Good' 
-                ? 'Good password, but could be stronger.' 
-                : 'Warning: This password is easy to guess.'}
+              {strength.label === 'Strong'
+                ? 'High estimated entropy based on password length and selected character types.'
+                : strength.label === 'Good'
+                ? 'Moderate estimated entropy. A longer password can improve it.'
+                : strength.label === 'Weak'
+                ? 'Low estimated entropy. Increase the length or add more character types.'
+                : 'Generate a password to estimate its strength.'}
             </p>
           </div>
         </div>
