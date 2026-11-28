@@ -104,7 +104,7 @@ export default function PasswordGenerator() {
     if (!password) return { label: 'Unavailable', color: 'text-slate-500', icon: ShieldAlert, bg: 'bg-slate-100' };
     if (estimatedEntropy < 60) return { label: 'Weak', color: 'text-rose-500', icon: ShieldAlert, bg: 'bg-rose-50' };
     if (estimatedEntropy < 80) return { label: 'Good', color: 'text-amber-500', icon: Shield, bg: 'bg-amber-50' };
-    return { label: 'Strong', color: 'text-emerald-500', icon: ShieldCheck, bg: 'bg-emerald-50' };
+    return { label: 'Strong', color: 'text-emerald-700', icon: ShieldCheck, bg: 'bg-emerald-50' };
   };
 
   const strength = getStrength();
@@ -181,7 +181,7 @@ export default function PasswordGenerator() {
         <div className={`p-8 rounded-3xl ${strength.bg} flex flex-col items-center justify-center text-center space-y-4 border border-transparent transition-all`}>
           <strength.icon size={48} className={strength.color} />
           <div>
-            <h4 className={`text-xl font-bold ${strength.color}`}>Estimated strength: {strength.label}</h4>
+            <h2 className={`text-xl font-bold ${strength.color}`}>Estimated strength: {strength.label}</h2>
             <p className="text-slate-500 text-sm mt-1">
               {strength.label === 'Strong'
                 ? 'High estimated entropy based on password length and selected character types.'
