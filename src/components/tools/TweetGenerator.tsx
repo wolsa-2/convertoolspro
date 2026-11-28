@@ -151,7 +151,7 @@ export default function TweetGenerator() {
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700">Avatar Image</label>
           <label className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-all">
-            <User size={18} className="text-slate-400" />
+            <User size={18} className="text-slate-600" />
             <span className="text-sm text-slate-500">Choose custom avatar...</span>
             <input type="file" className="hidden" accept="image/*" onChange={handleAvatarChange} />
           </label>
@@ -176,7 +176,7 @@ export default function TweetGenerator() {
             <img src={avatar} alt="Avatar" className="w-12 h-12 rounded-full object-cover" referrerPolicy="no-referrer" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1">
-                <h4 className="font-bold text-slate-900 truncate">{name}</h4>
+                <p className="font-bold text-slate-900 truncate">{name}</p>
                 <div className="w-4 h-4 bg-indigo-500 rounded-full flex items-center justify-center text-white">
                   <Check size={10} strokeWidth={4} />
                 </div>
