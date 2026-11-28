@@ -55,17 +55,24 @@ export default function QrGenerator() {
               return;
             }
 
-            const pngUrl = URL.createObjectURL(blob);
-            const downloadLink = document.createElement('a');
-            downloadLink.href = pngUrl;
-            downloadLink.download = 'photosize-qr.png';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            downloadLink.remove();
+            let pngUrl = '';
+            try {
+              pngUrl = URL.createObjectURL(blob);
+              const downloadLink = document.createElement('a');
+              downloadLink.href = pngUrl;
+              downloadLink.download = 'photosize-qr.png';
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              downloadLink.remove();
 
-            // Keep the object URL alive long enough for mobile browsers to start the download.
-            window.setTimeout(() => URL.revokeObjectURL(pngUrl), 10000);
-            setIsDownloading(false);
+              // Keep the object URL alive long enough for mobile browsers to start the download.
+              window.setTimeout(() => URL.revokeObjectURL(pngUrl), 10000);
+              setIsDownloading(false);
+            } catch {
+              if (pngUrl) URL.revokeObjectURL(pngUrl);
+              setDownloadError('PNG download could not start. Please try again.');
+              setIsDownloading(false);
+            }
           }, 'image/png');
         } catch {
           setDownloadError('PNG export failed. Please try again.');
@@ -167,12 +174,13 @@ export default function QrGenerator() {
         {downloadError && <p role="alert" className="text-sm text-rose-600">{downloadError}</p>}
       </div>
 
-      <div className="flex flex-col items-center justify-center bg-slate-50 rounded-3xl border border-slate-200 p-8 sm:p-12 space-y-6">
-        <div ref={qrRef} className="min-h-[304px] min-w-[304px] flex items-center justify-center p-6 bg-white rounded-2xl shadow-xl border border-slate-100">
+      <div className="flex min-w-0 w-full flex-col items-center justify-center bg-slate-50 rounded-3xl border border-slate-200 p-4 sm:p-8 space-y-6">
+        <div ref={qrRef} className="flex aspect-square w-full max-w-[304px] min-w-0 items-center justify-center p-3 sm:p-6 bg-white rounded-2xl shadow-xl border border-slate-100">
           {hasContent ? (
             <QRCodeSVG
               value={value}
               size={QR_SIZE}
+              className="h-auto max-w-full"
               fgColor={fgColor}
               bgColor={bgColor}
               level="H"
