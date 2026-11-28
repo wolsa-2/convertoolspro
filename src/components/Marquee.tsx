@@ -27,10 +27,11 @@ export const Marquee: React.FC<MarqueeProps> = ({
         }}
       >
         {duplicatedItems.map((tool, index) => (
-          <div
+          <button
+            type="button"
             key={`${tool.id}-${index}`}
             onClick={() => onItemClick(tool)}
-            className="inline-flex items-center gap-4 px-6 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 transition-all cursor-pointer group"
+            className="inline-flex items-center gap-4 px-6 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-all cursor-pointer group text-left"
           >
             <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
               <tool.icon size={20} />
@@ -43,7 +44,7 @@ export const Marquee: React.FC<MarqueeProps> = ({
                 {tool.category}
               </span>
             </div>
-          </div>
+          </button>
         ))}
       </div>
       

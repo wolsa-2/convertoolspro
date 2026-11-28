@@ -6,33 +6,85 @@ export default function WebcamTest() {
   const [error, setError] = useState<string | null>(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const mountedRef = useRef(false);
+  const requestIdRef = useRef(0);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      requestIdRef.current += 1;
+      const activeStream = streamRef.current;
+      streamRef.current = null;
+      activeStream?.getTracks().forEach(track => track.stop());
+    };
+  }, []);
 
   const startTest = async () => {
+    if (isStarting) return;
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setError('Camera and microphone access is not supported in this browser. Try a modern browser over HTTPS.');
+      return;
+    }
+
+    const requestId = ++requestIdRef.current;
+    setIsStarting(true);
+    setError(null);
+
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: true, 
-        audio: true 
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
       });
+
+      if (!mountedRef.current || requestId !== requestIdRef.current) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        return;
+      }
+
+      streamRef.current?.getTracks().forEach(track => track.stop());
+      streamRef.current = mediaStream;
       setStream(mediaStream);
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
       }
-      setIsCameraOn(true);
-      setIsMicOn(true);
-      setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Could not access camera or microphone. Please check permissions.');
+      setIsCameraOn(mediaStream.getVideoTracks().some(track => track.enabled && track.readyState === 'live'));
+      setIsMicOn(mediaStream.getAudioTracks().some(track => track.enabled && track.readyState === 'live'));
+    } catch (err) {
+      if (!mountedRef.current || requestId !== requestIdRef.current) return;
+
+      const errorName = err instanceof DOMException ? err.name : '';
+      const message = errorName === 'NotAllowedError' || errorName === 'PermissionDeniedError'
+        ? 'Camera or microphone permission was denied. Allow access in your browser settings and try again.'
+        : errorName === 'NotFoundError' || errorName === 'DevicesNotFoundError'
+          ? 'No camera or microphone was found. Connect a device and try again.'
+          : errorName === 'NotReadableError' || errorName === 'TrackStartError'
+            ? 'Your camera or microphone is being used by another app. Close it and try again.'
+            : err instanceof Error
+              ? err.message
+              : 'Could not access the camera or microphone. Check your device permissions and try again.';
+      setError(message);
+    } finally {
+      if (mountedRef.current && requestId === requestIdRef.current) {
+        setIsStarting(false);
+      }
     }
   };
 
   const stopTest = () => {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      setStream(null);
-      setIsCameraOn(false);
-      setIsMicOn(false);
-    }
+    requestIdRef.current += 1;
+    const activeStream = streamRef.current;
+    streamRef.current = null;
+    activeStream?.getTracks().forEach(track => track.stop());
+    setStream(null);
+    setIsCameraOn(false);
+    setIsMicOn(false);
+    setIsStarting(false);
+    if (videoRef.current) videoRef.current.srcObject = null;
   };
 
   const toggleCamera = () => {
@@ -40,7 +92,7 @@ export default function WebcamTest() {
       const videoTrack = stream.getVideoTracks()[0];
       if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
-        setIsCameraOn(videoTrack.enabled);
+        setIsCameraOn(videoTrack.enabled && videoTrack.readyState === 'live');
       }
     }
   };
@@ -50,14 +102,10 @@ export default function WebcamTest() {
       const audioTrack = stream.getAudioTracks()[0];
       if (audioTrack) {
         audioTrack.enabled = !audioTrack.enabled;
-        setIsMicOn(audioTrack.enabled);
+        setIsMicOn(audioTrack.enabled && audioTrack.readyState === 'live');
       }
     }
   };
-
-  useEffect(() => {
-    return () => stopTest();
-  }, []);
 
   return (
     <div className="space-y-8">
@@ -72,14 +120,16 @@ export default function WebcamTest() {
           </p>
           <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl mb-8 max-w-sm">
             <p className="text-xs text-amber-700 font-medium leading-relaxed">
-              <strong>Tip:</strong> If the camera doesn't start, please click the <strong>lock icon</strong> in your browser address bar and enable camera/microphone permissions for this site.
+              <strong>Tip:</strong> If the camera doesn't start, enable camera and microphone permissions for this site in your browser settings.
             </p>
           </div>
           <button
+            type="button"
             onClick={startTest}
-            className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-500 transition-all transform hover:scale-105"
+            disabled={isStarting}
+            className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-500 transition-all transform hover:scale-105 disabled:opacity-60 disabled:cursor-wait"
           >
-            Start Webcam Test
+            {isStarting ? 'Starting test…' : 'Start Webcam Test'}
           </button>
         </div>
       ) : error ? (
@@ -88,14 +138,16 @@ export default function WebcamTest() {
             <AlertCircle size={32} />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-rose-900">Permission Denied</h3>
-            <p className="text-rose-600 mt-1">{error}</p>
+            <h3 className="text-lg font-bold text-rose-900">Unable to start device test</h3>
+            <p role="alert" className="text-rose-600 mt-1">{error}</p>
           </div>
           <button
+            type="button"
             onClick={startTest}
-            className="px-6 py-2 bg-rose-600 text-white rounded-xl font-bold hover:bg-rose-500 transition-all"
+            disabled={isStarting}
+            className="px-6 py-2 bg-rose-600 text-white rounded-xl font-bold hover:bg-rose-500 transition-all disabled:opacity-60"
           >
-            Try Again
+            {isStarting ? 'Trying again…' : 'Try Again'}
           </button>
         </div>
       ) : (
@@ -114,22 +166,29 @@ export default function WebcamTest() {
                 <p className="text-lg font-medium">Camera is Off</p>
               </div>
             )}
-            
+
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 px-6 py-3 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10">
               <button
+                type="button"
                 onClick={toggleCamera}
+                aria-label={isCameraOn ? 'Turn camera off' : 'Turn camera on'}
+                aria-pressed={isCameraOn}
                 className={`p-3 rounded-xl transition-all ${isCameraOn ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-rose-500 text-white shadow-lg shadow-rose-900/20'}`}
               >
                 {isCameraOn ? <Video size={24} /> : <VideoOff size={24} />}
               </button>
               <button
+                type="button"
                 onClick={toggleMic}
+                aria-label={isMicOn ? 'Mute microphone' : 'Unmute microphone'}
+                aria-pressed={isMicOn}
                 className={`p-3 rounded-xl transition-all ${isMicOn ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-rose-500 text-white shadow-lg shadow-rose-900/20'}`}
               >
                 {isMicOn ? <Mic size={24} /> : <MicOff size={24} />}
               </button>
-              <div className="w-[1px] h-8 bg-white/10 mx-2" />
+              <div className="w-[1px] h-8 bg-white/10 mx-2" aria-hidden="true" />
               <button
+                type="button"
                 onClick={stopTest}
                 className="px-6 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition-all"
               >
@@ -141,20 +200,20 @@ export default function WebcamTest() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isCameraOn ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-400'}`}>
-                <Video size={24} />
+                <Video size={24} aria-hidden="true" />
               </div>
               <div>
                 <h4 className="font-bold text-slate-900">Camera Status</h4>
-                <p className="text-sm text-slate-500">{isCameraOn ? 'Working correctly' : 'Disabled or not found'}</p>
+                <p className="text-sm text-slate-500">{isCameraOn ? 'Camera track is enabled' : 'Camera is disabled'}</p>
               </div>
             </div>
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isMicOn ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-400'}`}>
-                <Mic size={24} />
+                <Mic size={24} aria-hidden="true" />
               </div>
               <div>
                 <h4 className="font-bold text-slate-900">Microphone Status</h4>
-                <p className="text-sm text-slate-500">{isMicOn ? 'Receiving audio' : 'Muted or not found'}</p>
+                <p className="text-sm text-slate-500">{isMicOn ? 'Microphone track is enabled' : 'Microphone is muted'}</p>
               </div>
             </div>
           </div>

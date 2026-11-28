@@ -11,6 +11,50 @@ type AdsWindow = Window & {
   adsbygoogle?: Array<Record<string, never>>;
 };
 
+let adsenseScriptPromise: Promise<void> | null = null;
+
+/** Load the shared AdSense script once, only when an ad approaches the viewport. */
+function loadAdsenseScript(clientId: string): Promise<void> {
+  if (adsenseScriptPromise) return adsenseScriptPromise;
+
+  adsenseScriptPromise = new Promise<void>((resolve, reject) => {
+    const scriptId = 'photosize-adsense-loader';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+    if (script?.dataset.loaded === 'true') {
+      resolve();
+      return;
+    }
+
+    const onLoad = () => {
+      script?.removeEventListener('error', onError);
+      if (script) script.dataset.loaded = 'true';
+      resolve();
+    };
+
+    const onError = () => {
+      script?.removeEventListener('load', onLoad);
+      script?.remove();
+      adsenseScriptPromise = null;
+      reject(new Error('AdSense script failed to load.'));
+    };
+
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`;
+    }
+
+    script.addEventListener('load', onLoad, { once: true });
+    script.addEventListener('error', onError, { once: true });
+    if (!script.isConnected) document.head.appendChild(script);
+  });
+
+  return adsenseScriptPromise;
+}
+
 /**
  * Responsive Google AdSense unit.
  * A real numeric slot ID is required before production ads are rendered.
@@ -29,14 +73,28 @@ export const AdUnit: React.FC<AdUnitProps> = ({
   const validSlot = /^\d+$/.test(slot);
 
   useEffect(() => {
-    if (!isProduction || adsDisabled || !validSlot || localStorage.getItem('cookie-consent') !== 'accepted' || initialized.current || !adRef.current) {
+    const adElement = adRef.current;
+    if (
+      !isProduction ||
+      adsDisabled ||
+      !validSlot ||
+      localStorage.getItem('cookie-consent') !== 'accepted' ||
+      initialized.current ||
+      !adElement
+    ) {
       return;
     }
 
     let cancelled = false;
-    const initializeAd = () => {
+    let observer: IntersectionObserver | undefined;
+
+    const initializeAd = async () => {
       if (cancelled || initialized.current) return;
+
       try {
+        await loadAdsenseScript(clientId);
+        if (cancelled || initialized.current || !adRef.current) return;
+
         const adsWindow = window as AdsWindow;
         adsWindow.adsbygoogle = adsWindow.adsbygoogle || [];
         adsWindow.adsbygoogle.push({});
@@ -46,36 +104,25 @@ export const AdUnit: React.FC<AdUnitProps> = ({
       }
     };
 
-    const scriptId = 'photosize-adsense-loader';
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-
-    if (!script) {
-      script = document.createElement('script');
-      script.id = scriptId;
-      script.async = true;
-      script.crossOrigin = 'anonymous';
-      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`;
-      script.addEventListener('load', initializeAd, { once: true });
-      script.addEventListener('error', () => console.warn('AdSense script failed to load.'), { once: true });
-      document.head.appendChild(script);
-    } else if (script.dataset.loaded === 'true') {
-      initializeAd();
+    if ('IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            observer?.disconnect();
+            void initializeAd();
+          }
+        },
+        { rootMargin: '300px 0px' }
+      );
+      observer.observe(adElement);
     } else {
-      script.addEventListener('load', initializeAd, { once: true });
-      script.addEventListener('error', () => console.warn('AdSense script failed to load.'), { once: true });
+      // Older browsers retain the original eager initialization fallback.
+      void initializeAd();
     }
-
-    const markLoaded = () => {
-      const current = document.getElementById(scriptId);
-      if (current) current.dataset.loaded = 'true';
-    };
-    script.addEventListener('load', markLoaded, { once: true });
 
     return () => {
       cancelled = true;
-      script?.removeEventListener('load', initializeAd);
-      // Script errors do not initialize an ad.
-      script?.removeEventListener('load', markLoaded);
+      observer?.disconnect();
     };
   }, [adsDisabled, clientId, isProduction, validSlot]);
 

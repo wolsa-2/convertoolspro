@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Hash, Copy, Check, ShieldCheck } from 'lucide-react';
+import { Copy, Check, ShieldCheck } from 'lucide-react';
 import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function HashGenerator() {
@@ -48,8 +48,9 @@ export default function HashGenerator() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <label className="text-sm font-bold text-slate-700 ml-1">Input Text</label>
+        <label htmlFor="hash-input" className="text-sm font-bold text-slate-700 ml-1">Input Text</label>
         <textarea
+          id="hash-input"
           className="w-full h-32 p-6 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none font-mono text-sm"
           placeholder="Enter text to hash..."
           value={text}
@@ -66,7 +67,7 @@ export default function HashGenerator() {
         ].map(hash => (
           <div key={hash.id} className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{hash.label}</span>
+              <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">{hash.label}</span>
               {hashes.sha1 && (
                 <button
                   onClick={() => handleCopy(hash.value, hash.id)}
@@ -78,7 +79,7 @@ export default function HashGenerator() {
               )}
             </div>
             <div className="p-4 bg-white border border-slate-200 rounded-2xl font-mono text-xs break-all text-slate-600 min-h-[52px] flex items-center">
-              {hash.value || <span className="text-slate-300 italic">Enter text to generate hash...</span>}
+              {hash.value || <span className="text-slate-500 italic">Enter text to generate hash...</span>}
             </div>
           </div>
         ))}
@@ -86,9 +87,10 @@ export default function HashGenerator() {
 
       <div className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100 flex gap-4">
         <ShieldCheck className="text-indigo-600 shrink-0" size={24} />
-        <p className="text-sm text-indigo-700 leading-relaxed">
-          <strong>Security Note:</strong> All hashing is performed locally in your browser. Your text is never sent to our servers.
-        </p>
+        <div className="text-sm text-indigo-700 leading-relaxed space-y-2">
+          <p><strong>Privacy:</strong> All hashing is performed locally in your browser. Your text is never sent to our servers.</p>
+          <p><strong>Algorithm note:</strong> SHA-1 is provided for legacy compatibility and should not be used for security-sensitive applications. Prefer SHA-256 or SHA-512.</p>
+        </div>
       </div>
     </div>
   );

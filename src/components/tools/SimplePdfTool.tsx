@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, FileText, Trash2, Download, Zap, ShieldCheck } from 'lucide-react';
-import { PDFDocument, degrees } from 'pdf-lib';
+import type { PDFDocument as PDFDocumentType } from 'pdf-lib';
 
 interface SimplePdfToolProps {
   toolId: string;
@@ -8,11 +8,14 @@ interface SimplePdfToolProps {
 
 interface SplitResult {
   name: string;
-  url: string;
+  pageIndex: number;
 }
 
 const isPdfFile = (file: File) =>
   file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+
+const MAX_PDF_FILE_BYTES = 50 * 1024 * 1024;
+const MAX_MERGE_TOTAL_BYTES = 100 * 1024 * 1024;
 
 export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [files, setFiles] = useState<File[]>([]);
@@ -23,11 +26,14 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState('');
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
+  const splitPdfRef = useRef<PDFDocumentType | null>(null);
+  const splitDownloadLockRef = useRef(false);
+  const processLockRef = useRef(false);
+  const [splitDownloading, setSplitDownloading] = useState(false);
 
   useEffect(() => () => {
     if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-    splitResults.forEach((result) => URL.revokeObjectURL(result.url));
-  }, [downloadUrl, splitResults]);
+  }, [downloadUrl]);
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -47,26 +53,53 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
     setProcessed(false);
     setDownloadUrl(null);
     setSplitResults([]);
+    splitPdfRef.current = null;
   };
 
   const handleProcess = async () => {
-    if (files.length === 0) return;
+    if (files.length === 0 || processLockRef.current) return;
+    const oversizedFile = files.find(file => file.size > MAX_PDF_FILE_BYTES);
+    if (oversizedFile) {
+      alert(`${oversizedFile.name} is larger than the 50 MB limit. Please choose a smaller PDF.`);
+      return;
+    }
+    if (toolId === 'merge-pdf' && files.reduce((total, file) => total + file.size, 0) > MAX_MERGE_TOTAL_BYTES) {
+      alert('The combined size of PDFs to merge must be 100 MB or less.');
+      return;
+    }
+    processLockRef.current = true;
     setLoading(true);
     setDownloadUrl(null);
     setSplitResults([]);
+    splitPdfRef.current = null;
 
     try {
       if (toolId === 'merge-pdf') {
         if (files.length < 2) {
           throw new Error('Select at least two PDF files to merge.');
         }
+        const { PDFDocument } = await import('pdf-lib');
         const mergedPdf = await PDFDocument.create();
-        for (const file of files) {
+
+        // Keep each source document and its input buffer scoped to one iteration.
+        // This lets the browser garbage-collect source data before the next file
+        // is parsed, instead of retaining loop-local references across the merge.
+        const appendSourcePdf = async (file: File) => {
           const bytes = await file.arrayBuffer();
-          const pdf = await PDFDocument.load(bytes);
-          const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-          copiedPages.forEach((page) => mergedPdf.addPage(page));
+          const sourcePdf = await PDFDocument.load(bytes);
+
+          // Copy one page at a time to avoid holding a second full set of
+          // copied page objects for a large source PDF.
+          for (let pageIndex = 0; pageIndex < sourcePdf.getPageCount(); pageIndex++) {
+            const [page] = await mergedPdf.copyPages(sourcePdf, [pageIndex]);
+            mergedPdf.addPage(page);
+          }
+        };
+
+        for (const file of files) {
+          await appendSourcePdf(file);
         }
+
         const mergedPdfBytes = await mergedPdf.save();
         const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
@@ -75,6 +108,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         setProcessed(true);
       } else if (toolId === 'rotate-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Rotate one PDF at a time.');
+        const { PDFDocument, degrees } = await import('pdf-lib');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pages = pdf.getPages();
@@ -92,6 +126,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         throw new Error('PDF password protection is not supported by the current browser-only engine. Your original file has not been changed.');
       } else if (toolId === 'split-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Split one PDF at a time.');
+        const { PDFDocument } = await import('pdf-lib');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
         const pageCount = pdf.getPageCount();
@@ -102,18 +137,13 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
           throw new Error('For mobile browser stability, split is currently limited to PDFs with 100 pages or fewer.');
         }
 
-        const results: SplitResult[] = [];
-        for (let pageIndex = 0; pageIndex < pageCount; pageIndex += 1) {
-          const splitPdf = await PDFDocument.create();
-          const [page] = await splitPdf.copyPages(pdf, [pageIndex]);
-          splitPdf.addPage(page);
-          const pdfBytes = await splitPdf.save();
-          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-          results.push({
-            name: `split_page_${pageIndex + 1}.pdf`,
-            url: URL.createObjectURL(blob),
-          });
-        }
+        // Keep the parsed source PDF once and generate each page only when requested.
+        // This avoids retaining up to 100 separate PDF blobs in browser memory.
+        splitPdfRef.current = pdf;
+        const results = Array.from({ length: pageCount }, (_, pageIndex) => ({
+          name: `split_page_${pageIndex + 1}.pdf`,
+          pageIndex,
+        }));
         setSplitResults(results);
         setProcessed(true);
       } else if (toolId === 'compress-pdf' && files.length > 0) {
@@ -122,14 +152,22 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         throw new Error('PDF unlocking is not supported by the current browser-only engine. Only process documents you own or are authorized to modify.');
       } else if (toolId === 'watermark-pdf' && files.length > 0) {
         if (files.length > 1) throw new Error('Add a watermark to one PDF at a time.');
+        const { PDFDocument, StandardFonts } = await import('pdf-lib');
         const label = watermarkText.trim();
         if (!label) throw new Error('Enter watermark text before processing.');
         const bytes = await files[0].arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
+        const watermarkFont = await pdf.embedFont(StandardFonts.Helvetica);
+        try {
+          watermarkFont.encodeText(label);
+        } catch {
+          throw new Error('This watermark tool currently supports standard Latin characters only. Hindi, Gujarati, emoji, and other unsupported characters cannot be embedded yet. Please use English/Latin text.');
+        }
         const pages = pdf.getPages();
         pages.forEach(page => {
           const { width, height } = page.getSize();
           page.drawText(label, {
+            font: watermarkFont,
             x: 40,
             y: Math.min(40, Math.max(10, height - 40)),
             size: 24,
@@ -150,15 +188,45 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
       console.error(err);
       alert(err instanceof Error ? err.message : 'Error processing PDF. Please try again.');
     } finally {
+      processLockRef.current = false;
       setLoading(false);
     }
   };
 
-  const handleSplitDownload = (result: SplitResult) => {
-    const anchor = document.createElement('a');
-    anchor.href = result.url;
-    anchor.download = result.name;
-    anchor.click();
+  const handleSplitDownload = async (result: SplitResult) => {
+    if (splitDownloadLockRef.current) return;
+    if (!splitPdfRef.current) {
+      alert('The source PDF is no longer available. Please upload it again.');
+      return;
+    }
+
+    splitDownloadLockRef.current = true;
+    setSplitDownloading(true);
+    let objectUrl: string | null = null;
+    try {
+      const { PDFDocument } = await import('pdf-lib');
+      const sourcePdf = splitPdfRef.current;
+      const splitPdf = await PDFDocument.create();
+      const [page] = await splitPdf.copyPages(sourcePdf, [result.pageIndex]);
+      splitPdf.addPage(page);
+      const pdfBytes = await splitPdf.save();
+      objectUrl = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+      const anchor = document.createElement('a');
+      anchor.href = objectUrl;
+      anchor.download = result.name;
+      anchor.click();
+      const urlToRevoke = objectUrl;
+      objectUrl = null;
+      // Give slower mobile browsers more time to hand the Blob URL to the download manager.
+      window.setTimeout(() => URL.revokeObjectURL(urlToRevoke), 60_000);
+    } catch (err) {
+      console.error(err);
+      alert(err instanceof Error ? `Could not create this page: ${err.message}` : 'Could not create this page. Please try again.');
+    } finally {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      splitDownloadLockRef.current = false;
+      setSplitDownloading(false);
+    }
   };
 
   const handleDownload = () => {
@@ -186,7 +254,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
           <div className="w-20 h-20 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 shadow-sm">
             <Upload size={32} />
           </div>
-          <h3 className="text-2xl font-black text-slate-800">Upload PDF Files</h3>
+          <h2 className="text-2xl font-black text-slate-800">Upload PDF Files</h2>
           <p className="text-slate-500 mt-2 mb-8 max-w-sm text-center font-medium">
             Drag and drop your PDF documents here or click to select files from your device.
           </p>
@@ -224,7 +292,9 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                 </div>
                 <button
                   onClick={() => removeFile(idx)}
-                  className="p-3 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                  disabled={loading || splitDownloading}
+                  aria-label={`Remove ${file.name}`}
+                  className="p-3 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all opacity-0 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <Trash2 size={18} />
                 </button>
@@ -241,9 +311,11 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   className="hidden"
                   accept=".pdf"
                   multiple
+                  disabled={loading}
                   onChange={(e) => {
-                    const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(f => f.type === 'application/pdf');
+                    const uploadedFiles = (Array.from(e.target.files || []) as File[]).filter(isPdfFile);
                     if (uploadedFiles.length > 0) setFiles(prev => [...prev, ...uploadedFiles]);
+                    e.target.value = '';
                   }}
                 />
               </label>
@@ -293,7 +365,7 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                 <ShieldCheck size={40} />
               </div>
               <div className="text-center space-y-2">
-                <h3 className="text-2xl font-black text-emerald-900">Successfully Processed!</h3>
+                <h2 className="text-2xl font-black text-emerald-900">Successfully Processed!</h2>
                 <p className="text-emerald-700 font-medium">{toolId === 'split-pdf' ? `${splitResults.length} separate PDF pages are ready to download.` : 'Your PDF is ready for download.'}</p>
               </div>
               <div className="flex flex-wrap justify-center gap-3">
@@ -301,7 +373,8 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                   <button
                     key={result.name}
                     onClick={() => handleSplitDownload(result)}
-                    className="flex items-center gap-2 px-5 py-3 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-lg"
+                    disabled={splitDownloading}
+                    className="flex items-center gap-2 px-5 py-3 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-wait"
                   >
                     <Download size={18} />
                     {result.name}
@@ -321,8 +394,10 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
                     setProcessed(false);
                     setDownloadUrl(null);
                     setSplitResults([]);
+                    splitPdfRef.current = null;
                     setWatermarkText('PhotoSize');
                   }}
+                  disabled={splitDownloading}
                   className="px-10 py-4 bg-white text-emerald-700 border border-emerald-200 rounded-2xl font-black hover:bg-emerald-50 transition-all"
                 >
                   Start Over

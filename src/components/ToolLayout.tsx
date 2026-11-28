@@ -1,6 +1,6 @@
 import React from 'react';
 import { Share2 } from 'lucide-react';
-import { TOOLS_SEO_CONTENT, TOOLS_FAQ } from '../content';
+import { TOOLS_SEO_CONTENT, TOOLS_FAQ } from '../toolContent';
 import { TOOLS, Tool } from '../constants';
 import { AdUnit } from './AdUnit';
 import FAQSection from './FAQSection';
@@ -31,7 +31,9 @@ export default function ToolLayout({ children, title, description, toolId, onToo
                   <h1 className="text-2xl font-bold tracking-tight text-slate-950 text-balance sm:text-3xl">{title} Online Tool & Generator</h1>
                   <p className="text-slate-500 dark:text-slate-400 mt-2">{description}</p>
                 </div>
-                <button 
+                <button
+                  type="button"
+                  aria-label={`Share ${title} tool`}
                   onClick={async () => {
                     const shareData = {
                       title,

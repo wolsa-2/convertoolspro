@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
-import { Upload, FileText, Info, Trash2, Calendar, User, Tag, Lock } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
+import React, { useState, useCallback, useRef } from 'react';
+import { FileText, Info, Trash2, Calendar, User, Tag } from 'lucide-react';
+
+const MAX_METADATA_PDF_BYTES = 50 * 1024 * 1024;
 
 export default function PdfMetadata() {
   const [metadata, setMetadata] = useState<any>(null);
@@ -8,6 +9,7 @@ export default function PdfMetadata() {
   const [fileSize, setFileSize] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
+  const loadingRef = useRef(false);
 
   const handleFile = async (file: File) => {
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
@@ -15,12 +17,23 @@ export default function PdfMetadata() {
       return;
     }
 
+    if (file.size > MAX_METADATA_PDF_BYTES) {
+      alert('Please choose a PDF smaller than 50 MB for reliable browser processing.');
+      return;
+    }
+
+    if (loadingRef.current) return;
+    loadingRef.current = true;
     setLoading(true);
     setFileName(file.name);
     setFileSize((file.size / 1024 / 1024).toFixed(2) + ' MB');
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
+      // Load the PDF parser only after a user selects a file so the initial tool view stays lightweight.
+      const [{ PDFDocument }, arrayBuffer] = await Promise.all([
+        import('pdf-lib'),
+        file.arrayBuffer(),
+      ]);
       const pdfDoc = await PDFDocument.load(arrayBuffer, { updateMetadata: false });
       
       setMetadata({
@@ -31,13 +44,14 @@ export default function PdfMetadata() {
         producer: pdfDoc.getProducer() || 'N/A',
         creationDate: pdfDoc.getCreationDate()?.toLocaleString() || 'N/A',
         modificationDate: pdfDoc.getModificationDate()?.toLocaleString() || 'N/A',
-        pageCount: pdfDoc.getPageCount(),
-        isEncrypted: pdfDoc.isEncrypted
+        pageCount: pdfDoc.getPageCount()
       });
     } catch (err) {
       console.error(err);
-      alert('Error reading PDF metadata. The file might be protected or corrupted.');
+      const reason = err instanceof Error ? err.message : String(err);
+      alert(`Could not read PDF metadata: ${reason}`);
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
   };
@@ -45,6 +59,7 @@ export default function PdfMetadata() {
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
+    if (loadingRef.current) return;
     const file = e.dataTransfer.files[0];
     if (file) handleFile(file);
   }, []);
@@ -63,7 +78,7 @@ export default function PdfMetadata() {
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-6">
             <FileText size={40} />
           </div>
-          <h3 className="text-xl font-bold text-slate-900">Analyze PDF</h3>
+          <h2 className="text-xl font-bold text-slate-900">Analyze PDF</h2>
           <p className="text-slate-500 mt-2 mb-8 max-w-xs text-center">
             Upload a PDF to view its hidden metadata, page count, and more.
           </p>
@@ -107,7 +122,6 @@ export default function PdfMetadata() {
               { label: 'Producer', value: metadata.producer, icon: FileText },
               { label: 'Creation Date', value: metadata.creationDate, icon: Calendar },
               { label: 'Modification Date', value: metadata.modificationDate, icon: Calendar },
-              { label: 'Encryption', value: metadata.isEncrypted ? 'Encrypted' : 'None', icon: Lock },
             ].map((item, idx) => (
               <div key={idx} className="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm flex items-start gap-4">
                 <div className="p-3 bg-slate-50 text-slate-400 rounded-xl">

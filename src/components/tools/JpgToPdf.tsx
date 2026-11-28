@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Upload, Trash2, FileImage, Download, MoveUp, MoveDown, Plus } from 'lucide-react';
-import { jsPDF } from 'jspdf';
-import { motion, Reorder } from 'motion/react';
+
+const MAX_JPG_FILE_BYTES = 25 * 1024 * 1024;
+const MAX_JPG_TOTAL_BYTES = 100 * 1024 * 1024;
 
 interface ImageFile {
   id: string;
@@ -15,37 +16,63 @@ export default function JpgToPdf() {
   const [images, setImages] = useState<ImageFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
+  const previewUrlsRef = useRef<Set<string>>(new Set());
+  const totalImageBytesRef = useRef(0);
+  const conversionLockRef = useRef(false);
+
+  useEffect(() => () => {
+    previewUrlsRef.current.forEach(url => URL.revokeObjectURL(url));
+    previewUrlsRef.current.clear();
+  }, []);
 
   const handleFiles = async (files: FileList | null) => {
     if (!files) return;
     const selectedFiles = Array.from(files);
-    const validFiles = selectedFiles.filter(file => file.type === 'image/jpeg' || file.type === 'image/jpg');
+    const validFiles = selectedFiles.filter(file =>
+      file.type === 'image/jpeg' ||
+      file.type === 'image/jpg' ||
+      /\.jpe?g$/i.test(file.name)
+    );
     if (validFiles.length !== selectedFiles.length) {
       alert('Only JPG/JPEG images are supported. Unsupported files were skipped.');
     }
+    const sizeValidFiles = validFiles.filter(file => file.size <= MAX_JPG_FILE_BYTES);
+    if (sizeValidFiles.length !== validFiles.length) {
+      alert('Images larger than 25 MB were skipped.');
+    }
+    const acceptedFiles: File[] = [];
+    let acceptedBytes = totalImageBytesRef.current;
+    for (const file of sizeValidFiles) {
+      if (acceptedBytes + file.size > MAX_JPG_TOTAL_BYTES) continue;
+      acceptedFiles.push(file);
+      acceptedBytes += file.size;
+    }
+    if (acceptedFiles.length !== sizeValidFiles.length) {
+      alert('The total JPG image size cannot exceed 100 MB. Some images were skipped.');
+    }
+    if (acceptedFiles.length === 0) return;
 
+    const createdPreviewUrls: string[] = [];
     try {
-      const loadedImages = await Promise.all(validFiles.map(file => new Promise<ImageFile>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const preview = event.target?.result;
-          if (typeof preview !== 'string') {
-            reject(new Error(`Could not read ${file.name}. Please choose the file again.`));
-            return;
-          }
-          resolve({
-            id: `${file.name}-${file.lastModified}-${crypto.randomUUID?.() || Date.now().toString(36)}`,
-            file,
-            preview,
-            name: file.name,
-            size: (file.size / 1024).toFixed(2) + ' KB',
-          });
+      const loadedImages = acceptedFiles.map(file => {
+        const preview = URL.createObjectURL(file);
+        createdPreviewUrls.push(preview);
+        previewUrlsRef.current.add(preview);
+        return {
+          id: `${file.name}-${file.lastModified}-${crypto.randomUUID?.() || Date.now().toString(36)}`,
+          file,
+          preview,
+          name: file.name,
+          size: (file.size / 1024).toFixed(2) + ' KB',
         };
-        reader.onerror = () => reject(new Error(`Could not read ${file.name}. Please try another file.`));
-        reader.readAsDataURL(file);
-      })));
+      });
+      totalImageBytesRef.current += acceptedFiles.reduce((total, file) => total + file.size, 0);
       setImages(prev => [...prev, ...loadedImages]);
     } catch (error) {
+      createdPreviewUrls.forEach(url => {
+        URL.revokeObjectURL(url);
+        previewUrlsRef.current.delete(url);
+      });
       alert(error instanceof Error ? error.message : 'One or more images could not be read.');
     }
   };
@@ -53,11 +80,18 @@ export default function JpgToPdf() {
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
+    if (isConverting) return;
     handleFiles(e.dataTransfer.files);
-  }, []);
+  }, [isConverting]);
 
   const removeImage = (id: string) => {
-    setImages((prev) => prev.filter((img) => img.id !== id));
+    const image = images.find(img => img.id === id);
+    if (image) {
+      URL.revokeObjectURL(image.preview);
+      previewUrlsRef.current.delete(image.preview);
+      totalImageBytesRef.current = Math.max(0, totalImageBytesRef.current - image.file.size);
+    }
+    setImages(prev => prev.filter(img => img.id !== id));
   };
 
   const moveImage = (index: number, direction: 'up' | 'down') => {
@@ -70,22 +104,28 @@ export default function JpgToPdf() {
   };
 
   const convertToPdf = async () => {
-    if (images.length === 0) return;
+    if (images.length === 0 || conversionLockRef.current) return;
+    conversionLockRef.current = true;
     setIsConverting(true);
 
     try {
+      // Load the PDF engine only when the user starts conversion.
+      const { jsPDF } = await import('jspdf');
       const pdf = new jsPDF();
       
       for (let i = 0; i < images.length; i++) {
         const img = images[i];
-        const imgData = img.preview;
-        
-        // Create a temporary image element to get dimensions
         const tempImg = new Image();
         await new Promise<void>((resolve, reject) => {
+          const releaseTempImage = () => {
+            tempImg.onload = null;
+            tempImg.onerror = null;
+            tempImg.removeAttribute('src');
+          };
+
           tempImg.onload = () => {
             try {
-              const imgProps = pdf.getImageProperties(imgData);
+              const imgProps = pdf.getImageProperties(tempImg);
               const pageWidth = pdf.internal.pageSize.getWidth();
               const pageHeight = pdf.internal.pageSize.getHeight();
               const scale = Math.min(pageWidth / imgProps.width, pageHeight / imgProps.height);
@@ -95,22 +135,34 @@ export default function JpgToPdf() {
               const y = (pageHeight - drawHeight) / 2;
 
               if (i > 0) pdf.addPage();
-              pdf.addImage(imgData, 'JPEG', x, y, drawWidth, drawHeight);
+              pdf.addImage(tempImg, 'JPEG', x, y, drawWidth, drawHeight);
+              // Release decoded image resources on both success and failure.
+              releaseTempImage();
               resolve();
             } catch (error) {
+              releaseTempImage();
               reject(error);
             }
           };
-          tempImg.onerror = () => reject(new Error(`Could not decode ${img.name}. Please choose a valid JPG image.`));
-          tempImg.src = imgData;
+          tempImg.onerror = () => {
+            releaseTempImage();
+            reject(new Error(`Could not decode ${img.name}. Please choose a valid JPG image.`));
+          };
+          try {
+            tempImg.src = img.preview;
+          } catch (error) {
+            releaseTempImage();
+            reject(error);
+          }
         });
       }
 
       pdf.save('converted-images.pdf');
     } catch (error) {
       console.error('PDF conversion failed:', error);
-      alert('Failed to convert images to PDF. Please try again.');
+      alert(error instanceof Error ? error.message : 'Failed to convert images to PDF. Please try again.');
     } finally {
+      conversionLockRef.current = false;
       setIsConverting(false);
     }
   };
@@ -128,7 +180,7 @@ export default function JpgToPdf() {
         <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-4">
           <Upload size={32} />
         </div>
-        <h3 className="text-lg font-bold text-slate-900">Upload JPG Images</h3>
+        <h2 className="text-lg font-bold text-slate-900">Upload JPG Images</h2>
         <p className="text-slate-500 mt-1 mb-6 text-sm text-center">
           Drag and drop multiple JPG files here, or click to select.
         </p>
@@ -140,6 +192,7 @@ export default function JpgToPdf() {
             className="hidden"
             accept="image/jpeg, image/jpg"
             multiple
+            disabled={isConverting}
             onChange={(e) => { handleFiles(e.target.files); e.currentTarget.value = ''; }}
           />
         </label>
@@ -166,11 +219,8 @@ export default function JpgToPdf() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {images.map((img, index) => (
-              <motion.div
+              <div
                 key={img.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
                 className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
               >
                 <div className="aspect-[4/3] rounded-xl overflow-hidden bg-slate-50 mb-4 relative">
@@ -178,7 +228,7 @@ export default function JpgToPdf() {
                   <div className="absolute inset-0 bg-black/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     <button
                       onClick={() => moveImage(index, 'up')}
-                      disabled={index === 0}
+                      disabled={isConverting || index === 0}
                       className="p-2 bg-white/20 hover:bg-white/40 rounded-lg text-white disabled:opacity-30"
                       title="Move Up"
                     >
@@ -186,7 +236,7 @@ export default function JpgToPdf() {
                     </button>
                     <button
                       onClick={() => moveImage(index, 'down')}
-                      disabled={index === images.length - 1}
+                      disabled={isConverting || index === images.length - 1}
                       className="p-2 bg-white/20 hover:bg-white/40 rounded-lg text-white disabled:opacity-30"
                       title="Move Down"
                     >
@@ -194,7 +244,8 @@ export default function JpgToPdf() {
                     </button>
                     <button
                       onClick={() => removeImage(img.id)}
-                      className="p-2 bg-rose-500/80 hover:bg-rose-500 rounded-lg text-white"
+                      disabled={isConverting}
+                      className="p-2 bg-rose-500/80 hover:bg-rose-500 rounded-lg text-white disabled:opacity-40 disabled:cursor-not-allowed"
                       title="Remove"
                     >
                       <Trash2 size={18} />
@@ -208,7 +259,7 @@ export default function JpgToPdf() {
                   <p className="text-sm font-bold text-slate-900 truncate" title={img.name}>{img.name}</p>
                   <p className="text-xs text-slate-400">{img.size}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

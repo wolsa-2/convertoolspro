@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, ArrowRight, Facebook, Instagram, Twitter, Linkedin, Youtube, Moon, Sun, Camera, Image as ImageIcon, MousePointerClick, Smartphone, ChevronDown, Code } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, Menu, X, Heart, Zap, Home, Info, Mail, Shield, FileText, ArrowRight, Moon, Sun, Camera, Image as ImageIcon, ChevronDown, Code } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
-import { motion, AnimatePresence } from 'motion/react';
 import { STATIC_PAGES_CONTENT } from './content';
+import Blog from './components/Blog';
+import ToolLayout from './components/ToolLayout';
 import { AdUnit } from './components/AdUnit';
+
 
 const StructuredData = () => {
   const schema = {
@@ -34,6 +36,7 @@ const StructuredData = () => {
 };
 
 // Tool Components (Lazy Loaded)
+// Keep the shared tool-page shell eager to prevent a large footer layout shift while it loads.
 const CharacterCounter = React.lazy(() => import('./components/tools/CharacterCounter'));
 const PasswordGenerator = React.lazy(() => import('./components/tools/PasswordGenerator'));
 const Base64Codec = React.lazy(() => import('./components/tools/Base64Codec'));
@@ -47,18 +50,23 @@ const ImagePlaceholder = React.lazy(() => import('./components/tools/ImagePlaceh
 const ImageToBase64 = React.lazy(() => import('./components/tools/ImageToBase64'));
 const PdfMetadata = React.lazy(() => import('./components/tools/PdfMetadata'));
 const JpgToPdf = React.lazy(() => import('./components/tools/JpgToPdf'));
-const PdfToolsOverview = React.lazy(() => import('./components/tools/PdfToolsOverview'));
 const SimplePdfTool = React.lazy(() => import('./components/tools/SimplePdfTool'));
 const TweetGenerator = React.lazy(() => import('./components/tools/TweetGenerator'));
 const HtmlEntities = React.lazy(() => import('./components/tools/HtmlEntities'));
 
-const Blog = React.lazy(() => import('./components/Blog'));
-const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
+
+
 import { Marquee } from './components/Marquee';
 import { Suspense } from 'react';
 
 
 type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'disclaimer' | '404';
+
+const HOME_SECTION_CARDS = [
+  { label: 'Image tools', category: 'Image' as Category, description: 'Image utilities and file helpers', tone: 'blue' },
+  { label: 'PDF tools', category: 'PDF' as Category, description: 'Create, organize and inspect PDFs', tone: 'rose' },
+  { label: 'Text & web tools', category: 'Text & Lists' as Category, description: 'Writing, coding and everyday utilities', tone: 'violet' }
+];
 
 const getRouteFromLocation = (): { page: Page; tool: Tool | null } => {
   let pathname = window.location.pathname;
@@ -260,17 +268,15 @@ export default function App() {
     }
   }, []);
 
-  const filteredTools = TOOLS.filter(tool => {
-    const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         tool.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
-  });
-
-  const toolsByCategory = CATEGORIES.reduce((acc, cat) => {
-    const tools = filteredTools.filter(t => t.category === cat);
-    if (tools.length > 0) acc[cat] = tools;
-    return acc;
-  }, {} as Record<Category, Tool[]>);
+  // Recompute the tool directory only when its actual filters change.
+  const visibleTools = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return TOOLS.filter((tool) => {
+      const matchesSection = activeSection === 'All Tools' || tool.category === activeSection;
+      const matchesSearch = !query || tool.name.toLowerCase().includes(query) || tool.description.toLowerCase().includes(query);
+      return matchesSection && matchesSearch;
+    });
+  }, [activeSection, searchQuery]);
 
   const navigateTo = (page: Page) => {
     const path = page === 'home' ? '/' : `/${page}`;
@@ -375,7 +381,13 @@ export default function App() {
         toolId={activeTool.id}
         onToolNavigate={navigateToTool}
       >
-        {component}
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        }>
+          {component}
+        </Suspense>
       </ToolLayout>
     );
   };
@@ -409,27 +421,27 @@ export default function App() {
                   <h1 className="mt-6 max-w-2xl text-4xl font-bold leading-[1.04] tracking-[-.05em] text-[#20242B] sm:text-5xl lg:text-6xl">A little less digital clutter. <span className="text-[#E65C40]">A lot more done.</span></h1>
                   <p className="mt-5 max-w-xl text-base leading-8 text-[#666D76] sm:text-lg">PhotoSize brings useful image, PDF and everyday digital tools into one straightforward workspace—so common tasks take fewer steps.</p>
                   <div className="mt-7 flex flex-wrap gap-3">
-                    <button onClick={() => navigateTo('home')} className="inline-flex items-center gap-2 rounded-xl bg-[#FF684A] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#E95B3F]">Explore tools <ArrowRight size={16}/></button>
+                    <button onClick={() => navigateTo('home')} className="inline-flex items-center gap-2 rounded-xl bg-[#C7432A] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#B83D26]">Explore tools <ArrowRight size={16}/></button>
                     <button onClick={() => navigateTo('contact')} className="inline-flex items-center gap-2 rounded-xl border border-[#E8E2DA] bg-white px-5 py-3 text-sm font-bold text-[#555B63] transition hover:border-[#FF684A] hover:text-[#D94F34]">Get in touch</button>
                   </div>
                 </div>
                 <div className="rounded-[26px] border border-[#E8E2DA] bg-white p-5 shadow-sm sm:p-7">
                   <div className="flex items-center justify-between gap-3 border-b border-[#EEEAE5] pb-4">
-                    <div className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF0EB] text-[#D94F34]"><ImageIcon size={22}/></span><div><p className="font-bold text-[#20242B]">PhotoSize</p><p className="text-xs text-[#858A91]">Your everyday utility workspace</p></div></div>
-                    <span className="rounded-full bg-[#FFF0EB] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-[#D94F34]">Simple by design</span>
+                    <div className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF0EB] text-[#D94F34]"><ImageIcon size={22}/></span><div><p className="font-bold text-[#20242B]">PhotoSize</p><p className="text-xs text-[#666D76]">Your everyday utility workspace</p></div></div>
+                    <span className="rounded-full bg-[#FFF0EB] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-[#B83D26]">Simple by design</span>
                   </div>
                   <div className="mt-5 grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><Camera className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">Image tools</p><p className="mt-1 text-xs leading-5 text-[#707780]">Resize, convert and prepare images</p></div>
-                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><FileText className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">PDF tools</p><p className="mt-1 text-xs leading-5 text-[#707780]">Handle everyday documents</p></div>
-                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><Code className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">Developer tools</p><p className="mt-1 text-xs leading-5 text-[#707780]">Quick helpers for digital work</p></div>
-                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><Shield className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">Privacy aware</p><p className="mt-1 text-xs leading-5 text-[#707780]">Processing details made clear</p></div>
+                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><Camera className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">Image tools</p><p className="mt-1 text-xs leading-5 text-[#666D76]">Resize, convert and prepare images</p></div>
+                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><FileText className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">PDF tools</p><p className="mt-1 text-xs leading-5 text-[#666D76]">Handle everyday documents</p></div>
+                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><Code className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">Developer tools</p><p className="mt-1 text-xs leading-5 text-[#666D76]">Quick helpers for digital work</p></div>
+                    <div className="rounded-2xl bg-[#FAF8F5] p-4"><Shield className="text-[#E65C40]" size={22}/><p className="mt-3 font-bold text-[#20242B]">Privacy aware</p><p className="mt-1 text-xs leading-5 text-[#666D76]">Processing details made clear</p></div>
                   </div>
                 </div>
               </div>
             </section>
 
             <section className="py-14 sm:py-16">
-              <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-widest text-[#D94F34]">Why PhotoSize exists</p><h2 className="mt-2 text-3xl font-bold tracking-[-.04em] text-[#20242B] sm:text-4xl">Useful tools. Less friction.</h2><p className="mt-4 text-base leading-7 text-[#666D76]">Helpful digital utilities should be easy to find, straightforward to use and accessible without unnecessary complexity.</p></div>
+              <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-widest text-[#B83D26]">Why PhotoSize exists</p><h2 className="mt-2 text-3xl font-bold tracking-[-.04em] text-[#20242B] sm:text-4xl">Useful tools. Less friction.</h2><p className="mt-4 text-base leading-7 text-[#666D76]">Helpful digital utilities should be easy to find, straightforward to use and accessible without unnecessary complexity.</p></div>
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 <article className="rounded-[24px] border border-[#E8E2DA] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[#FFB09E] hover:shadow-lg"><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF0EB] text-[#D94F34]"><Zap size={22}/></span><h3 className="mt-4 text-lg font-bold text-[#20242B]">Our mission</h3><p className="mt-2 text-sm leading-7 text-[#707780]">Bring practical tools for creators, students, developers and everyday users into one accessible workspace—without making simple tasks feel complicated.</p></article>
                 <article className="rounded-[24px] border border-[#E8E2DA] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[#FFB09E] hover:shadow-lg"><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF0EB] text-[#D94F34]"><Shield size={22}/></span><h3 className="mt-4 text-lg font-bold text-[#20242B]">Privacy matters</h3><p className="mt-2 text-sm leading-7 text-[#707780]">We favour browser-based processing wherever a tool supports it. Check each tool's details for its specific processing behaviour before using sensitive files.</p></article>
@@ -439,7 +451,7 @@ export default function App() {
 
             <section className="rounded-[28px] border border-[#E8E2DA] bg-white px-6 py-9 sm:px-10 sm:py-12">
               <div className="grid gap-6 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
-                <div><p className="text-xs font-bold uppercase tracking-widest text-[#D94F34]">The story</p><h2 className="mt-2 text-3xl font-bold leading-tight tracking-[-.04em] text-[#20242B] sm:text-4xl">Made to make everyday work feel easier.</h2></div>
+                <div><p className="text-xs font-bold uppercase tracking-widest text-[#B83D26]">The story</p><h2 className="mt-2 text-3xl font-bold leading-tight tracking-[-.04em] text-[#20242B] sm:text-4xl">Made to make everyday work feel easier.</h2></div>
                 <div className="space-y-4 text-sm leading-7 text-[#666D76]"><p>Too many everyday tasks require opening a different website, learning a new interface or navigating unnecessary steps. PhotoSize brings those small but frequent jobs into one consistent place.</p><p>We keep improving the experience, refining existing tools and adding practical guides based on what people need. The goal is not to add features for the sake of a longer list—it is to make the tools genuinely useful.</p></div>
               </div>
             </section>
@@ -451,7 +463,7 @@ export default function App() {
                   <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-white/15 bg-white/10 text-3xl font-black text-[#FF9A83] sm:h-24 sm:w-24">SK</div>
                 </div>
               </div>
-              <div className="mt-5 flex flex-col items-start justify-between gap-4 rounded-[24px] border border-[#E8E2DA] bg-[#FAF8F5] p-6 sm:flex-row sm:items-center"><div><h3 className="text-lg font-bold text-[#20242B]">Have an idea or feedback?</h3><p className="mt-1 text-sm text-[#707780]">Tell us what would make PhotoSize more useful.</p></div><button onClick={() => navigateTo('contact')} className="inline-flex items-center gap-2 rounded-xl bg-[#FF684A] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#E95B3F]">Contact us <ArrowRight size={16}/></button></div>
+              <div className="mt-5 flex flex-col items-start justify-between gap-4 rounded-[24px] border border-[#E8E2DA] bg-[#FAF8F5] p-6 sm:flex-row sm:items-center"><div><h3 className="text-lg font-bold text-[#20242B]">Have an idea or feedback?</h3><p className="mt-1 text-sm text-[#666D76]">Tell us what would make PhotoSize more useful.</p></div><button onClick={() => navigateTo('contact')} className="inline-flex items-center gap-2 rounded-xl bg-[#C7432A] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#B83D26]">Contact us <ArrowRight size={16}/></button></div>
             </section>
           </main>
         );
@@ -523,13 +535,9 @@ export default function App() {
             <div className="relative">
               <h1 className="text-[10rem] md:text-[15rem] font-black text-slate-50 leading-none select-none">404</h1>
               <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div 
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 12 }}
-                  className="w-24 h-24 md:w-40 md:h-40 bg-indigo-600 rounded-[2.5rem] flex items-center justify-center text-white shadow-2xl"
-                >
+                <div className="w-24 h-24 md:w-40 md:h-40 bg-indigo-600 rounded-[2.5rem] flex items-center justify-center text-white shadow-2xl rotate-12">
                   <Zap size={64} fill="currentColor" />
-                </motion.div>
+                </div>
               </div>
             </div>
             <div className="space-y-6 max-w-2xl mx-auto">
@@ -552,21 +560,8 @@ export default function App() {
   };
 
   const renderHome = () => {
-    const visibleTools = TOOLS.filter((tool) => {
-      const matchesSection = activeSection === 'All Tools' || tool.category === activeSection;
-      const q = searchQuery.trim().toLowerCase();
-      const matchesSearch = !q || tool.name.toLowerCase().includes(q) || tool.description.toLowerCase().includes(q);
-      return matchesSection && matchesSearch;
-    });
-
-    const sectionCards = [
-      { label: 'Image tools', category: 'Image' as Category, description: 'Image utilities and file helpers', tone: 'blue' },
-      { label: 'PDF tools', category: 'PDF' as Category, description: 'Create, organize and inspect PDFs', tone: 'rose' },
-      { label: 'Text & web tools', category: 'Text & Lists' as Category, description: 'Writing, coding and everyday utilities', tone: 'violet' }
-    ];
-
     return (
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} className="space-y-12 pb-12">
+      <div className="space-y-12 pb-12">
         <section className="ps-hero overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
           <img
             src="/photosize-brand-hero.svg"
@@ -589,7 +584,7 @@ export default function App() {
         </section>
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {sectionCards.map((item) => (
+          {HOME_SECTION_CARDS.map((item) => (
             <button key={item.category} onClick={() => navigateToTools(item.category)} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg">
               <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", item.tone === 'rose' ? "bg-rose-50 text-rose-600" : item.tone === 'violet' ? "bg-violet-50 text-violet-600" : "bg-blue-50 text-blue-600")}>
                 {item.category === 'Image' ? <ImageIcon size={23} /> : item.category === 'PDF' ? <FileText size={23} /> : <Code size={23} />}
@@ -617,10 +612,10 @@ export default function App() {
           {visibleTools.length ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {visibleTools.map((tool) => (
-                <motion.button key={tool.id} type="button" whileHover={{ y: -3 }} whileTap={{ scale: .99 }} onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                <button key={tool.id} type="button" onClick={() => { navigateToTool(tool); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="group flex min-h-44 w-full items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5 focus:outline-none focus:ring-4 focus:ring-blue-100">
                   <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", tool.category === 'PDF' ? "bg-rose-50 text-rose-600" : tool.category === 'Image' ? "bg-blue-50 text-blue-600" : "bg-violet-50 text-violet-600")}><tool.icon size={23} /></span>
                   <span className="min-w-0 flex-1"><span className="block text-base font-bold tracking-tight text-slate-900 transition group-hover:text-blue-700">{tool.name}</span><span className="mt-2 block text-sm leading-6 text-slate-500">{tool.description}</span><span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-blue-600">Open tool <ArrowRight size={14} className="transition group-hover:translate-x-1" /></span></span>
-                </motion.button>
+                </button>
               ))}
             </div>
           ) : <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center"><Search size={25} className="mx-auto text-slate-400" /><p className="mt-3 font-semibold text-slate-800">No matching tools</p><p className="mt-1 text-sm text-slate-500">Try a different search or category.</p></div>}
@@ -637,7 +632,7 @@ export default function App() {
             className="block h-auto w-full"
           />
         </section>
-      </motion.div>
+      </div>
     );
   };
 
@@ -695,8 +690,12 @@ export default function App() {
               </button>
             </div>
 
-            <button 
+            <button
+              type="button"
               className="md:hidden p-2 text-slate-600"
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -736,14 +735,8 @@ export default function App() {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
-          >
+      {isMenuOpen && (
+          <div id="mobile-navigation" className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40">
             <div className="flex flex-col gap-2">
               <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Home</button>
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl">Blog</button>
@@ -752,9 +745,8 @@ export default function App() {
               <button onClick={() => navigateToTools('All Tools')} className="p-4 text-left font-bold text-blue-700 hover:bg-blue-50 rounded-xl">All Tools</button>
               {CATEGORIES.map(category => <button key={category} onClick={() => navigateToTools(category)} className="p-4 text-left font-semibold text-slate-600 hover:bg-slate-50 rounded-xl">{category} Tools</button>)}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {renderPage()}
@@ -773,6 +765,7 @@ export default function App() {
                   aria-hidden="true"
                   width="32"
                   height="32"
+                  style={{ width: 32, height: 32 }}
                   className="h-8 w-8 shrink-0 rounded-lg ring-1 ring-[#E8E2DA]"
                 />
                 <span className="text-lg font-bold tracking-tight text-[#20242B] dark:text-white">PhotoSize</span>
@@ -780,14 +773,14 @@ export default function App() {
               <p className="text-slate-500 dark:text-slate-400 max-w-sm">
                 PhotoSize brings simple online image utilities together in one focused, easy-to-use workspace.
               </p>
-              <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
+              <p className="text-[10px] text-slate-600 leading-relaxed max-w-xs">
                 Disclaimer: Tools are provided as is. Processing behavior can vary by tool; review the relevant tool details before using sensitive files or information.
               </p>
 
             </div>
             
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Quick Links</h4>
+              <h2 className="font-bold text-slate-900 dark:text-white mb-6">Quick Links</h2>
               <ul className="space-y-4">
                 <li><a href="/" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">Home Dashboard</a></li>
                 <li><a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('blog'); }} className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-colors">SEO & Tools Blog</a></li>
@@ -797,7 +790,7 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h4>
+              <h2 className="font-bold text-slate-900 dark:text-white mb-6">Popular Tools</h2>
               <ul className="space-y-4 text-slate-500 dark:text-slate-400">
                 <li><a href="/tool/case-converter" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'case-converter')!); }} className="hover:text-indigo-600 transition-colors">Case Converter</a></li>
                 <li><a href="/tool/image-placeholder" onClick={(e) => { e.preventDefault(); navigateToTool(TOOLS.find(t => t.id === 'image-placeholder')!); }} className="hover:text-indigo-600 transition-colors">Image Placeholder</a></li>
@@ -807,7 +800,7 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-6">Legal & Resources</h4>
+              <h2 className="font-bold text-slate-900 dark:text-white mb-6">Legal & Resources</h2>
               <ul className="space-y-4 text-slate-500">
                 <li><a href="/privacy" onClick={(e) => { e.preventDefault(); navigateTo('privacy'); }} className="hover:text-indigo-600 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" onClick={(e) => { e.preventDefault(); navigateTo('terms'); }} className="hover:text-indigo-600 transition-colors">Terms of Service</a></li>
@@ -821,10 +814,10 @@ export default function App() {
           </div>
           
           <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-600 dark:text-slate-300 text-sm">
               © 2026 PhotoSize. All rights reserved.
             </p>
-            <div className="flex items-center gap-1 text-slate-400 text-sm">
+            <div className="flex items-center gap-1 text-slate-600 dark:text-slate-300 text-sm">
               Made with <Heart size={14} className="text-rose-500 fill-rose-500" /> for the community.
             </div>
           </div>
@@ -832,20 +825,14 @@ export default function App() {
       </footer>
 
       {/* Cookie Consent */}
-      <AnimatePresence>
-        {showCookieConsent && (
-          <motion.div 
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl rounded-3xl p-6 z-[60] space-y-4"
-          >
+      {showCookieConsent && (
+          <div className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl rounded-3xl p-6 z-[60] space-y-4">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
                 <Shield size={20} />
               </div>
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h4>
+                <h2 className="font-bold text-slate-900 dark:text-white">Cookie Policy</h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                   Essential site storage keeps the website working. Optional analytics and advertising scripts are enabled only if you choose to accept them.
                 </p>
@@ -868,9 +855,8 @@ export default function App() {
             <button onClick={() => navigateTo('privacy')} className="text-xs font-semibold text-indigo-600 hover:underline">
               Read Privacy Policy
             </button>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </div>
   );
 }

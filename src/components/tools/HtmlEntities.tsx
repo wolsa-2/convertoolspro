@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRightLeft, Copy, Check, Trash2, Code } from 'lucide-react';
+import { ArrowRightLeft, Copy, Check } from 'lucide-react';
 import he from 'he';
 import { copyTextToClipboard } from '../../lib/clipboard';
 
@@ -29,10 +29,9 @@ export default function HtmlEntities() {
 
   const toggleMode = () => {
     const newMode = mode === 'encode' ? 'decode' : 'encode';
+    const source = output === 'Error processing HTML entities' ? input : output;
     setMode(newMode);
-    const temp = output;
-    setOutput(input);
-    process(temp, newMode);
+    process(source, newMode);
   };
 
   const handleCopy = async () => {
