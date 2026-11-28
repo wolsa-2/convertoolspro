@@ -89,7 +89,9 @@ test('two PDFs merge into a valid two-page PDF', async ({ page }) => {
 test('QR code exports a PNG download', async ({ page }) => {
   await page.goto('/tool/qr-generator');
   await page.getByLabel('QR code URL or text').fill('https://example.com/photosize-smoke');
-  await expect(page.locator('svg')).toBeVisible();
+  const qrCode = page.locator('svg[viewBox="0 0 256 256"]');
+  await expect(qrCode).toHaveCount(1);
+  await expect(qrCode).toBeVisible();
 
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download PNG' }).click();
