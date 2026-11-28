@@ -7,6 +7,18 @@ export default function WebcamTest() {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      const activeStream = streamRef.current;
+      streamRef.current = null;
+      activeStream?.getTracks().forEach(track => track.stop());
+    };
+  }, []);
 
   const startTest = async () => {
     try {
@@ -14,6 +26,12 @@ export default function WebcamTest() {
         video: true, 
         audio: true 
       });
+      if (!mountedRef.current) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        return;
+      }
+      streamRef.current?.getTracks().forEach(track => track.stop());
+      streamRef.current = mediaStream;
       setStream(mediaStream);
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
@@ -27,12 +45,12 @@ export default function WebcamTest() {
   };
 
   const stopTest = () => {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      setStream(null);
-      setIsCameraOn(false);
-      setIsMicOn(false);
-    }
+    const activeStream = streamRef.current;
+    streamRef.current = null;
+    activeStream?.getTracks().forEach(track => track.stop());
+    setStream(null);
+    setIsCameraOn(false);
+    setIsMicOn(false);
   };
 
   const toggleCamera = () => {
@@ -55,9 +73,6 @@ export default function WebcamTest() {
     }
   };
 
-  useEffect(() => {
-    return () => stopTest();
-  }, []);
 
   return (
     <div className="space-y-8">
