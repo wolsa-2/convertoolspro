@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, Trash2, Type } from 'lucide-react';
+import { Copy, Check, Trash2 } from 'lucide-react';
 import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function CaseConverter() {
@@ -9,16 +9,23 @@ export default function CaseConverter() {
   const convert = (type: string) => {
     let result = text;
     switch (type) {
-      case 'upper': result = text.toUpperCase(); break;
-      case 'lower': result = text.toLowerCase(); break;
-      case 'title': 
-        result = text.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+      case 'upper':
+        result = text.toUpperCase();
+        break;
+      case 'lower':
+        result = text.toLowerCase();
+        break;
+      case 'title':
+        result = text.toLowerCase().replace(/\S+/g, word => {
+          const characters = Array.from(word);
+          return characters.length ? characters[0].toUpperCase() + characters.slice(1).join('') : word;
+        });
         break;
       case 'sentence':
-        result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+        result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, character => character.toUpperCase());
         break;
       case 'camel':
-        result = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+        result = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_match, character: string) => character.toUpperCase());
         break;
       case 'snake':
         result = text.toLowerCase().replace(/\s+/g, '_');
@@ -26,11 +33,15 @@ export default function CaseConverter() {
       case 'kebab':
         result = text.toLowerCase().replace(/\s+/g, '-');
         break;
+      default:
+        return;
     }
     setText(result);
+    setCopied(false);
   };
 
   const handleCopy = async () => {
+    if (!text) return;
     if (await copyTextToClipboard(text)) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
@@ -53,6 +64,7 @@ export default function CaseConverter() {
         ].map(btn => (
           <button
             key={btn.id}
+            type="button"
             onClick={() => convert(btn.id)}
             className="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-bold hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 transition-all shadow-sm"
           >
@@ -63,23 +75,30 @@ export default function CaseConverter() {
 
       <div className="relative">
         <textarea
+          id="case-converter-input"
+          aria-label="Text to convert"
           className="w-full h-80 p-8 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none font-mono text-sm"
           placeholder="Type or paste text to convert..."
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => { setText(e.target.value); setCopied(false); }}
         />
         <div className="absolute top-4 right-4 flex gap-2">
           <button
+            type="button"
             onClick={handleCopy}
-            className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 transition-all shadow-sm"
+            disabled={!text}
+            aria-label="Copy converted text"
+            className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {copied ? <Check size={20} className="text-emerald-500" /> : <Copy size={20} />}
+            {copied ? <Check size={20} className="text-emerald-500" aria-hidden="true" /> : <Copy size={20} aria-hidden="true" />}
           </button>
           <button
-            onClick={() => setText('')}
+            type="button"
+            onClick={() => { setText(''); setCopied(false); }}
+            aria-label="Clear text"
             className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-rose-600 transition-all shadow-sm"
           >
-            <Trash2 size={20} />
+            <Trash2 size={20} aria-hidden="true" />
           </button>
         </div>
       </div>
