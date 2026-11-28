@@ -6,15 +6,17 @@ export default function CharacterCounter() {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
 
+  const trimmedText = text.trim();
   const stats = {
     characters: Array.from(text).length,
-    charactersNoSpaces: text.replace(/\s/g, '').length,
-    words: text.trim() ? text.trim().split(/\s+/).length : 0,
-    lines: text.trim() ? text.split('\n').length : 0,
-    sentences: text.trim() ? text.split(/[.!?]+/).filter(Boolean).length : 0,
+    charactersNoSpaces: Array.from(text.replace(/\s/g, '')).length,
+    words: trimmedText ? trimmedText.split(/\s+/u).length : 0,
+    lines: text ? text.split('\n').length : 0,
+    sentences: trimmedText ? text.split(/[.!?]+/u).filter(part => part.trim()).length : 0,
   };
 
   const handleCopy = async () => {
+    if (!text) return;
     if (await copyTextToClipboard(text)) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
@@ -38,23 +40,33 @@ export default function CharacterCounter() {
 
       <div className="relative">
         <textarea
+          aria-label="Text to count"
           className="w-full h-64 p-6 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none font-mono text-sm"
           placeholder="Paste or type your text here..."
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value);
+            setCopied(false);
+          }}
         />
         <div className="absolute top-4 right-4 flex gap-2">
           <button
+            type="button"
             onClick={handleCopy}
-            className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-indigo-600 hover:border-indigo-200 transition-all shadow-sm"
+            disabled={!text}
+            className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-indigo-600 hover:border-indigo-200 transition-all shadow-sm disabled:opacity-50"
             title="Copy Text"
+            aria-label="Copy text"
           >
             {copied ? <Check size={18} className="text-emerald-500" /> : <Copy size={18} />}
           </button>
           <button
-            onClick={() => setText('')}
-            className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm"
+            type="button"
+            onClick={() => { setText(''); setCopied(false); }}
+            disabled={!text}
+            className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm disabled:opacity-50"
             title="Clear Text"
+            aria-label="Clear text"
           >
             <Trash2 size={18} />
           </button>
