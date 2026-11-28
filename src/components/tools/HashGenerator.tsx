@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Hash, Copy, Check, ShieldCheck } from 'lucide-react';
+import { Copy, Check, ShieldCheck } from 'lucide-react';
 import { copyTextToClipboard } from '../../lib/clipboard';
 
 export default function HashGenerator() {
@@ -86,9 +86,10 @@ export default function HashGenerator() {
 
       <div className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100 flex gap-4">
         <ShieldCheck className="text-indigo-600 shrink-0" size={24} />
-        <p className="text-sm text-indigo-700 leading-relaxed">
-          <strong>Security Note:</strong> All hashing is performed locally in your browser. Your text is never sent to our servers.
-        </p>
+        <div className="text-sm text-indigo-700 leading-relaxed space-y-2">
+          <p><strong>Privacy:</strong> All hashing is performed locally in your browser. Your text is never sent to our servers.</p>
+          <p><strong>Algorithm note:</strong> SHA-1 is provided for legacy compatibility and should not be used for security-sensitive applications. Prefer SHA-256 or SHA-512.</p>
+        </div>
       </div>
     </div>
   );
