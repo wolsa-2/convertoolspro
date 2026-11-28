@@ -4,6 +4,7 @@ import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { STATIC_PAGES_CONTENT } from './content';
 import Blog from './components/Blog';
+import ToolLayout from './components/ToolLayout';
 import { AdUnit } from './components/AdUnit';
 
 
@@ -35,7 +36,7 @@ const StructuredData = () => {
 };
 
 // Tool Components (Lazy Loaded)
-const ToolLayout = React.lazy(() => import('./components/ToolLayout'));
+// Keep the shared tool-page shell eager to prevent a large footer layout shift while it loads.
 const CharacterCounter = React.lazy(() => import('./components/tools/CharacterCounter'));
 const PasswordGenerator = React.lazy(() => import('./components/tools/PasswordGenerator'));
 const Base64Codec = React.lazy(() => import('./components/tools/Base64Codec'));
