@@ -16,13 +16,13 @@ export default function CaseConverter() {
         result = text.toLowerCase();
         break;
       case 'title':
-        result = text.toLowerCase().replace(/\S+/g, word => {
-          const characters = Array.from(word);
+        result = text.toLowerCase().replace(/\S+/g, (word: string) => {
+          const characters: string[] = Array.from(word as string);
           return characters.length ? characters[0].toUpperCase() + characters.slice(1).join('') : word;
         });
         break;
       case 'sentence':
-        result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, character => character.toUpperCase());
+        result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, (character: string) => character.toUpperCase());
         break;
       case 'camel':
         result = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_match, character: string) => character.toUpperCase());
