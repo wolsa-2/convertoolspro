@@ -72,8 +72,9 @@ export default function TweetGenerator() {
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700">Display Name</label>
+            <label htmlFor="tweet-display-name" className="text-sm font-bold text-slate-700">Display Name</label>
             <input
+              id="tweet-display-name"
               type="text"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
               value={name}
@@ -81,8 +82,9 @@ export default function TweetGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700">Handle (@)</label>
+            <label htmlFor="tweet-handle" className="text-sm font-bold text-slate-700">Handle (@)</label>
             <input
+              id="tweet-handle"
               type="text"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
               value={handle}
@@ -92,8 +94,9 @@ export default function TweetGenerator() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700">Tweet Content</label>
+          <label htmlFor="tweet-content" className="text-sm font-bold text-slate-700">Tweet Content</label>
           <textarea
+            id="tweet-content"
             className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -114,8 +117,9 @@ export default function TweetGenerator() {
 
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700">Replies</label>
+            <label htmlFor="tweet-replies" className="text-sm font-bold text-slate-700">Replies</label>
             <input
+              id="tweet-replies"
               type="text"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
               value={stats.replies}
@@ -123,8 +127,9 @@ export default function TweetGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700">Retweets</label>
+            <label htmlFor="tweet-retweets" className="text-sm font-bold text-slate-700">Retweets</label>
             <input
+              id="tweet-retweets"
               type="text"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
               value={stats.retweets}
@@ -132,8 +137,9 @@ export default function TweetGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700">Likes</label>
+            <label htmlFor="tweet-likes" className="text-sm font-bold text-slate-700">Likes</label>
             <input
+              id="tweet-likes"
               type="text"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
               value={stats.likes}
